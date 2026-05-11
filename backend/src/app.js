@@ -8,6 +8,7 @@ const helmet = require('helmet');
 // ROUTES
 const authRoutes = require('../modules/auth/auth.routes');
 const userRoutes = require('../modules/users/users.routes');
+const { errorHandler } = require('../middleware/error.middleware');
 
 const app = express();
 
@@ -25,5 +26,8 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 
 app.use('/api/users', userRoutes);
+
+// error
+app.use(errorHandler);
 
 module.exports = app;
