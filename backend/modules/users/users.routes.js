@@ -1,14 +1,13 @@
 const express = require('express');
 
-const { authenticate } = require('../auth/auth.middleware');
-const { authorize } = require('../auth/role.middleware');
+const { verifyAuth, verifyRole } = require('../../middleware/verifyAuth.middleware');
 const { me } = require('./users.controllers');
 
 const router = express.Router();
 
-router.get('/me', authenticate, me);
+router.get('/me', verifyAuth, me);
 
-router.get('/admin-only', authenticate, authorize('admin'), async (req, res) => {
+router.get('/admin-only', verifyAuth, verifyRole(['admin']), async (req, res) => {
     res.json({
         message: 'Admin access granted',
     });
