@@ -21,9 +21,7 @@ export const Landing = () => {
                 </div>
             ) : (
                 <div className="actions">
-                    <button onClick={() => go('/login')}>
-                        login
-                    </button>
+                    <button onClick={() => go('/login')}>login</button>
                 </div>
             )}
         </div>
