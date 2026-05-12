@@ -11,16 +11,10 @@
     width: 240px;
 }
 
-.login-form input,
-.login-form button {
+.login-form input {
     padding: 8px;
     border: 1px solid #bbb;
     font-size: 14px;
-}
-
-.login-form button {
-    cursor: pointer;
-    background: #352645;
 }
 
 .error {

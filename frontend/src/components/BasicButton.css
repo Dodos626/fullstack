@@ -1,0 +1,14 @@
+.basic-button {
+    padding: 8px 12px;
+    border: 1px solid #bbb;
+    font-size: 14px;
+    cursor: pointer;
+    background: #352645;
+    color: #fff;
+    text-transform: lowercase;
+}
+
+.basic-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

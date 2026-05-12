@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthProvider';
+import { BasicButton } from '../../components/BasicButton';
 import './Login.css';
 
 export const Login = () => {
@@ -56,9 +57,10 @@ export const Login = () => {
                     required
                 />
                 {error && <div className="error">{error}</div>}
-                <button type="submit" disabled={isLoading}>
+                <BasicButton type="submit" disabled={isLoading}>
                     {isLoading ? '...' : 'Login'}
-                </button>
+                </BasicButton>
+                <BasicButton onClick={() => go('/')}>home</BasicButton>
             </form>
         </div>
     );

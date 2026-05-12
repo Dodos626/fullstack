@@ -1,9 +1,11 @@
 import './System.css';
+import { BasicButton } from '../../components/BasicButton';
 
 export const NotFound = () => {
     return (
         <div className="system-page">
             <div className="title">not found</div>
+            <BasicButton onClick={() => window.location.replace('/')}>home</BasicButton>
         </div>
     );
 };
