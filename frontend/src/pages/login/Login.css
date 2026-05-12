@@ -1,0 +1,29 @@
+.login {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.login-form {
+    display: grid;
+    gap: 8px;
+    width: 240px;
+}
+
+.login-form input,
+.login-form button {
+    padding: 8px;
+    border: 1px solid #bbb;
+    font-size: 14px;
+}
+
+.login-form button {
+    cursor: pointer;
+    background: #352645;
+}
+
+.error {
+    color: #b00020;
+    font-size: 12px;
+}

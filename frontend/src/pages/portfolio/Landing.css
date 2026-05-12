@@ -1,0 +1,25 @@
+.landing {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.actions {
+    display: grid;
+    gap: 8px;
+    text-align: center;
+}
+
+button {
+    padding: 6px 10px;
+    border: 1px solid #bbb;
+    background: #f5f5f5;
+    cursor: pointer;
+    text-transform: lowercase;
+}
+
+.role {
+    font-size: 14px;
+    color: #444;
+}

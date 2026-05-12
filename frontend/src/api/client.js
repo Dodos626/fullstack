@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: API_BASE,
 
     withCredentials: true,
 });
@@ -16,15 +18,16 @@ api.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
+                const refreshUrl = `${API_BASE.replace(/\/api$/, '')}/api/auth/refresh`;
                 const response = await axios.post(
-                    'http://localhost:5000/api/auth/refresh',
+                    refreshUrl,
                     {},
                     {
                         withCredentials: true,
                     }
                 );
 
-                const accessToken = response.data.data.accessToken;
+                const accessToken = response.data.data?.accessToken || response.data.accessToken;
 
                 localStorage.setItem('accessToken', accessToken);
                 api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -37,13 +40,16 @@ api.interceptors.response.use(
                 const host = window.location.hostname;
                 const port = window.location.port ? `:${window.location.port}` : '';
 
-                // For lvh.me subdomains, use login subdomain
-                if (host.includes('lvh.me')) {
-                    window.location.href = `http://login.lvh.me${port}`;
+                // Prefer VITE_APP_LOGIN_URL if provided
+                const loginUrl = import.meta.env.VITE_APP_LOGIN_URL;
+                if (loginUrl) {
+                    window.location.href = loginUrl;
+                } else if (host.includes('lvh.me')) {
+                    window.location.href = `http://lvh.me${port}/login`;
                 } else if (host === 'localhost' || host === '127.0.0.1') {
-                    window.location.href = `http://localhost${port}/#/login`;
+                    window.location.href = `http://localhost${port}/login`;
                 } else {
-                    window.location.href = `http://${host}${port}/#/login`;
+                    window.location.href = `http://${host}${port}/login`;
                 }
             }
         }

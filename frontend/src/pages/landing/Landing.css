@@ -1,0 +1,20 @@
+.landing-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+button {
+    padding: 6px 10px;
+    border: 1px solid #bbb;
+    background: #352645;
+    cursor: pointer;
+    text-transform: lowercase;
+}
