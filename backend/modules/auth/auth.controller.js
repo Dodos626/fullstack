@@ -4,6 +4,7 @@ const { registerUser, loginUser } = require('./auth.service');
 const { generateAccessToken, generateRefreshToken } = require('./auth.utils');
 
 const { registerSchema } = require('./validators/register.validator');
+const { loginSchema } = require('./validators/login.validator');
 
 const { COOKIE_EXPIRATION } = require('../../utils/constants.utils');
 
@@ -58,7 +59,8 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        console.log(req.body);
+        const validatedData = loginSchema.parse(req.body);
+
         const user = await loginUser(req.body);
 
         const accessToken = generateAccessToken(user);
