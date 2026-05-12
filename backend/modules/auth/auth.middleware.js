@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
+const { errorResponse } = require('../../utils/apiResponse.utils');
 
 const authenticate = (req, res, next) => {
     const token = req.headers.authorization;
 
     if (!token) {
-        return res.status(401).json({
-            error: 'Unauthorized',
-        });
+        return errorResponse(res, 'Unauthorized', 401);
     }
 
     try {
@@ -16,9 +15,7 @@ const authenticate = (req, res, next) => {
 
         next();
     } catch (error) {
-        return res.status(401).json({
-            error: 'Invalid token',
-        });
+        return errorResponse(res, 'Invalid token', 401);
     }
 };
 

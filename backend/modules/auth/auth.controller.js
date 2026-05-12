@@ -7,15 +7,14 @@ const { registerSchema } = require('./validators/register.validator');
 const { loginSchema } = require('./validators/login.validator');
 
 const { COOKIE_EXPIRATION } = require('../../utils/constants.utils');
+const { successResponse, errorResponse } = require('../../utils/apiResponse.utils');
 
 const refresh = async (req, res) => {
     try {
         const refreshToken = req.cookies.refreshToken;
 
         if (!refreshToken) {
-            return res.status(401).json({
-                error: 'No refresh token',
-            });
+            errorResponse(res, 'No refresh token', 401);
         }
 
         const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
@@ -34,9 +33,7 @@ const refresh = async (req, res) => {
             accessToken,
         });
     } catch (error) {
-        return res.status(401).json({
-            error: 'Invalid refresh token',
-        });
+        errorResponse(res, 'Invalid refresh token', 401);
     }
 };
 
@@ -46,14 +43,9 @@ const register = async (req, res) => {
 
         const user = await registerUser(validatedData);
 
-        res.status(201).json({
-            message: 'User created',
-            user,
-        });
+        successResponse(res, user, 'User created', 201);
     } catch (error) {
-        res.status(400).json({
-            error: error.message,
-        });
+        errorResponse(res, error.message, 400);
     }
 };
 
@@ -74,27 +66,25 @@ const login = async (req, res) => {
             maxAge: COOKIE_EXPIRATION,
         });
 
-        res.json({
+        const reply = {
             accessToken,
             user: {
                 id: user.id,
                 email: user.email,
                 role: user.role,
             },
-        });
+        };
+
+        successResponse(res, reply, 'Login Successful', 201);
     } catch (error) {
-        res.status(401).json({
-            error: error.message,
-        });
+        errorResponse(res, error.message, 401);
     }
 };
 
 const logout = async (req, res) => {
     res.clearCookie('refreshToken');
 
-    res.json({
-        message: 'Logged out',
-    });
+    successResponse(res, null, 'Logged out', 201);
 };
 
 module.exports = {

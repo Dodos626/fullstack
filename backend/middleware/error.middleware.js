@@ -1,9 +1,15 @@
+const { errorResponse } = require('../utils/apiResponse.utils');
+
 const errorHandler = (err, req, res, next) => {
     console.error(err);
 
-    return res.status(500).json({
-        error: err.message || 'Internal server error',
-    });
+    return errorResponse(
+        res,
+        {
+            error: err.message || 'Internal server error',
+        },
+        500
+    );
 };
 
 module.exports = {

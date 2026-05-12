@@ -1,16 +1,14 @@
+const { errorResponse } = require('../../utils/apiResponse.utils');
+
 const authorize =
     (...roles) =>
     (req, res, next) => {
         if (!req.user) {
-            return res.status(401).json({
-                error: 'Unauthorized',
-            });
+            return errorResponse(res, 'Unauthorized', 401);
         }
 
         if (!roles.includes(req.user.role)) {
-            return res.status(403).json({
-                error: 'Forbidden',
-            });
+            return errorResponse(res, 'Forbidden', 403);
         }
 
         next();
