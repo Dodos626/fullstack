@@ -5,6 +5,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const { extractSubdomain } = require('../middleware/subdomain.middleware');
+const { appAccess } = require('../middleware/appAccess.middleware');
 
 // ROUTES
 const authRoutes = require('../modules/auth/auth.routes');
@@ -24,6 +26,8 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
+app.use(extractSubdomain);
+app.use(appAccess);
 
 // ROUTING STARTS HERE
 // TODO PUT THOSE IN DIFFERENT FILE
