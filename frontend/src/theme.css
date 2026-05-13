@@ -1,7 +1,38 @@
 :root {
+    /* MAIN THEME */
     --palette-color-a: #17bebb;
     --palette-color-b: #2e282a;
+    --background-opossite: #2e282a;
     --palette-color-c: #cd5334;
-    --palette-color-d: #edb88b;
+    --main-bg-color: #edb88b;
     --palette-color-e: #fad8d6;
+    --letters-over-bg: #ffeae9;
+
+    --palette-color-c-80: color-mix(in hsl, var(--palette-color-c) 80%, white 20%);
+
+    /* NAVBAR VARIABLES */
+
+    --navbar-height: 60px;
+    --navbar-button-radius: 6px;
+
+    --nav-bg: var(--background-opossite);
+    --nav-bg-80: color-mix(in hsl, var(--palette-color-b) 80%, white 20%);
+    --nav-text: var(--letters-over-bg);
+    --nav-accent: var(--palette-color-c);
+    --nav-border: var(--palette-color-c);
+    --nav-pill: var(--palette-color-c-80);
+
+    --accent: var(--palette-color-a);
+    --accent-bg: color-mix(in hsl, var(--palette-color-a) 20%, transparent 80%);
+    --accent-border: color-mix(in hsl, var(--palette-color-a) 60%, white 40%);
+    --border: color-mix(in hsl, var(--background-opossite) 20%, white 80%);
+    --text-h: var(--background-opossite);
+    --social-bg: color-mix(in hsl, var(--palette-color-e) 80%, white 20%);
+    --shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    --heading: 'Space Grotesk', 'Segoe UI', sans-serif;
+    --mono: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, monospace;
+    --code-bg: color-mix(in hsl, var(--palette-color-e) 70%, white 30%);
+
+    background: var(--main-bg-color);
+    color: var(--letters-over-bg);
 }

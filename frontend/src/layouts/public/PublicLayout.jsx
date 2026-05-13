@@ -9,12 +9,28 @@ import navbarStyles from '../../components/navbar/Navbar.module.css';
 const publicLeftSide = [
     { name: 'Home', destination: '/', type: 'final' },
     { name: 'Login', destination: '/login', type: 'final' },
+    { name: 'test', destination: '/test', type: 'final' },
     {
         name: 'Explore',
         type: 'parent',
         options: [
             { name: 'Landing', destination: '/', type: 'final' },
             { name: 'Login', destination: '/login', type: 'final' },
+        ],
+    },
+    {
+        name: 'Explore2',
+        type: 'parent',
+        options: [
+            { name: 'test2', destination: '/test2', type: 'final' },
+            {
+                name: 'Explore',
+                type: 'parent',
+                options: [
+                    { name: 'Landing', destination: '/', type: 'final' },
+                    { name: 'Login', destination: '/login', type: 'final' },
+                ],
+            },
         ],
     },
 ];

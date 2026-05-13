@@ -5,11 +5,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 28px;
-    border-bottom: 1px solid var(--nav-border, #d6d0c7);
-    background: var(--nav-bg, #fffdf8);
+    padding: 0px 28px;
+    background: var(--nav-bg);
     color: var(--nav-text, #1a1a1a);
-    backdrop-filter: blur(10px);
+    min-height: var(--navbar-height);
 }
 
 .navbarLeft,
@@ -19,10 +18,8 @@
     gap: 14px;
 }
 
-.navbarLink,
-.navbarParentButton,
-.navbarMenuLink {
-    border-radius: 999px;
+.navbarButton {
+    border-radius: var(--navbar-button-radius, 6px);
     padding: 8px 14px;
     font-size: 14px;
     font-weight: 600;
@@ -43,10 +40,25 @@
     background: var(--nav-pill, rgba(255, 255, 255, 0.6));
 }
 
+.navbarMenuLink {
+    width: 100%;
+}
+
 .navbarLink:hover,
-.navbarMenuLink:hover,
 .navbarParentButton:hover {
-    transform: translateY(-1px);
+    transform: none;
+    margin-left: 0;
+}
+
+.navbarMenuLink:hover {
+    transform: translateX(4px);
+    margin-left: 0;
+    box-shadow: none;
+}
+
+.navbarFirstItem:hover {
+    transform: none;
+    margin-left: 0;
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
 }
 
@@ -65,7 +77,7 @@
     left: 0;
     right: 0;
     top: 100%;
-    height: 12px;
+    height: 8px;
 }
 
 .navbarParentButton {
@@ -75,7 +87,11 @@
     cursor: pointer;
 }
 
-.navbarParent:focus-within .navbarMenu,
+.navbarParentButton.navbarLinkActive {
+    background: var(--nav-accent, #003d5b);
+    color: #fff;
+}
+
 .navbarParent:hover .navbarMenu {
     opacity: 1;
     transform: translateY(0);
@@ -84,16 +100,13 @@
 
 .navbarMenu {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + 5px);
     left: 0;
-    display: grid;
-    gap: 8px;
-    padding: 12px;
-    border-radius: 14px;
-    min-width: 190px;
-    background: var(--nav-bg, #fffdf8);
-    border: 1px solid var(--nav-border, #d6d0c7);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3px;
+    width: max-content;
     opacity: 0;
     transform: translateY(-6px);
     pointer-events: none;
@@ -150,7 +163,7 @@
     font-weight: 600;
     cursor: pointer;
     transition:
-        transform 0.2s,
+        transform 0.3s,
         box-shadow 0.2s,
         background 0.2s;
 }
@@ -169,7 +182,8 @@
 .navbarPrimary:hover,
 .navbarGhost:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    /* box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12); */
+    margin-left: 5px;
 }
 
 @media (max-width: 900px) {
@@ -191,7 +205,6 @@
         transform: translate(-50%, -6px);
     }
 
-    .navbarParent:focus-within .navbarMenu,
     .navbarParent:hover .navbarMenu {
         transform: translate(-50%, 0);
     }

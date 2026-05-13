@@ -1,8 +1,22 @@
 .landing {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding: 48px 6vw 96px;
+    font-family: Arial, sans-serif;
+}
+
+.hero {
     display: grid;
     place-items: center;
-    font-family: Arial, sans-serif;
+    gap: 16px;
+    text-align: center;
+}
+
+.demoSection {
+    width: min(1100px, 100%);
+    margin: 0 auto;
 }
 
 .actions {
