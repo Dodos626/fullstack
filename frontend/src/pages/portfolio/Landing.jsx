@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthProvider';
-import { BasicButton } from '../../components/BasicButton';
+import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
 import './Landing.css';
 
 export const Landing = () => {

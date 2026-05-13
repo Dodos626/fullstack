@@ -2,7 +2,7 @@ import './Landing.css';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../auth/AuthProvider';
-import { BasicButton } from '../../components/BasicButton';
+import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
 
 export const Admin = () => {
     const navigate = useNavigate();

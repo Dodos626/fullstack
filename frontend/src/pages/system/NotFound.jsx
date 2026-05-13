@@ -1,5 +1,5 @@
 import './System.css';
-import { BasicButton } from '../../components/BasicButton';
+import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
 
 export const NotFound = () => {
     return (

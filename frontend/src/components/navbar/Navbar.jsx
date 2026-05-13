@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { BasicButton } from './BasicButton';
+import { BasicButton } from '../buttons/basic-button/BasicButton';
 import './Navbar.css';
 
 export const Navbar = ({ leftSide = [], rightSide = () => null }) => {

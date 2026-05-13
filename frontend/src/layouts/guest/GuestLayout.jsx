@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Navbar } from '../../components/Navbar';
-import { BasicButton } from '../../components/BasicButton';
+import { Navbar } from '../../components/navbar/Navbar';
+import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
 import { useAuth } from '../../hooks/useAuth';
 import '../Layout.css';
 import './GuestLayout.css';
