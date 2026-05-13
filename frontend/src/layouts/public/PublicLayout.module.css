@@ -1,4 +1,4 @@
-.layout-public {
+.layoutPublic {
     --nav-bg: rgba(254, 215, 102, 0.92);
     --nav-text: #1b1a15;
     --nav-accent: #003d5b;
@@ -6,12 +6,13 @@
     --nav-pill: rgba(255, 255, 255, 0.7);
 
     font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, rgba(254, 215, 102, 0.35), transparent 55%),
+    background:
+        radial-gradient(circle at top, rgba(254, 215, 102, 0.35), transparent 55%),
         linear-gradient(135deg, #fff8e3, #f7f1e7 40%, #e6edf0 100%);
     color: #1f2933;
 }
 
-.layout-public .layout-content {
+.layoutContent {
     display: grid;
     place-items: center;
 }

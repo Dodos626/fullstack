@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/navbar/Navbar';
 import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
 import { useAuth } from '../../hooks/useAuth';
-import '../Layout.css';
-import './PublicLayout.css';
+import layoutStyles from '../Layout.module.css';
+import styles from './PublicLayout.module.css';
+import navbarStyles from '../../components/navbar/Navbar.module.css';
 
 const publicLeftSide = [
     { name: 'Home', destination: '/', type: 'final' },
@@ -28,17 +29,21 @@ export const PublicLayout = ({ children }) => {
     };
 
     const rightSide = () => (
-        <div className="navbar-actions">
+        <div className={navbarStyles.navbarActions}>
             {isAuthenticated ? (
                 <>
-                    <span className="navbar-badge">{user?.role || 'user'}</span>
-                    <BasicButton className="navbar-ghost" onClick={handleLogout} type="button">
+                    <span className={navbarStyles.navbarBadge}>{user?.role || 'user'}</span>
+                    <BasicButton
+                        className={navbarStyles.navbarGhost}
+                        onClick={handleLogout}
+                        type="button"
+                    >
                         Logout
                     </BasicButton>
                 </>
             ) : (
                 <BasicButton
-                    className="navbar-primary"
+                    className={navbarStyles.navbarPrimary}
                     onClick={() => navigate('/login', { replace: true })}
                     type="button"
                 >
@@ -49,9 +54,11 @@ export const PublicLayout = ({ children }) => {
     );
 
     return (
-        <div className="layout-shell layout-public">
+        <div className={`${layoutStyles.layoutShell} ${styles.layoutPublic}`}>
             <Navbar leftSide={publicLeftSide} rightSide={rightSide} />
-            <main className="layout-content">{children}</main>
+            <main className={`${layoutStyles.layoutContent} ${styles.layoutContent}`}>
+                {children}
+            </main>
         </div>
     );
 };

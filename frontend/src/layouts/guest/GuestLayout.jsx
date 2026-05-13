@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/navbar/Navbar';
 import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
 import { useAuth } from '../../hooks/useAuth';
-import '../Layout.css';
-import './GuestLayout.css';
+import layoutStyles from '../Layout.module.css';
+import styles from './GuestLayout.module.css';
+import navbarStyles from '../../components/navbar/Navbar.module.css';
 
 const guestLeftSide = [
     { name: 'Guest', destination: '/guest', type: 'final' },
@@ -27,18 +28,20 @@ export const GuestLayout = ({ children }) => {
     };
 
     const rightSide = () => (
-        <div className="navbar-actions">
-            <span className="navbar-badge">{user?.role || 'guest'}</span>
-            <BasicButton className="navbar-ghost" onClick={handleLogout} type="button">
+        <div className={navbarStyles.navbarActions}>
+            <span className={navbarStyles.navbarBadge}>{user?.role || 'guest'}</span>
+            <BasicButton className={navbarStyles.navbarGhost} onClick={handleLogout} type="button">
                 Logout
             </BasicButton>
         </div>
     );
 
     return (
-        <div className="layout-shell layout-guest">
+        <div className={`${layoutStyles.layoutShell} ${styles.layoutGuest}`}>
             <Navbar leftSide={guestLeftSide} rightSide={rightSide} />
-            <main className="layout-content">{children}</main>
+            <main className={`${layoutStyles.layoutContent} ${styles.layoutContent}`}>
+                {children}
+            </main>
         </div>
     );
 };

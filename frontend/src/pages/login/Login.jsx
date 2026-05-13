@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthProvider';
 import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
-import './Login.css';
+import styles from './Login.module.css';
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -39,9 +39,9 @@ export const Login = () => {
     };
 
     return (
-        <div className="login">
+        <div className={styles.login}>
             <h1>Login</h1>
-            <form onSubmit={handleSubmit} className="login-form">
+            <form onSubmit={handleSubmit} className={styles.loginForm}>
                 <input
                     type="email"
                     value={email}
@@ -56,7 +56,7 @@ export const Login = () => {
                     placeholder="password"
                     required
                 />
-                {error && <div className="error">{error}</div>}
+                {error && <div className={styles.error}>{error}</div>}
                 <BasicButton type="submit" disabled={isLoading}>
                     {isLoading ? '...' : 'Login'}
                 </BasicButton>

@@ -1,37 +1,41 @@
 import { NavLink } from 'react-router-dom';
 import { BasicButton } from '../buttons/basic-button/BasicButton';
-import './Navbar.css';
+import styles from './Navbar.module.css';
 
 export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
     const renderRightSide = typeof rightSide === 'function' ? rightSide() : rightSide;
 
     return (
-        <nav className="navbar">
-            <div className="navbar-left">
+        <nav className={styles.navbar}>
+            <div className={styles.navbarLeft}>
                 {leftSide.map((item, index) => {
                     const key = `${item?.name || 'item'}-${index}`;
 
                     if (item?.type === 'parent') {
                         return (
-                            <div className="navbar-parent" key={key}>
-                                <BasicButton className="navbar-parent-button" type="button">
+                            <div className={styles.navbarParent} key={key}>
+                                <BasicButton className={styles.navbarParentButton} type="button">
                                     {item?.icon ? (
-                                        <span className="navbar-icon">{item.icon}</span>
+                                        <span className={styles.navbarIcon}>{item.icon}</span>
                                     ) : null}
-                                    <span className="navbar-label">{item?.name}</span>
-                                    <span className="navbar-caret" aria-hidden="true" />
+                                    <span className={styles.navbarLabel}>{item?.name}</span>
+                                    <span className={styles.navbarCaret} aria-hidden="true" />
                                 </BasicButton>
-                                <div className="navbar-menu" role="menu">
+                                <div className={styles.navbarMenu} role="menu">
                                     {(item?.options || []).map((option, optionIndex) => (
                                         <NavLink
                                             key={`${key}-option-${optionIndex}`}
                                             to={option.destination}
-                                            className="navbar-menu-link"
+                                            className={styles.navbarMenuLink}
                                         >
                                             {option?.icon ? (
-                                                <span className="navbar-icon">{option.icon}</span>
+                                                <span className={styles.navbarIcon}>
+                                                    {option.icon}
+                                                </span>
                                             ) : null}
-                                            <span className="navbar-label">{option?.name}</span>
+                                            <span className={styles.navbarLabel}>
+                                                {option?.name}
+                                            </span>
                                         </NavLink>
                                     ))}
                                 </div>
@@ -44,16 +48,20 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                             key={key}
                             to={item.destination}
                             className={({ isActive }) =>
-                                `navbar-link${isActive ? ' navbar-link-active' : ''}`
+                                [styles.navbarLink, isActive ? styles.navbarLinkActive : null]
+                                    .filter(Boolean)
+                                    .join(' ')
                             }
                         >
-                            {item?.icon ? <span className="navbar-icon">{item.icon}</span> : null}
-                            <span className="navbar-label">{item?.name}</span>
+                            {item?.icon ? (
+                                <span className={styles.navbarIcon}>{item.icon}</span>
+                            ) : null}
+                            <span className={styles.navbarLabel}>{item?.name}</span>
                         </NavLink>
                     );
                 })}
             </div>
-            <div className="navbar-right">{renderRightSide}</div>
+            <div className={styles.navbarRight}>{renderRightSide}</div>
         </nav>
     );
 };

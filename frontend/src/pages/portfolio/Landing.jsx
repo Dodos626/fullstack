@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthProvider';
 import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
-import './Landing.css';
+import styles from './Landing.module.css';
 
 export const Landing = () => {
     const { user, isAuthenticated } = useContext(AuthContext);
@@ -13,10 +13,10 @@ export const Landing = () => {
     };
 
     return (
-        <div className="landing">
+        <div className={styles.landing}>
             <h1>Landing</h1>
             {isAuthenticated ? (
-                <div className="actions">
+                <div className={styles.actions}>
                     {user?.role === 'admin' && (
                         <BasicButton onClick={() => go('/admin')}>admin</BasicButton>
                     )}
@@ -27,7 +27,7 @@ export const Landing = () => {
                     <BasicButton onClick={() => go('/login')}>login</BasicButton>
                 </div>
             ) : (
-                <div className="actions">
+                <div className={styles.actions}>
                     <BasicButton onClick={() => go('/login')}>login</BasicButton>
                     <BasicButton onClick={() => go('/')}>home</BasicButton>
                 </div>

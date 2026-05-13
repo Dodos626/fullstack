@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/navbar/Navbar';
 import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
 import { useAuth } from '../../hooks/useAuth';
-import '../Layout.css';
-import './AdminLayout.css';
+import layoutStyles from '../Layout.module.css';
+import styles from './AdminLayout.module.css';
+import navbarStyles from '../../components/navbar/Navbar.module.css';
 
 const adminLeftSide = [
     { name: 'Admin', destination: '/admin', type: 'final' },
@@ -27,18 +28,20 @@ export const AdminLayout = ({ children }) => {
     };
 
     const rightSide = () => (
-        <div className="navbar-actions">
-            <span className="navbar-badge">{user?.role || 'admin'}</span>
-            <BasicButton className="navbar-ghost" onClick={handleLogout} type="button">
+        <div className={navbarStyles.navbarActions}>
+            <span className={navbarStyles.navbarBadge}>{user?.role || 'admin'}</span>
+            <BasicButton className={navbarStyles.navbarGhost} onClick={handleLogout} type="button">
                 Logout
             </BasicButton>
         </div>
     );
 
     return (
-        <div className="layout-shell layout-admin">
+        <div className={`${layoutStyles.layoutShell} ${styles.layoutAdmin}`}>
             <Navbar leftSide={adminLeftSide} rightSide={rightSide} />
-            <main className="layout-content">{children}</main>
+            <main className={`${layoutStyles.layoutContent} ${styles.layoutContent}`}>
+                {children}
+            </main>
         </div>
     );
 };

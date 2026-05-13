@@ -12,16 +12,16 @@
     backdrop-filter: blur(10px);
 }
 
-.navbar-left,
-.navbar-right {
+.navbarLeft,
+.navbarRight {
     display: flex;
     align-items: center;
     gap: 14px;
 }
 
-.navbar-link,
-.navbar-parent-button,
-.navbar-menu-link {
+.navbarLink,
+.navbarParentButton,
+.navbarMenuLink {
     border-radius: 999px;
     padding: 8px 14px;
     font-size: 14px;
@@ -38,28 +38,28 @@
         background 0.2s;
 }
 
-.navbar-link,
-.navbar-menu-link {
+.navbarLink,
+.navbarMenuLink {
     background: var(--nav-pill, rgba(255, 255, 255, 0.6));
 }
 
-.navbar-link:hover,
-.navbar-menu-link:hover,
-.navbar-parent-button:hover {
+.navbarLink:hover,
+.navbarMenuLink:hover,
+.navbarParentButton:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
 }
 
-.navbar-link-active {
+.navbarLinkActive {
     background: var(--nav-accent, #003d5b);
     color: #fff;
 }
 
-.navbar-parent {
+.navbarParent {
     position: relative;
 }
 
-.navbar-parent::after {
+.navbarParent::after {
     content: '';
     position: absolute;
     left: 0;
@@ -68,21 +68,21 @@
     height: 12px;
 }
 
-.navbar-parent-button {
+.navbarParentButton {
     border: 1px solid transparent;
     background: var(--nav-pill, rgba(255, 255, 255, 0.55));
     color: inherit;
     cursor: pointer;
 }
 
-.navbar-parent:focus-within .navbar-menu,
-.navbar-parent:hover .navbar-menu {
+.navbarParent:focus-within .navbarMenu,
+.navbarParent:hover .navbarMenu {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
 }
 
-.navbar-menu {
+.navbarMenu {
     position: absolute;
     top: calc(100% + 6px);
     left: 0;
@@ -102,17 +102,17 @@
         transform 0.2s;
 }
 
-.navbar-right {
+.navbarRight {
     gap: 10px;
 }
 
-.navbar-icon {
+.navbarIcon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-.navbar-caret {
+.navbarCaret {
     width: 8px;
     height: 8px;
     border-right: 2px solid currentColor;
@@ -121,17 +121,17 @@
     margin-left: 4px;
 }
 
-.navbar-label {
+.navbarLabel {
     white-space: nowrap;
 }
 
-.navbar-actions {
+.navbarActions {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.navbar-badge {
+.navbarBadge {
     padding: 6px 12px;
     border-radius: 999px;
     font-size: 12px;
@@ -142,8 +142,8 @@
     color: #fff;
 }
 
-.navbar-primary,
-.navbar-ghost {
+.navbarPrimary,
+.navbarGhost {
     border-radius: 999px;
     border: 1px solid transparent;
     padding: 8px 16px;
@@ -155,19 +155,19 @@
         background 0.2s;
 }
 
-.navbar-primary {
+.navbarPrimary {
     background: var(--nav-accent, #003d5b);
     color: #fff;
 }
 
-.navbar-ghost {
+.navbarGhost {
     background: transparent;
     border-color: var(--nav-border, #d6d0c7);
     color: inherit;
 }
 
-.navbar-primary:hover,
-.navbar-ghost:hover {
+.navbarPrimary:hover,
+.navbarGhost:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
 }
@@ -180,19 +180,19 @@
         padding: 16px 18px;
     }
 
-    .navbar-left,
-    .navbar-right {
+    .navbarLeft,
+    .navbarRight {
         flex-wrap: wrap;
         justify-content: center;
     }
 
-    .navbar-menu {
+    .navbarMenu {
         left: 50%;
         transform: translate(-50%, -6px);
     }
 
-    .navbar-parent:focus-within .navbar-menu,
-    .navbar-parent:hover .navbar-menu {
+    .navbarParent:focus-within .navbarMenu,
+    .navbarParent:hover .navbarMenu {
         transform: translate(-50%, 0);
     }
 }

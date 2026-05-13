@@ -1,4 +1,4 @@
-.landing-page {
+.systemPage {
     min-height: 100vh;
     display: grid;
     place-items: center;
@@ -7,9 +7,6 @@
 }
 
 .title {
-    font-size: 24px;
+    font-size: 20px;
     letter-spacing: 1px;
-}
-
-button {
 }

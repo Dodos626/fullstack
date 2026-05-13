@@ -1,4 +1,4 @@
-import './Landing.css';
+import styles from './Landing.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../auth/AuthProvider';
@@ -19,8 +19,8 @@ export const Admin = () => {
     };
 
     return (
-        <div className="landing-page">
-            <div className="title">admin</div>
+        <div className={styles.landingPage}>
+            <div className={styles.title}>admin</div>
             <BasicButton onClick={handleLogout}>logout</BasicButton>
             <BasicButton onClick={() => go('/')}>home</BasicButton>
         </div>

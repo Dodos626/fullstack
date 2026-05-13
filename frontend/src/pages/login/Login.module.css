@@ -5,13 +5,13 @@
     font-family: Arial, sans-serif;
 }
 
-.login-form {
+.loginForm {
     display: grid;
     gap: 8px;
     width: 240px;
 }
 
-.login-form input {
+.loginForm input {
     padding: 8px;
     border: 1px solid #bbb;
     font-size: 14px;

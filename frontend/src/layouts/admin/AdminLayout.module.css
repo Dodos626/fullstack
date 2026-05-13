@@ -1,4 +1,4 @@
-.layout-admin {
+.layoutAdmin {
     --nav-bg: rgba(0, 61, 91, 0.95);
     --nav-text: #f5f6f8;
     --nav-accent: #fed766;
@@ -10,7 +10,7 @@
     color: #f5f6f8;
 }
 
-.layout-admin .layout-content {
+.layoutContent {
     display: grid;
     place-items: center;
 }

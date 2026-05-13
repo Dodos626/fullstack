@@ -1,4 +1,4 @@
-import './BasicButton.css';
+import styles from './BasicButton.module.css';
 
 export const BasicButton = ({
     children,
@@ -11,7 +11,7 @@ export const BasicButton = ({
     return (
         <button
             type={type}
-            className={`basic-button ${className}`.trim()}
+            className={[styles.basicButton, className].filter(Boolean).join(' ')}
             style={style}
             onClick={onClick}
             disabled={disabled}
