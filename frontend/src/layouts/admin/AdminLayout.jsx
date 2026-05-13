@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/Navbar';
+import { BasicButton } from '../../components/BasicButton';
 import { useAuth } from '../../hooks/useAuth';
 import '../Layout.css';
 import './AdminLayout.css';
@@ -28,9 +29,9 @@ export const AdminLayout = ({ children }) => {
     const rightSide = () => (
         <div className="navbar-actions">
             <span className="navbar-badge">{user?.role || 'admin'}</span>
-            <button className="navbar-ghost" onClick={handleLogout} type="button">
+            <BasicButton className="navbar-ghost" onClick={handleLogout} type="button">
                 Logout
-            </button>
+            </BasicButton>
         </div>
     );
 

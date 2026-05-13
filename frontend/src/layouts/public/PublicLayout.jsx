@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/Navbar';
+import { BasicButton } from '../../components/BasicButton';
 import { useAuth } from '../../hooks/useAuth';
 import '../Layout.css';
 import './PublicLayout.css';
@@ -31,18 +32,18 @@ export const PublicLayout = ({ children }) => {
             {isAuthenticated ? (
                 <>
                     <span className="navbar-badge">{user?.role || 'user'}</span>
-                    <button className="navbar-ghost" onClick={handleLogout} type="button">
+                    <BasicButton className="navbar-ghost" onClick={handleLogout} type="button">
                         Logout
-                    </button>
+                    </BasicButton>
                 </>
             ) : (
-                <button
+                <BasicButton
                     className="navbar-primary"
                     onClick={() => navigate('/login', { replace: true })}
                     type="button"
                 >
                     Login
-                </button>
+                </BasicButton>
             )}
         </div>
     );

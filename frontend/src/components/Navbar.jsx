@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { BasicButton } from './BasicButton';
 import './Navbar.css';
 
 export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
@@ -13,13 +14,13 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                     if (item?.type === 'parent') {
                         return (
                             <div className="navbar-parent" key={key}>
-                                <button className="navbar-parent-button" type="button">
+                                <BasicButton className="navbar-parent-button" type="button">
                                     {item?.icon ? (
                                         <span className="navbar-icon">{item.icon}</span>
                                     ) : null}
                                     <span className="navbar-label">{item?.name}</span>
                                     <span className="navbar-caret" aria-hidden="true" />
-                                </button>
+                                </BasicButton>
                                 <div className="navbar-menu" role="menu">
                                     {(item?.options || []).map((option, optionIndex) => (
                                         <NavLink
