@@ -1,4 +1,5 @@
 import { Admin } from '../pages/landing/Admin';
+import { AdminLayout } from '../layouts';
 import { RoleRoute } from './roleRoute';
 
 export const adminRoutes = [
@@ -6,7 +7,9 @@ export const adminRoutes = [
         path: '/admin',
         element: (
             <RoleRoute allowedRoles={['admin']}>
-                <Admin />
+                <AdminLayout>
+                    <Admin />
+                </AdminLayout>
             </RoleRoute>
         ),
     },

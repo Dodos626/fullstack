@@ -1,0 +1,17 @@
+.layout-guest {
+    --nav-bg: rgba(239, 241, 243, 0.95);
+    --nav-text: #102432;
+    --nav-accent: #00798c;
+    --nav-border: #c9d3db;
+    --nav-pill: #ffffff;
+
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top right, rgba(0, 121, 140, 0.18), transparent 55%),
+        linear-gradient(135deg, #f7f9fb, #eef2f6 45%, #e7edf3 100%);
+    color: #102432;
+}
+
+.layout-guest .layout-content {
+    display: grid;
+    place-items: center;
+}

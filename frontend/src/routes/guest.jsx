@@ -1,4 +1,5 @@
 import { Guest } from '../pages/landing/Guest';
+import { GuestLayout } from '../layouts';
 import { RoleRoute } from './roleRoute';
 
 export const guestRoutes = [
@@ -6,7 +7,9 @@ export const guestRoutes = [
         path: '/guest',
         element: (
             <RoleRoute allowedRoles={['guest', 'admin']}>
-                <Guest />
+                <GuestLayout>
+                    <Guest />
+                </GuestLayout>
             </RoleRoute>
         ),
     },

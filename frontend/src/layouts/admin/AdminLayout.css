@@ -1,0 +1,16 @@
+.layout-admin {
+    --nav-bg: rgba(0, 61, 91, 0.95);
+    --nav-text: #f5f6f8;
+    --nav-accent: #fed766;
+    --nav-border: #274e63;
+    --nav-pill: rgba(255, 255, 255, 0.12);
+
+    font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0d1b2a, #1b263b 50%, #243b53 100%);
+    color: #f5f6f8;
+}
+
+.layout-admin .layout-content {
+    display: grid;
+    place-items: center;
+}
