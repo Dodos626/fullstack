@@ -2,3 +2,11 @@
     display: grid;
     place-items: center;
 }
+
+.findMeButtons {
+}
+
+.findMeButtons:hover {
+    cursor: pointer;
+    color: var(--palette-color-c-80);
+}

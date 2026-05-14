@@ -6,6 +6,7 @@
     background: #352645;
     color: #fff;
     text-transform: lowercase;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .basicButton:disabled {

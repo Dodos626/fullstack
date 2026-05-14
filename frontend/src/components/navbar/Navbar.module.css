@@ -21,9 +21,9 @@
 .navbarButton {
     border-radius: var(--navbar-button-radius, 6px);
     padding: 8px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.2px;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Times New Roman', Times, serif;
     text-decoration: none;
     color: inherit;
     display: inline-flex;
@@ -48,6 +48,7 @@
 .navbarParentButton:hover {
     transform: none;
     margin-left: 0;
+    box-shadow: 0px 0px 2px 1px var(--palette-color-e) inset;
 }
 
 .navbarMenuLink:hover {
@@ -59,7 +60,7 @@
 .navbarFirstItem:hover {
     transform: none;
     margin-left: 0;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 2px 1px var(--palette-color-e) inset;
 }
 
 .navbarLinkActive {

@@ -3,7 +3,6 @@
     display: grid;
     place-items: center;
     gap: 8px;
-    font-family: Arial, sans-serif;
 }
 
 .title {
