@@ -1,9 +1,10 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { BasicButton } from '../buttons/basic-button/BasicButton';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ComicButton } from '../buttons/comic-button/comic-button';
 import styles from './Navbar.module.css';
 
 export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
     const location = useLocation();
+    const navigate = useNavigate();
     const renderRightSide = typeof rightSide === 'function' ? rightSide() : rightSide;
     const isPathActive = (target) => {
         if (!target) {
@@ -31,7 +32,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
 
                         return (
                             <div className={styles.navbarParent} key={key}>
-                                <BasicButton
+                                <ComicButton
                                     className={[
                                         styles.navbarButton,
                                         styles.navbarParentButton,
@@ -40,6 +41,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                     ]
                                         .filter(Boolean)
                                         .join(' ')}
+                                    isActive={hasActiveChild}
                                     type="button"
                                 >
                                     {item?.icon ? (
@@ -47,21 +49,23 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                     ) : null}
                                     <span className={styles.navbarLabel}>{item?.name}</span>
                                     <span className={styles.navbarCaret} aria-hidden="true" />
-                                </BasicButton>
+                                </ComicButton>
                                 <div className={styles.navbarMenu} role="menu">
                                     {(item?.options || []).map((option, optionIndex) => (
-                                        <NavLink
+                                        <ComicButton
                                             key={`${key}-option-${optionIndex}`}
-                                            to={option.destination}
-                                            className={({ isActive }) =>
-                                                [
-                                                    styles.navbarButton,
-                                                    styles.navbarMenuLink,
-                                                    isActive ? styles.navbarLinkActive : null,
-                                                ]
-                                                    .filter(Boolean)
-                                                    .join(' ')
-                                            }
+                                            className={[
+                                                styles.navbarButton,
+                                                styles.navbarMenuLink,
+                                                isPathActive(option.destination)
+                                                    ? styles.navbarLinkActive
+                                                    : null,
+                                            ]
+                                                .filter(Boolean)
+                                                .join(' ')}
+                                            isActive={isPathActive(option.destination)}
+                                            type="button"
+                                            onClick={() => navigate(option.destination)}
                                         >
                                             {option?.icon ? (
                                                 <span className={styles.navbarIcon}>
@@ -71,7 +75,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                             <span className={styles.navbarLabel}>
                                                 {option?.name}
                                             </span>
-                                        </NavLink>
+                                        </ComicButton>
                                     ))}
                                 </div>
                             </div>
@@ -79,25 +83,25 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                     }
 
                     return (
-                        <NavLink
+                        <ComicButton
                             key={key}
-                            to={item.destination}
-                            className={({ isActive }) =>
-                                [
-                                    styles.navbarButton,
-                                    styles.navbarLink,
-                                    isActive ? styles.navbarLinkActive : null,
-                                    firstItemClass,
-                                ]
-                                    .filter(Boolean)
-                                    .join(' ')
-                            }
+                            className={[
+                                styles.navbarButton,
+                                styles.navbarLink,
+                                isPathActive(item.destination) ? styles.navbarLinkActive : null,
+                                firstItemClass,
+                            ]
+                                .filter(Boolean)
+                                .join(' ')}
+                            isActive={isPathActive(item.destination)}
+                            type="button"
+                            onClick={() => navigate(item.destination)}
                         >
                             {item?.icon ? (
                                 <span className={styles.navbarIcon}>{item.icon}</span>
                             ) : null}
                             <span className={styles.navbarLabel}>{item?.name}</span>
-                        </NavLink>
+                        </ComicButton>
                     );
                 })}
             </div>

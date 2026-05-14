@@ -9,6 +9,7 @@
     --letters-over-bg: #ffeae9;
 
     --palette-color-c-80: color-mix(in hsl, var(--palette-color-c) 80%, white 20%);
+    --palette-color-c-120: color-mix(in hsl, var(--palette-color-c) 80%, rgb(0, 0, 0) 20%);
 
     /* NAVBAR VARIABLES */
 

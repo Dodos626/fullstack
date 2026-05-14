@@ -56,6 +56,8 @@ export const PublicLayout = ({ children }) => {
 
     const rightSide = () => (
         <div className={navbarStyles.navbarActions}>
+            <div className={styles.name}>Chalkidis Theodoros</div>
+            <div className={styles.seperator}></div>
             {buildButton(MdEmail, 25, sendEmail)}
             {buildButton(FaGithub, 20, () => openInNewTab('https://github.com/dodos626'))}
             {buildButton(FaLinkedin, 20, () =>

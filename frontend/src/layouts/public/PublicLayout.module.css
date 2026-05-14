@@ -10,3 +10,13 @@
     cursor: pointer;
     color: var(--palette-color-c-80);
 }
+
+.seperator {
+    border: 1px solid var(--nav-text, #1a1a1a);
+    min-height: stretch;
+}
+
+.name {
+    font-size: larger;
+    letter-spacing: 0.3px;
+}
