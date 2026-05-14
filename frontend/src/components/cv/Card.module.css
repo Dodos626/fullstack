@@ -25,7 +25,7 @@
 
 .subtitle {
     margin: 0;
-    color: var(--letters-over-bg, #ffeae9);
+    color: var(--letters-over-bg-opossite, #ffeae9);
     opacity: 0.85;
 }
 

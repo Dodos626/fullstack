@@ -38,7 +38,7 @@
 }
 
 .navbarMenuLink {
-    width: 100%;
+    /* width: 100%; */
 }
 
 .navbarLink:hover,
@@ -99,8 +99,8 @@
     left: 0;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 3px;
+    align-items: flex-start;
+    gap: 5px;
     width: max-content;
     opacity: 0;
     transform: translateY(-6px);

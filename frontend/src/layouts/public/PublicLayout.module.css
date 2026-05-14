@@ -8,7 +8,7 @@
 
 .findMeButtons:hover {
     cursor: pointer;
-    color: var(--palette-color-c-80);
+    color: var(--palette-color-c-90);
 }
 
 .seperator {

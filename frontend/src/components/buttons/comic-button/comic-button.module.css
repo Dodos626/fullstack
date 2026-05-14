@@ -3,7 +3,7 @@
     /* Variables */
     --button_radius: 0.75em;
     --button_color: var(--nav-text);
-    --button_outline_color: var(--palette-color-c-120);
+    --button_outline_color: var(--palette-color-c-90);
 
     --button_hover_colors: var(--palette-color-c);
 

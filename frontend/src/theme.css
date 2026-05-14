@@ -2,14 +2,16 @@
     /* MAIN THEME */
     --palette-color-a: #17bebb;
     --palette-color-b: #2e282a;
-    --background-opossite: #2e282a;
+    --background-opossite: var(--palette-color-b);
+
     --palette-color-c: #cd5334;
     --main-bg-color: #edb88b;
     --palette-color-e: #fad8d6;
-    --letters-over-bg: #ffeae9;
+    --letters-over-bg: var(--background-opossite);
+    --letters-over-bg-opossite: #ffeae9;
 
     --palette-color-c-80: color-mix(in hsl, var(--palette-color-c) 80%, white 20%);
-    --palette-color-c-120: color-mix(in hsl, var(--palette-color-c) 80%, rgb(0, 0, 0) 20%);
+    --palette-color-c-90: color-mix(in hsl, var(--palette-color-c) 90%, rgb(255, 255, 255) 20%);
 
     /* NAVBAR VARIABLES */
 
@@ -18,7 +20,7 @@
 
     --nav-bg: var(--background-opossite);
     --nav-bg-80: color-mix(in hsl, var(--palette-color-b) 80%, white 20%);
-    --nav-text: var(--letters-over-bg);
+    --nav-text: var(--letters-over-bg-opossite);
     --nav-accent: var(--palette-color-c);
     --nav-border: var(--palette-color-c);
     --nav-pill: var(--palette-color-c-80);
@@ -36,4 +38,14 @@
 
     background: var(--main-bg-color);
     color: var(--letters-over-bg);
+}
+
+:root[data-theme='night'] {
+    --palette-color-a: #521945;
+    --palette-color-b: #361f27;
+    --background-opossite: #361f27;
+    --palette-color-c: #912f56;
+    --main-bg-color: #0d090a;
+    --palette-color-e: #361f27;
+    --letters-over-bg: #eaf2ef;
 }
