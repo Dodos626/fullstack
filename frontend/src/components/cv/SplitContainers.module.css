@@ -5,6 +5,12 @@
     padding: 48px 0 96px;
 }
 
+.splitSection {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
 .splitRow {
     display: grid;
     grid-template-columns: minmax(0, var(--split-left, 1fr)) minmax(0, var(--split-right, 1fr));

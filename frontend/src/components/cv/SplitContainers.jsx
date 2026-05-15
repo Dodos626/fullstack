@@ -30,52 +30,47 @@ export const SplitContainers = ({ sections = [] }) => {
             {sections.map((section) => {
                 const { left, right } = toRatio(section.ratio);
                 const isRightSticky = section.stickySide !== 'left';
-                const titleSide = section.titleSide === 'right' ? 'right' : 'left';
                 const showTitle = Boolean(section.title);
                 const titleClassName = [styles.sectionTitle, section.titleClassName]
                     .filter(Boolean)
                     .join(' ');
 
                 return (
-                    <section
-                        key={section.id}
-                        className={styles.splitRow}
-                        style={{
-                            '--split-left': left,
-                            '--split-right': right,
-                        }}
-                    >
-                        <div
-                            className={[
-                                styles.column,
-                                isRightSticky ? styles.mainColumn : styles.stickyColumn,
-                            ]
-                                .filter(Boolean)
-                                .join(' ')}
+                    <div key={section.id} className={styles.splitSection}>
+                        {showTitle && (
+                            <div className={titleClassName} style={section.titleStyle}>
+                                {section.title}
+                            </div>
+                        )}
+                        <section
+                            className={styles.splitRow}
+                            style={{
+                                '--split-left': left,
+                                '--split-right': right,
+                            }}
                         >
-                            {showTitle && titleSide === 'left' && (
-                                <div className={titleClassName} style={section.titleStyle}>
-                                    {section.title}
-                                </div>
-                            )}
-                            {section.left}
-                        </div>
-                        <div
-                            className={[
-                                styles.column,
-                                isRightSticky ? styles.stickyColumn : styles.mainColumn,
-                            ]
-                                .filter(Boolean)
-                                .join(' ')}
-                        >
-                            {showTitle && titleSide === 'right' && (
-                                <div className={titleClassName} style={section.titleStyle}>
-                                    {section.title}
-                                </div>
-                            )}
-                            {section.right}
-                        </div>
-                    </section>
+                            <div
+                                className={[
+                                    styles.column,
+                                    isRightSticky ? styles.mainColumn : styles.stickyColumn,
+                                ]
+                                    .filter(Boolean)
+                                    .join(' ')}
+                            >
+                                {section.left}
+                            </div>
+                            <div
+                                className={[
+                                    styles.column,
+                                    isRightSticky ? styles.stickyColumn : styles.mainColumn,
+                                ]
+                                    .filter(Boolean)
+                                    .join(' ')}
+                            >
+                                {section.right}
+                            </div>
+                        </section>
+                    </div>
                 );
             })}
         </div>

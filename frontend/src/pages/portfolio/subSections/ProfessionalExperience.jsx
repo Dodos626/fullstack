@@ -1,34 +1,36 @@
 import { ProfessionalExperienceCard } from './ProfessionalExperienceCard';
 import styles from './subSections.module.css';
 
-import { UtilsFunction } from './utils';
 import { openInNewTab } from '../../../utils/utils';
 
 export const professionalExperienceSection = () => {
-    const { buildPlaceYear } = UtilsFunction();
-
     const buildCompany = ({ CompanyName, Position, Place, Years, Bullets = [], options = {} }) => {
         const hasLink = options?.link;
 
         return (
             <div className={styles.company}>
-                <div
-                    className={[styles.companyName, hasLink && styles.companyNameLink]
-                        .filter(Boolean)
-                        .join(' ')}
-                    onClick={
-                        options?.link
-                            ? () => {
-                                  openInNewTab(options?.link);
-                              }
-                            : null
-                    }
-                >
-                    {CompanyName}
+                <div className={styles.companyHeaderRow}>
+                    <div
+                        className={[styles.companyName, hasLink && styles.companyNameLink]
+                            .filter(Boolean)
+                            .join(' ')}
+                        onClick={
+                            options?.link
+                                ? () => {
+                                      openInNewTab(options?.link);
+                                  }
+                                : null
+                        }
+                    >
+                        {CompanyName}
+                    </div>
+                    <div className={styles.companyYears}>{Years}</div>
                 </div>
 
-                <div className={styles.companyPosition}>{Position}</div>
-                {buildPlaceYear(Place, Years)}
+                <div className={styles.companyRoleRow}>
+                    <div className={styles.companyPosition}>{Position}</div>
+                    <div className={styles.companyPlace}>{Place}</div>
+                </div>
                 <div className={styles.companyBulletsBody}>
                     {Bullets.map((v) => (
                         <div className={styles.companyBullet}> {v} </div>
@@ -44,12 +46,10 @@ export const professionalExperienceSection = () => {
         Place: 'Heraklion, Greece (Hybrid)',
         Years: '2023 - 2026',
         Bullets: [
-            'Led development of digitization platforms transforming unstructured documents into structured data using OCR and NLP',
-            'Architected scalable distributed web systems with microservice-based design, enabling processing of petabyte-scale datasets',
-            'Built reusable frontend infrastructure and automated page-generation templates, accelerating development velocity',
-            'Drove MVP scoping vs. roadmap planning',
-            'Led B2B POC design',
-            'Mentored teams of up to 5 engineers',
+            'Built OCR/NLP digitization pipelines for large-scale document processing',
+            'Architected distributed microservices handling petabyte-scale datasets',
+            'Created reusable frontend infrastructure accelerating delivery velocity',
+            'Mentored a team of 5 engineers',
         ],
         options: {
             link: 'https://alphaomegazed.com/',
@@ -62,9 +62,9 @@ export const professionalExperienceSection = () => {
         Place: 'Remote',
         Years: '2022 - 2023',
         Bullets: [
-            'Contributed to the development of a Scala-based transpiler for Clinical Query Language (CQL)',
-            'Designed parsing and transformation logic of the transpilation pipeline',
-            'Collaborated with senior engineers on feature implementation, testing, and code reviews',
+            'Developed Scala-based CQL transpiler',
+            'Designed parsing/transformation pipeline',
+            'Collaborated on testing and reviews',
         ],
         options: {
             link: 'https://www.linkedin.com/company/carrera-group-inc/posts/?feedView=all',
@@ -83,7 +83,6 @@ export const professionalExperienceSection = () => {
         ),
         right: <ProfessionalExperienceCard />,
         title: 'Professional Experience',
-        titleSide: 'left',
         titleClassName: styles.titleBody,
     };
 };

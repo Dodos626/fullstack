@@ -7,7 +7,7 @@
     color: var(--letters-over-bg);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 /* company */
@@ -17,10 +17,23 @@
     gap: 5px;
 }
 
+.companyHeaderRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
 .companyName {
     width: fit-content;
     font-family: var(--heading);
-    font-size: 30px;
+    font-size: 25px;
+}
+
+.companyYears {
+    font-family: var(--heading);
+    font-size: 18px;
+    color: var(--letters-over-bg);
 }
 
 .companyNameLink {
@@ -33,7 +46,19 @@
 }
 
 .companyPosition {
-    font-size: 25px;
+    font-size: 18px;
+}
+
+.companyRoleRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.companyPlace {
+    font-size: 18px;
+    color: var(--letters-over-bg);
 }
 
 .companyBulletsBody {
