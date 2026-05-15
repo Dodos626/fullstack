@@ -4,6 +4,25 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var match = document.cookie.match(/(?:^|; )dayMode=([^;]+)/);
+        var cookieValue = match ? match[1] : null;
+        var isDayMode;
+
+        if (cookieValue === 'day') {
+          isDayMode = true;
+        } else if (cookieValue === 'night') {
+          isDayMode = false;
+        } else if (window.matchMedia) {
+          isDayMode = !window.matchMedia('(prefers-color-scheme: dark)').matches;
+        } else {
+          isDayMode = true;
+        }
+
+        document.documentElement.dataset.theme = isDayMode ? 'day' : 'night';
+      })();
+    </script>
     <title>frontend</title>
   </head>
   <body>

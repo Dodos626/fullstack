@@ -1,0 +1,4 @@
+1. make the day/night mode in case no cookie exists to instantiate based on the user's system preferences
+2. make in case of night mode for the first frame not to render day mode
+3. add the cv ?
+4. add a menu of public web apps

@@ -4,6 +4,10 @@ const DAY_MODE_COOKIE = 'dayMode';
 const DAY_MODE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
 const readDayModeCookie = () => {
+    if (typeof document === 'undefined') {
+        return null;
+    }
+
     const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
     const match = cookies.find((cookie) => cookie.startsWith(`${DAY_MODE_COOKIE}=`));
     if (!match) {
@@ -23,17 +27,42 @@ const readDayModeCookie = () => {
 };
 
 const writeDayModeCookie = (isDayMode) => {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
     const value = isDayMode ? 'day' : 'night';
     document.cookie = `${DAY_MODE_COOKIE}=${value}; Path=/; Max-Age=${DAY_MODE_MAX_AGE_SECONDS}`;
 };
 
+const getSystemPreferredDayMode = () => {
+    if (typeof window === 'undefined' || !window.matchMedia) {
+        return true;
+    }
+
+    return !window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
+const getInitialDayMode = () => {
+    const cookieValue = readDayModeCookie();
+    return cookieValue === null ? getSystemPreferredDayMode() : cookieValue;
+};
+
+const applyThemeToDocument = (isDayMode) => {
+    if (typeof document === 'undefined') {
+        return;
+    }
+
+    document.documentElement.dataset.theme = isDayMode ? 'day' : 'night';
+};
+
+const initialDayMode = getInitialDayMode();
+applyThemeToDocument(initialDayMode);
+
 export const DayModeContext = createContext();
 
 export const DayModeProvider = ({ children }) => {
-    const [dayMode, setDayMode] = useState(() => {
-        const cookieValue = readDayModeCookie();
-        return cookieValue === null ? true : cookieValue;
-    });
+    const [dayMode, setDayMode] = useState(() => initialDayMode);
 
     const toggleDayMode = useCallback(() => {
         setDayMode((current) => {
@@ -60,8 +89,7 @@ export const DayModeProvider = ({ children }) => {
     );
 
     useEffect(() => {
-        const theme = dayMode ? 'day' : 'night';
-        document.documentElement.dataset.theme = theme;
+        applyThemeToDocument(dayMode);
     }, [dayMode]);
 
     return <DayModeContext.Provider value={value}>{children}</DayModeContext.Provider>;
