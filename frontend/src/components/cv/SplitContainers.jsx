@@ -30,6 +30,11 @@ export const SplitContainers = ({ sections = [] }) => {
             {sections.map((section) => {
                 const { left, right } = toRatio(section.ratio);
                 const isRightSticky = section.stickySide !== 'left';
+                const titleSide = section.titleSide === 'right' ? 'right' : 'left';
+                const showTitle = Boolean(section.title);
+                const titleClassName = [styles.sectionTitle, section.titleClassName]
+                    .filter(Boolean)
+                    .join(' ');
 
                 return (
                     <section
@@ -48,6 +53,11 @@ export const SplitContainers = ({ sections = [] }) => {
                                 .filter(Boolean)
                                 .join(' ')}
                         >
+                            {showTitle && titleSide === 'left' && (
+                                <div className={titleClassName} style={section.titleStyle}>
+                                    {section.title}
+                                </div>
+                            )}
                             {section.left}
                         </div>
                         <div
@@ -58,6 +68,11 @@ export const SplitContainers = ({ sections = [] }) => {
                                 .filter(Boolean)
                                 .join(' ')}
                         >
+                            {showTitle && titleSide === 'right' && (
+                                <div className={titleClassName} style={section.titleStyle}>
+                                    {section.title}
+                                </div>
+                            )}
                             {section.right}
                         </div>
                     </section>

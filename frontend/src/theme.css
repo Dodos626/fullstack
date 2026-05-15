@@ -36,6 +36,8 @@
     --mono: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, monospace;
     --code-bg: color-mix(in hsl, var(--palette-color-e) 70%, white 30%);
 
+    --hyperlink-hover: var(--palette-color-c);
+
     background: var(--main-bg-color);
     color: var(--letters-over-bg);
 }

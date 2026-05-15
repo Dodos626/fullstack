@@ -18,6 +18,15 @@
     gap: 24px;
 }
 
+.sectionTitle {
+    font-family: var(--heading);
+    color: var(--letters-over-bg);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
 .mainColumn {
     color: var(--nav-text, #1a1a1a);
 }

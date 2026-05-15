@@ -11,7 +11,7 @@ export const Landing = () => {
         <div className={styles.demoSection}>
             <SplitContainers
                 sections={[
-                    professionalExperienceSection,
+                    professionalExperienceSection(),
                     educationSection,
                     selectedProjectsSection,
                 ]}
