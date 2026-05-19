@@ -12,8 +12,8 @@ export const Landing = () => {
             <SplitContainers
                 sections={[
                     professionalExperienceSection(),
-                    educationSection,
-                    selectedProjectsSection,
+                    educationSection(),
+                    selectedProjectsSection(),
                 ]}
             />
         </div>

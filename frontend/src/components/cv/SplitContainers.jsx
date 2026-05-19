@@ -27,7 +27,7 @@ const toRatio = (ratio) => {
 export const SplitContainers = ({ sections = [] }) => {
     return (
         <div className={styles.splitContainers}>
-            {sections.map((section) => {
+            {sections.map((section, index) => {
                 const { left, right } = toRatio(section.ratio);
                 const isRightSticky = section.stickySide !== 'left';
                 const showTitle = Boolean(section.title);
@@ -70,6 +70,7 @@ export const SplitContainers = ({ sections = [] }) => {
                                 {section.right}
                             </div>
                         </section>
+                        {index < sections.length - 1 && <span className={styles.seperator} />}
                     </div>
                 );
             })}

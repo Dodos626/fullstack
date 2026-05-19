@@ -8,7 +8,7 @@ export const professionalExperienceSection = () => {
         const hasLink = options?.link;
 
         return (
-            <div className={styles.company}>
+            <div className={styles.company} id={`${CompanyName}_${Position}`}>
                 <div className={styles.companyHeaderRow}>
                     <div
                         className={[styles.companyName, hasLink && styles.companyNameLink]

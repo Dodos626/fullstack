@@ -14,7 +14,8 @@ import { openInNewTab, sendEmail } from '../../utils/utils';
 const publicLeftSide = [
     { name: 'Home', destination: '/', type: 'final' },
     { name: 'Login', destination: '/login', type: 'final' },
-    { name: 'Communicate', destination: '/communicate', type: 'final' },
+    { name: 'Projects', destination: '/projects', type: 'final' },
+    // { name: 'Communicate', destination: '/communicate', type: 'final' },
 ];
 
 export const PublicLayout = ({ children }) => {

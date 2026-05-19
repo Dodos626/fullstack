@@ -3,6 +3,13 @@
     font-family: var(--heading);
     font-size: 40px;
 }
+
+.titleBodyRight {
+    display: flex;
+    font-family: var(--heading);
+    font-size: 40px;
+    justify-content: flex-end;
+}
 .textBody {
     color: var(--letters-over-bg);
     display: flex;
@@ -73,6 +80,35 @@
     list-style-position: inside;
     text-align: justify;
     line-height: 1.7;
+}
+
+.projectDescription {
+    font-size: larger;
+    text-align: justify;
+}
+
+.projectTechnologiesContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
+.projectTechnologies {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
+}
+
+.seeMore {
+    text-decoration: underline;
+    width: fit-content;
+}
+
+.seeMore:hover {
+    cursor: pointer;
+    color: var(--hyperlink-hover);
 }
 
 /* Utils */
