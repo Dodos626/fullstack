@@ -1,6 +1,8 @@
-export { PublicLayout } from './public/PublicLayout';
-export { AdminLayout } from './admin/AdminLayout';
-export { GuestLayout } from './guest/GuestLayout';
+import { PublicLayout } from './public/PublicLayout';
+import { AdminLayout } from './admin/AdminLayout';
+import { GuestLayout } from './guest/GuestLayout';
+
+export { PublicLayout, AdminLayout, GuestLayout };
 
 export const getLayoutByRole = (role) => {
     if (role === 'admin') {
