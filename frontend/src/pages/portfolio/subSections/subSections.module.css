@@ -8,6 +8,7 @@
     width: fit-content;
     font-family: var(--heading);
     font-size: 40px;
+    padding-bottom: 20px;
 }
 
 .titleBody {
@@ -123,6 +124,12 @@
     color: var(--hyperlink-hover);
 }
 
+.fullProject {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 /* Utils */
 .placeYearContainer {
     display: flex;
@@ -136,4 +143,12 @@
     display: flex;
     gap: 5px;
     align-items: center;
+}
+
+.seperator {
+    width: 100%;
+    height: 2px;
+    background-color: var(--background-opossite); /* deep black */
+    margin: 10px 0;
+    border: none;
 }

@@ -6,7 +6,8 @@
 .body {
     width: min(1100px, 100%);
     margin: 0 auto;
-    min-height: calc(100vh - var(--navbar-height));
+    /* 100vh - navbar - layout top padding */
+    min-height: calc(100vh - var(--navbar-height) - 32px);
 }
 
 .findMeButtons {
