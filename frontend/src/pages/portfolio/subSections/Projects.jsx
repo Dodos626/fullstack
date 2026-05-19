@@ -25,7 +25,14 @@ export const Projects = () => {
                 <div className={styles.projectTechnologiesContainer}>
                     Technologies:
                     {technologies.map((technology) => {
-                        return <div className={styles.projectTechnologies}>{technology}</div>;
+                        return (
+                            <div
+                                key={`${projectName}-${technology}`}
+                                className={styles.projectTechnologies}
+                            >
+                                {technology}
+                            </div>
+                        );
                     })}
                 </div>
             </div>

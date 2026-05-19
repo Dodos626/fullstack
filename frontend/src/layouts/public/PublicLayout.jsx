@@ -10,6 +10,7 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 import { MdEmail, MdNightlight, MdSunny } from 'react-icons/md';
 import { openInNewTab, sendEmail } from '../../utils/utils';
+import { Footer } from '../../components/footer/Footer';
 
 const publicLeftSide = [
     { name: 'Home', destination: '/', type: 'final' },
@@ -52,6 +53,7 @@ export const PublicLayout = ({ children }) => {
             <main className={`${layoutStyles.layoutContent} ${styles.layoutContent}`}>
                 <div className={styles.body}>{children}</div>
             </main>
+            <Footer />
         </div>
     );
 };

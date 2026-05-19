@@ -38,6 +38,21 @@
 
     --hyperlink-hover: var(--palette-color-c);
 
+    /* footer uses the same as navbar*/
+    --footer-height: var(--navbar-height);
+
+    /* Layout variables */
+    --layout-padding-top: 32px;
+    --layout-padding-bottom: 32px;
+    --layout-padding-left: 32px;
+    --layout-padding-right: 32px;
+
+    --navbar-footer-height: calc(var(--navbar-height) + var(--footer-height));
+    --layout-height: calc(
+        100vh - var(--navbar-footer-height) - var(--layout-padding-top) -
+            var(--layout-padding-bottom)
+    );
+
     background: var(--main-bg-color);
     color: var(--letters-over-bg);
 }

@@ -32,8 +32,13 @@ export const professionalExperienceSection = () => {
                     <div className={styles.companyPlace}>{Place}</div>
                 </div>
                 <div className={styles.companyBulletsBody}>
-                    {Bullets.map((v) => (
-                        <div className={styles.companyBullet}> {v} </div>
+                    {Bullets.map((v, index) => (
+                        <div
+                            key={`${CompanyName}-${Position}-${index}`}
+                            className={styles.companyBullet}
+                        >
+                            {v}
+                        </div>
                     ))}
                 </div>
             </div>

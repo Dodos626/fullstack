@@ -1,0 +1,7 @@
+.footerBody {
+    min-height: var(--navbar-height);
+    bottom: 0;
+    display: flex;
+    background: var(--nav-bg);
+    color: var(--nav-text, #1a1a1a);
+}
