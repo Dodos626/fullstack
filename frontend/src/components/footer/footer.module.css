@@ -4,4 +4,9 @@
     display: flex;
     background: var(--nav-bg);
     color: var(--nav-text, #1a1a1a);
+    align-items: center;
+    justify-content: center;
+}
+
+.footerText {
 }
