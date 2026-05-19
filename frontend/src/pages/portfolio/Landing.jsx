@@ -8,14 +8,12 @@ import {
 
 export const Landing = () => {
     return (
-        <div className={styles.demoSection}>
-            <SplitContainers
-                sections={[
-                    professionalExperienceSection(),
-                    educationSection(),
-                    selectedProjectsSection(),
-                ]}
-            />
-        </div>
+        <SplitContainers
+            sections={[
+                professionalExperienceSection(),
+                educationSection(),
+                selectedProjectsSection(),
+            ]}
+        />
     );
 };

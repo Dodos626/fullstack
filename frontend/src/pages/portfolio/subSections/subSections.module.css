@@ -1,3 +1,15 @@
+.titlePage {
+    font-family: var(--heading);
+    color: var(--letters-over-bg);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    width: fit-content;
+    font-family: var(--heading);
+    font-size: 40px;
+}
+
 .titleBody {
     width: fit-content;
     font-family: var(--heading);

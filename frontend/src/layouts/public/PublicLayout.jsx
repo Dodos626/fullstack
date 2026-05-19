@@ -50,7 +50,7 @@ export const PublicLayout = ({ children }) => {
         <div className={`${layoutStyles.layoutShell} ${styles.layoutPublic}`}>
             <Navbar leftSide={publicLeftSide} rightSide={rightSide} />
             <main className={`${layoutStyles.layoutContent} ${styles.layoutContent}`}>
-                {children}
+                <div className={styles.body}>{children}</div>
             </main>
         </div>
     );

@@ -3,6 +3,12 @@
     place-items: center;
 }
 
+.body {
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    min-height: calc(100vh - var(--navbar-height));
+}
+
 .findMeButtons {
 }
 
