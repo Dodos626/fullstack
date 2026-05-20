@@ -1,0 +1,48 @@
+.cardHeaderTitle {
+    font-family: var(--heading);
+    font-size: 30px;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    /* padding-left: 10px; */
+    margin-top: 0px;
+    margin-bottom: 0px;
+    gap: 15px;
+    font-size: 15px;
+}
+
+.cardBodyCategory {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cardBodyCategoryTitle {
+    font-size: 20px;
+}
+
+.cardBodyCategoryText {
+    font-size: 15px;
+}
+
+.cardBodyCategoryList {
+    margin: 0;
+    font-size: 15px;
+}
+
+.boxesContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.boxes {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background-color: var(--nav-pill);
+    color: var(--nav-text);
+}

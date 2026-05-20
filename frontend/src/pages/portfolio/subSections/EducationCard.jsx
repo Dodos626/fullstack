@@ -1,22 +1,30 @@
 import { Card } from '../../../components/cv/Card';
-
+import styles from './cards.module.css';
 export const EducationCard = () => {
     return (
         <Card
-            header={<span>Other Qualifications</span>}
-            title="Academic Focus"
-            subtitle="2013 - 2018"
+            header={<div className={styles.cardHeaderTitle}>Other Qualifications</div>}
             content={
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel finibus
-                    nisl, non ultrices massa.
-                </p>
-            }
-            footer={
-                <>
-                    <span>University</span>
-                    <span>Honors</span>
-                </>
+                <div className={styles.cardBody}>
+                    <div className={styles.cardBodyCategory}>
+                        <div className={styles.cardBodyCategoryTitle}>Languages</div>
+
+                        <ul className={styles.cardBodyCategoryList}>
+                            <li>Greek (Native)</li>
+                            <li>English (Michigan ECPE)</li>
+                        </ul>
+                    </div>
+                    <div className={styles.cardBodyCategory}>
+                        <div className={styles.cardBodyCategoryTitle}>Teaching Assistant</div>
+                        <div className={styles.cardBodyCategoryText}>Courses :</div>
+
+                        <ul className={styles.cardBodyCategoryList}>
+                            <li>Programming Languages and Compilers</li>
+                            <li>Design Patterns</li>
+                            <li>Game Development</li>
+                        </ul>
+                    </div>
+                </div>
             }
         />
     );

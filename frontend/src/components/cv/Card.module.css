@@ -1,13 +1,7 @@
 .card {
     padding: 24px;
     border-radius: 12px;
-    background:
-        linear-gradient(
-            135deg,
-            color-mix(in hsl, var(--nav-pill) 55%, transparent 45%),
-            color-mix(in hsl, var(--nav-bg) 80%, transparent 20%)
-        ),
-        var(--nav-bg, #1a1a1a);
+    background: var(--nav-bg);
     color: var(--nav-text, #fefefe);
     box-shadow: var(--shadow, 0 10px 22px rgba(0, 0, 0, 0.12));
     display: grid;

@@ -1,22 +1,21 @@
 import { Card } from '../../../components/cv/Card';
 
+import styles from './cards.module.css';
+
 export const ProfessionalExperienceCard = () => {
     return (
         <Card
-            header={<span>Core Experiences</span>}
-            title="Lead Roles"
-            subtitle="2019 - 2026"
+            header={<div className={styles.cardHeaderTitle}>Core Experiences</div>}
             content={
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, massa id
-                    pretium lacinia, libero arcu auctor purus, non luctus odio lorem in nibh.
-                </p>
-            }
-            footer={
-                <>
-                    <span>Team Lead</span>
-                    <span>Delivery</span>
-                </>
+                <ul className={styles.cardBody}>
+                    <li>Full Stack Development</li>
+                    <li>Distributed Systems</li>
+                    <li>Microservice Architecture</li>
+                    <li>Cloud Infrastructure</li>
+                    <li>High-Performance Computing</li>
+                    <li>Graphics Programming</li>
+                    <li>Compiler Construction</li>
+                </ul>
             }
         />
     );
