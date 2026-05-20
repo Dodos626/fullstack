@@ -65,6 +65,16 @@
     color: var(--hyperlink-hover);
 }
 
+.iconButton {
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+}
+
 .companyPosition {
     font-size: 18px;
 }

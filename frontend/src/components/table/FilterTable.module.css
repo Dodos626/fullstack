@@ -1,0 +1,232 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tagsRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tagButton {
+    border: 1px solid var(--background-opossite);
+    background: transparent;
+    color: var(--letters-over-bg);
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        border-color 160ms ease;
+}
+
+.tagButton:hover {
+    cursor: pointer;
+    border-color: var(--hyperlink-hover);
+}
+
+.tagButtonActive {
+    background: var(--nav-bg);
+    color: var(--nav-text);
+    border-color: var(--nav-bg);
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.tableScroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-gutter: stable;
+}
+
+.tableScrollAnimating {
+    overflow-x: hidden;
+}
+
+.headerRow {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--background-opossite);
+    min-width: 100%;
+}
+
+.headerCell {
+    font-family: var(--heading);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--letters-over-bg);
+    opacity: 0.75;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.bodyAnimating {
+    animation: slideIn 220ms ease;
+}
+
+.dataRow {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--background-opossite) 70%, transparent);
+    min-width: 100%;
+}
+
+.dataCell {
+    color: var(--letters-over-bg);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cellLabel {
+    display: none;
+    font-family: var(--heading);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    text-align: left;
+}
+
+.cellValue {
+    display: block;
+    text-align: left;
+}
+
+.cellStickyLeft {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--background);
+    box-shadow: 6px 0 10px -8px rgba(0, 0, 0, 0.4);
+}
+
+.cellStickyRight {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background: var(--background);
+    box-shadow: -6px 0 10px -8px rgba(0, 0, 0, 0.4);
+}
+
+.empty {
+    padding: 20px 0;
+    color: var(--letters-over-bg);
+    opacity: 0.7;
+}
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--letters-over-bg);
+}
+
+.paginationInfo {
+    opacity: 0.8;
+}
+
+.pageControls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pageButton {
+    border: 1px solid var(--background-opossite);
+    background: transparent;
+    color: var(--letters-over-bg);
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        border-color 160ms ease;
+}
+
+.pageButton:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.pageButton:not(:disabled):hover {
+    cursor: pointer;
+    border-color: var(--hyperlink-hover);
+    color: var(--hyperlink-hover);
+}
+
+.pageIndicator {
+    font-family: var(--heading);
+    font-size: 13px;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 720px) {
+    .tableScroll {
+        overflow-x: hidden;
+    }
+
+    .headerRow {
+        display: none;
+    }
+
+    .dataRow {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--background-opossite);
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .dataCell {
+        display: grid;
+        grid-template-columns: minmax(120px, 40%) 1fr;
+        align-items: start;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .cellLabel {
+        display: block;
+    }
+
+    .cellStickyLeft,
+    .cellStickyRight {
+        position: static;
+        box-shadow: none;
+        background: transparent;
+    }
+}

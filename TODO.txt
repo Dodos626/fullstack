@@ -1,5 +1,3 @@
-1. add tag system and filtering to the projects page
-2. add footer
-3. add the cv ?
+
 4. add a menu of public web apps
 5. create a blog app that as admin I can write / modify posts and that shows the latest posts

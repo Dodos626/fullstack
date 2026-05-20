@@ -1,44 +1,9 @@
 import styles from './subSections.module.css';
 import { FaGithub } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { FilterTable } from '../../../components/table/FilterTable';
+import { openInNewTab } from '../../../utils/utils';
 
 export const Projects = () => {
-    const navigate = useNavigate();
-
-    const buildProject = ({ projectName, description, technologies, github }) => {
-        return (
-            <div className={styles.company} id={`${projectName}`}>
-                <div className={styles.companyHeaderRow}>
-                    <div className={styles.companyName}>{projectName}</div>
-                    <div
-                        className={[styles.companyYears, styles.companyNameLink]
-                            .filter(Boolean)
-                            .join(' ')}
-                        onClick={() => {
-                            openInNewTab(github);
-                        }}
-                    >
-                        <FaGithub size={25} />
-                    </div>
-                </div>
-                <div className={styles.projectDescription}>{description}</div>
-                <div className={styles.projectTechnologiesContainer}>
-                    Technologies:
-                    {technologies.map((technology) => {
-                        return (
-                            <div
-                                key={`${projectName}-${technology}`}
-                                className={styles.projectTechnologies}
-                            >
-                                {technology}
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        );
-    };
-
     const GahennPlains = {
         projectName: 'Gahenn-Plains',
         description:
@@ -73,21 +38,71 @@ export const Projects = () => {
 
     const fullProjects = [GahennPlains, SonicGame, Compiler, Fullstack];
 
+    const columns = [
+        {
+            header: 'Project',
+            key: 'projectName',
+            width: '20%',
+            render: (project) => (
+                <div className={styles.companyHeaderRow}>
+                    <div className={styles.companyName}>{project.projectName}</div>
+                </div>
+            ),
+        },
+        {
+            header: 'Description',
+            key: 'description',
+            width: '40%',
+            render: (project) => (
+                <div className={styles.projectDescription}>{project.description}</div>
+            ),
+        },
+        {
+            header: 'Technologies',
+            key: 'technologies',
+            width: '20%',
+            render: (project) => (
+                <div className={styles.projectTechnologiesContainer}>
+                    {project.technologies.map((technology) => (
+                        <span
+                            key={`${project.projectName}-${technology}`}
+                            className={styles.projectTechnologies}
+                        >
+                            {technology}
+                        </span>
+                    ))}
+                </div>
+            ),
+        },
+        {
+            header: 'Link',
+            key: 'github',
+            width: '10%',
+            sticky: 'right',
+            render: (project) => (
+                <button
+                    type="button"
+                    className={`${styles.companyYears} ${styles.companyNameLink} ${styles.iconButton}`}
+                    onClick={() => openInNewTab(project.github)}
+                >
+                    <FaGithub size={30} />
+                </button>
+            ),
+        },
+    ];
+
     return (
         <div>
             <div className={styles.titlePage}>Projects</div>
 
             <div className={styles.textBody}>
-                {fullProjects.map((project, index) => {
-                    return (
-                        <div key={`${index}_project`} className={styles.fullProject}>
-                            {buildProject(project)}
-                            {index < fullProjects.length - 1 && (
-                                <span className={styles.seperator} />
-                            )}
-                        </div>
-                    );
-                })}
+                <FilterTable
+                    columns={columns}
+                    rows={fullProjects}
+                    rowKey="projectName"
+                    tagsKey="technologies"
+                    pageSize={4}
+                />
             </div>
         </div>
     );
