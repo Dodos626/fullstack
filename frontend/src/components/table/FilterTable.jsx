@@ -81,21 +81,42 @@ export const FilterTable = ({
         return filteredRows.slice(startIndex, startIndex + pageSize);
     }, [paginationMode, rows, filteredRows, currentPage, pageSize]);
 
-    const columnTemplate = useMemo(() => {
+    const resolvedWidths = useMemo(() => {
         const widths = columns.map((column) => column.width ?? '1fr');
         const hasStringWidth = widths.some((width) => typeof width === 'string');
 
         if (hasStringWidth) {
-            return widths
-                .map((width) => (typeof width === 'number' ? `${width}%` : width))
-                .join(' ');
+            return widths.map((width) => (typeof width === 'number' ? `${width}%` : width));
         }
 
         const numericWidths = widths.map((width) => Number(width));
         const total = numericWidths.reduce((sum, value) => sum + value, 0) || 1;
 
-        return numericWidths.map((width) => `${(width / total) * 100}%`).join(' ');
+        return numericWidths.map((width) => `${(width / total) * 100}%`);
     }, [columns]);
+
+    const columnTemplate = useMemo(() => resolvedWidths.join(' '), [resolvedWidths]);
+
+    const leftColumns = useMemo(
+        () => columns.filter((column) => column.sticky === 'left'),
+        [columns]
+    );
+    const rightColumns = useMemo(
+        () => columns.filter((column) => column.sticky === 'right'),
+        [columns]
+    );
+    const middleColumns = useMemo(() => columns.filter((column) => !column.sticky), [columns]);
+
+    const resolvedWidthByKey = useMemo(() => {
+        const map = new Map();
+        columns.forEach((column, index) => {
+            map.set(column.key, resolvedWidths[index]);
+        });
+        return map;
+    }, [columns, resolvedWidths]);
+
+    const templateForColumns = (columnGroup) =>
+        columnGroup.map((column) => resolvedWidthByKey.get(column.key) || '1fr').join(' ');
 
     const startItem = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
     const endItem = Math.min(currentPage * pageSize, totalItems);
@@ -192,20 +213,46 @@ export const FilterTable = ({
                         className={styles.headerRow}
                         style={{ gridTemplateColumns: columnTemplate }}
                     >
-                        {columns.map((column) => (
+                        {leftColumns.length > 0 && (
                             <div
-                                key={column.key}
-                                className={`${styles.headerCell} ${
-                                    column.sticky === 'left'
-                                        ? styles.cellStickyLeft
-                                        : column.sticky === 'right'
-                                          ? styles.cellStickyRight
-                                          : ''
-                                }`}
+                                className={`${styles.stickyGroup} ${styles.stickyGroupLeft}`}
+                                style={{ gridTemplateColumns: templateForColumns(leftColumns) }}
                             >
-                                {column.header}
+                                {leftColumns.map((column) => (
+                                    <div
+                                        key={column.key}
+                                        className={`${styles.headerCell} ${styles.cellStickyLeft}`}
+                                    >
+                                        {column.header}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        )}
+                        <div
+                            className={styles.rowGrid}
+                            style={{ gridTemplateColumns: templateForColumns(middleColumns) }}
+                        >
+                            {middleColumns.map((column) => (
+                                <div key={column.key} className={styles.headerCell}>
+                                    {column.header}
+                                </div>
+                            ))}
+                        </div>
+                        {rightColumns.length > 0 && (
+                            <div
+                                className={`${styles.stickyGroup} ${styles.stickyGroupRight}`}
+                                style={{ gridTemplateColumns: templateForColumns(rightColumns) }}
+                            >
+                                {rightColumns.map((column) => (
+                                    <div
+                                        key={column.key}
+                                        className={`${styles.headerCell} ${styles.cellStickyRight}`}
+                                    >
+                                        {column.header}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     <div className={`${styles.body} ${isAnimating ? styles.bodyAnimating : ''}`}>
@@ -218,27 +265,79 @@ export const FilterTable = ({
                                     className={styles.dataRow}
                                     style={{ gridTemplateColumns: columnTemplate }}
                                 >
-                                    {columns.map((column) => (
+                                    {leftColumns.length > 0 && (
                                         <div
-                                            key={column.key}
-                                            className={`${styles.dataCell} ${
-                                                column.sticky === 'left'
-                                                    ? styles.cellStickyLeft
-                                                    : column.sticky === 'right'
-                                                      ? styles.cellStickyRight
-                                                      : ''
-                                            }`}
+                                            className={`${styles.stickyGroup} ${styles.stickyGroupLeft}`}
+                                            style={{
+                                                gridTemplateColumns:
+                                                    templateForColumns(leftColumns),
+                                            }}
                                         >
-                                            <span className={styles.cellLabel}>
-                                                {column.header}
-                                            </span>
-                                            <span className={styles.cellValue}>
-                                                {column.render
-                                                    ? column.render(row)
-                                                    : (row[column.key] ?? '')}
-                                            </span>
+                                            {leftColumns.map((column) => (
+                                                <div
+                                                    key={column.key}
+                                                    className={`${styles.dataCell} ${
+                                                        styles.cellStickyLeft
+                                                    }`}
+                                                >
+                                                    <span className={styles.cellLabel}>
+                                                        {column.header}
+                                                    </span>
+                                                    <span className={styles.cellValue}>
+                                                        {column.render
+                                                            ? column.render(row)
+                                                            : (row[column.key] ?? '')}
+                                                    </span>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    )}
+                                    <div
+                                        className={styles.rowGrid}
+                                        style={{
+                                            gridTemplateColumns: templateForColumns(middleColumns),
+                                        }}
+                                    >
+                                        {middleColumns.map((column) => (
+                                            <div key={column.key} className={styles.dataCell}>
+                                                <span className={styles.cellLabel}>
+                                                    {column.header}
+                                                </span>
+                                                <span className={styles.cellValue}>
+                                                    {column.render
+                                                        ? column.render(row)
+                                                        : (row[column.key] ?? '')}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {rightColumns.length > 0 && (
+                                        <div
+                                            className={`${styles.stickyGroup} ${styles.stickyGroupRight}`}
+                                            style={{
+                                                gridTemplateColumns:
+                                                    templateForColumns(rightColumns),
+                                            }}
+                                        >
+                                            {rightColumns.map((column) => (
+                                                <div
+                                                    key={column.key}
+                                                    className={`${styles.dataCell} ${
+                                                        styles.cellStickyRight
+                                                    }`}
+                                                >
+                                                    <span className={styles.cellLabel}>
+                                                        {column.header}
+                                                    </span>
+                                                    <span className={styles.cellValue}>
+                                                        {column.render
+                                                            ? column.render(row)
+                                                            : (row[column.key] ?? '')}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             ))
                         )}

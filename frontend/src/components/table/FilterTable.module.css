@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    height: 100%;
 }
 
 .tagsRow {
@@ -39,12 +40,16 @@
     flex-direction: column;
     gap: 8px;
     position: relative;
+    flex: 1;
+    min-height: 0;
 }
 
 .tableScroll {
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-gutter: stable;
+    flex: 1;
+    min-height: 0;
 }
 
 .tableScrollAnimating {
@@ -52,7 +57,8 @@
 }
 
 .headerRow {
-    display: grid;
+    display: flex;
+    align-items: center;
     align-items: center;
     gap: 12px;
     padding-bottom: 8px;
@@ -74,6 +80,7 @@
     flex-direction: column;
     gap: 10px;
     overflow: hidden;
+    flex: 1;
 }
 
 .bodyAnimating {
@@ -81,12 +88,43 @@
 }
 
 .dataRow {
-    display: grid;
+    display: flex;
     align-items: center;
     gap: 12px;
     padding: 8px 0;
     border-bottom: 1px solid color-mix(in srgb, var(--background-opossite) 70%, transparent);
     min-width: 100%;
+}
+
+.rowGrid {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.stickyGroup {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.stickyGroupLeft {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: var(--background);
+    box-shadow: 6px 0 10px -8px rgba(0, 0, 0, 0.4);
+}
+
+.stickyGroupRight {
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background: var(--background);
+    box-shadow: -6px 0 10px -8px rgba(0, 0, 0, 0.4);
 }
 
 .dataCell {
@@ -112,19 +150,11 @@
 }
 
 .cellStickyLeft {
-    position: sticky;
-    left: 0;
     z-index: 2;
-    background: var(--background);
-    box-shadow: 6px 0 10px -8px rgba(0, 0, 0, 0.4);
 }
 
 .cellStickyRight {
-    position: sticky;
-    right: 0;
     z-index: 2;
-    background: var(--background);
-    box-shadow: -6px 0 10px -8px rgba(0, 0, 0, 0.4);
 }
 
 .empty {
@@ -141,6 +171,7 @@
     gap: 10px;
     font-size: 14px;
     color: var(--letters-over-bg);
+    margin-top: auto;
 }
 
 .paginationInfo {
@@ -211,6 +242,14 @@
         min-width: 100%;
     }
 
+    .rowGrid,
+    .stickyGroup {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
     .dataCell {
         display: grid;
         grid-template-columns: minmax(120px, 40%) 1fr;
@@ -225,6 +264,13 @@
 
     .cellStickyLeft,
     .cellStickyRight {
+        position: static;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .stickyGroupLeft,
+    .stickyGroupRight {
         position: static;
         box-shadow: none;
         background: transparent;

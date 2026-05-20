@@ -36,7 +36,29 @@ export const Projects = () => {
         github: 'https://github.com/Dodos626/fullstack',
     };
 
-    const fullProjects = [GahennPlains, SonicGame, Compiler, Fullstack];
+    const DatabasesSchool = {
+        projectName: 'Databases',
+        description: 'A university project of building a functioning banking-like system.',
+        technologies: ['Java', 'SQL'],
+        github: 'https://github.com/Dodos626/fullstack',
+    };
+
+    const WebDevSchool = {
+        projectName: 'Web dev class',
+        description:
+            'A project of a full stack application of doctor appointment platform, fully functioning with multiple roles. Also contains all exercises made as part of the course',
+        technologies: ['Java', 'SQL', 'HTML', 'JavaScript'],
+        github: 'https://github.com/Dodos626/fullstack',
+    };
+
+    const fullProjects = [
+        GahennPlains,
+        SonicGame,
+        Compiler,
+        Fullstack,
+        WebDevSchool,
+        DatabasesSchool,
+    ];
 
     const columns = [
         {
@@ -52,7 +74,7 @@ export const Projects = () => {
         {
             header: 'Description',
             key: 'description',
-            width: '40%',
+            width: '50%',
             render: (project) => (
                 <div className={styles.projectDescription}>{project.description}</div>
             ),
@@ -77,7 +99,7 @@ export const Projects = () => {
         {
             header: 'Link',
             key: 'github',
-            width: '10%',
+            width: '5%',
             sticky: 'right',
             render: (project) => (
                 <button
