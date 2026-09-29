@@ -14,9 +14,12 @@ Under **Settings → Secrets and variables → Actions → Secrets**, set:
 | `DEPLOY_USER` | SSH username: `deploy`, or an administrative account for bootstrap |
 | `DEPLOY_SSH_KEY` | Entire private SSH key authorized for that user |
 | `DEPLOY_KNOWN_HOSTS` | Verified `IP ssh-ed25519 PUBLIC_KEY` server host-key entry |
-| `DB_PASSWORD` | 64 hexadecimal characters, generated with `openssl rand -hex 32` |
-| `JWT_ACCESS_SECRET` | Independently generated 64 hexadecimal characters |
-| `JWT_REFRESH_SECRET` | Independently generated 64 hexadecimal characters |
+| `DB_PASSWORD` | Database password (no fixed format or length) |
+| `JWT_ACCESS_SECRET` | Independent secret, at least 16 characters as required by the API |
+| `JWT_REFRESH_SECRET` | Independent secret, at least 16 characters as required by the API |
+
+Secrets are serialized literally, including punctuation and spaces. You can use
+`openssl rand -hex 32` to generate secrets, but hexadecimal values are not required.
 
 Add `APP_DOMAIN` as a secret or repository variable, such as `example.com` (no
 protocol or path). If both exist, the secret takes precedence.

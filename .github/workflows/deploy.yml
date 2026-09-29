@@ -47,23 +47,13 @@ jobs:
                   : "${DB_PASSWORD:?Set DB_PASSWORD secret}"
                   : "${JWT_ACCESS_SECRET:?Set JWT_ACCESS_SECRET secret}"
                   : "${JWT_REFRESH_SECRET:?Set JWT_REFRESH_SECRET secret}"
-                  # Restrict inputs to unambiguous dotenv values; never execute them as shell code.
                   [[ "$APP_DOMAIN" =~ ^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$ ]] || { echo 'Invalid APP_DOMAIN'; exit 1; }
-                  for name in DB_PASSWORD JWT_ACCESS_SECRET JWT_REFRESH_SECRET; do
-                      # Ignore accidental surrounding whitespace from copy/paste.
-                      value="${!name}"
-                      value="${value#"${value%%[![:space:]]*}"}"
-                      value="${value%"${value##*[![:space:]]}"}"
-                      [[ "$value" =~ ^[a-fA-F0-9]{64}$ ]] || { echo "$name must contain only the 64-character hexadecimal value (no quotes or NAME= prefix)"; exit 1; }
-                      printf -v "$name" '%s' "$value"
-                  done
                   target="$DEPLOY_USER@$DEPLOY_HOST"
                   release="/opt/fullstack/releases/$GITHUB_SHA"
                   ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" 'bash -s' < deploy/bootstrap.sh
                   ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" "mkdir -p '$release'"
                   git archive HEAD | ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" "tar -x -C '$release'"
-                  printf 'APP_DOMAIN=%s\nDB_PASSWORD=%s\nJWT_ACCESS_SECRET=%s\nJWT_REFRESH_SECRET=%s\n' \
-                      "$APP_DOMAIN" "$DB_PASSWORD" "$JWT_ACCESS_SECRET" "$JWT_REFRESH_SECRET" |
+                  python3 deploy/render-env.py |
                       ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" \
                           'umask 077; tmp=$(mktemp /opt/fullstack/.env.XXXXXX) && cat > "$tmp" && mv -f "$tmp" /opt/fullstack/.env'
                   ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" "bash '$release/deploy/deploy.sh'"
