@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Button } from '../buttons/Button';
 import styles from './FilterTable.module.css';
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -71,15 +72,16 @@ export const FilterTable = ({
             : filteredRows.length;
 
     const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+    const resolvedCurrentPage = Math.min(currentPage, totalPages);
 
     const pagedRows = useMemo(() => {
         if (paginationMode === 'server') {
             return rows;
         }
 
-        const startIndex = (currentPage - 1) * pageSize;
+        const startIndex = (resolvedCurrentPage - 1) * pageSize;
         return filteredRows.slice(startIndex, startIndex + pageSize);
-    }, [paginationMode, rows, filteredRows, currentPage, pageSize]);
+    }, [paginationMode, rows, filteredRows, resolvedCurrentPage, pageSize]);
 
     const resolvedWidths = useMemo(() => {
         const widths = columns.map((column) => column.width ?? '1fr');
@@ -118,8 +120,8 @@ export const FilterTable = ({
     const templateForColumns = (columnGroup) =>
         columnGroup.map((column) => resolvedWidthByKey.get(column.key) || '1fr').join(' ');
 
-    const startItem = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
-    const endItem = Math.min(currentPage * pageSize, totalItems);
+    const startItem = totalItems === 0 ? 0 : (resolvedCurrentPage - 1) * pageSize + 1;
+    const endItem = Math.min(resolvedCurrentPage * pageSize, totalItems);
 
     const applyAnimation = () => {
         setIsAnimating(true);
@@ -165,12 +167,6 @@ export const FilterTable = ({
     };
 
     useEffect(() => {
-        if (currentPage > totalPages) {
-            setCurrentPage(totalPages);
-        }
-    }, [currentPage, totalPages]);
-
-    useEffect(() => {
         if (paginationMode === 'server' && onPageChange) {
             notifyPageChange(currentPage, activeTags);
         }
@@ -181,24 +177,28 @@ export const FilterTable = ({
         <div className={styles.container}>
             {resolvedTags.length > 0 && (
                 <div className={styles.tagsRow}>
-                    <button
+                    <Button
                         type="button"
+                        variant="unstyled"
+                        pressed={showAll}
                         className={`${styles.tagButton} ${showAll ? styles.tagButtonActive : ''}`}
                         onClick={() => toggleTag('All')}
                     >
                         All
-                    </button>
+                    </Button>
                     {resolvedTags.map((tag) => (
-                        <button
+                        <Button
                             key={tag}
                             type="button"
+                            variant="unstyled"
+                            pressed={activeTags.includes(tag)}
                             className={`${styles.tagButton} ${
                                 activeTags.includes(tag) ? styles.tagButtonActive : ''
                             }`}
                             onClick={() => toggleTag(tag)}
                         >
                             {tag}
-                        </button>
+                        </Button>
                     ))}
                 </div>
             )}
@@ -350,25 +350,27 @@ export const FilterTable = ({
                     {`Showing ${startItem}-${endItem} of ${totalItems}`}
                 </div>
                 <div className={styles.pageControls}>
-                    <button
+                    <Button
                         type="button"
+                        variant="unstyled"
                         className={styles.pageButton}
-                        onClick={() => updatePage(currentPage - 1)}
-                        disabled={currentPage <= 1}
+                        onClick={() => updatePage(resolvedCurrentPage - 1)}
+                        disabled={resolvedCurrentPage <= 1}
                     >
                         Prev
-                    </button>
+                    </Button>
                     <div className={styles.pageIndicator}>
-                        {`Page ${currentPage} of ${totalPages}`}
+                        {`Page ${resolvedCurrentPage} of ${totalPages}`}
                     </div>
-                    <button
+                    <Button
                         type="button"
+                        variant="unstyled"
                         className={styles.pageButton}
-                        onClick={() => updatePage(currentPage + 1)}
-                        disabled={currentPage >= totalPages}
+                        onClick={() => updatePage(resolvedCurrentPage + 1)}
+                        disabled={resolvedCurrentPage >= totalPages}
                     >
                         Next
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

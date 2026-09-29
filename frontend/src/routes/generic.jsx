@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Forbidden } from '../pages/system/Forbidden';
 import { NotAvailable } from '../pages/system/NotAvailable';
 import { NotFound } from '../pages/system/NotFound';

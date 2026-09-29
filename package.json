@@ -1,0 +1,16 @@
+{
+    "name": "fullstack-portfolio-platform",
+    "private": true,
+    "scripts": {
+        "dev": "concurrently -n backend,frontend -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev -- --host\"",
+        "build": "npm --prefix frontend run build",
+        "lint": "npm --prefix backend run lint && npm --prefix frontend run lint",
+        "test": "npm --prefix backend test",
+        "format": "npm --prefix backend run format && npm --prefix frontend run format",
+        "db:migrate": "npm --prefix backend run db:migrate",
+        "db:seed": "npm --prefix backend run db:seed"
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1"
+    }
+}

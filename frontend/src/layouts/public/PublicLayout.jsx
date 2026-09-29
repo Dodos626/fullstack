@@ -1,6 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/navbar/Navbar';
-import { useAuth } from '../../hooks/useAuth';
+import { IconButton } from '../../components/buttons/IconButton';
 import { useDayMode } from '../../hooks/useDayMode';
 import layoutStyles from '../Layout.module.css';
 import styles from './PublicLayout.module.css';
@@ -20,30 +19,40 @@ const publicLeftSide = [
 ];
 
 export const PublicLayout = ({ children }) => {
-    const navigate = useNavigate();
-    const { isAuthenticated, user, logout } = useAuth();
     const { dayMode, toggleDayMode } = useDayMode();
 
-    const handleLogout = async () => {
-        navigate('/', { replace: true });
-        await logout();
-    };
-
-    const buildButton = (Icon, size, onClick) => {
-        return <Icon size={size} onClick={onClick} className={styles.findMeButtons} />;
+    const buildButton = (Icon, size, onClick, label) => {
+        return (
+            <IconButton type="button" onClick={onClick} aria-label={label}>
+                <Icon size={size} aria-hidden="true" />
+            </IconButton>
+        );
     };
 
     const rightSide = () => (
         <div className={navbarStyles.navbarActions}>
             <div className={styles.name}>Chalkidis Theodoros</div>
             <div className={styles.seperator}></div>
-            {buildButton(MdEmail, 30, sendEmail)}
-            {buildButton(FaGithub, 25, () => openInNewTab('https://github.com/dodos626'))}
-            {buildButton(FaLinkedin, 25, () =>
-                openInNewTab('https://www.linkedin.com/in/theodoros-chalkidis-a76879245/')
+            {buildButton(MdEmail, 30, sendEmail, 'Send email')}
+            {buildButton(
+                FaGithub,
+                25,
+                () => openInNewTab('https://github.com/dodos626'),
+                'Open GitHub profile'
+            )}
+            {buildButton(
+                FaLinkedin,
+                25,
+                () => openInNewTab('https://www.linkedin.com/in/theodoros-chalkidis-a76879245/'),
+                'Open LinkedIn profile'
             )}
             <div className={styles.seperator}></div>
-            {buildButton(dayMode ? MdNightlight : MdSunny, 25, toggleDayMode)}
+            {buildButton(
+                dayMode ? MdNightlight : MdSunny,
+                25,
+                toggleDayMode,
+                dayMode ? 'Enable night theme' : 'Enable day theme'
+            )}
         </div>
     );
 

@@ -1,32 +1,46 @@
 import { createContext, useState, useEffect, useCallback } from 'react';
-import api from '../api/client';
+import api, {
+    requestRefresh,
+    setAccessToken as setApiAccessToken,
+    setAuthFailureHandler,
+} from '../api/client';
+import { getPublicUrl, navigateToUrl } from '../config/apps';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
+    const [accessToken, setAccessToken] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Set authorization header when token changes
     useEffect(() => {
-        if (accessToken) {
-            api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-            localStorage.setItem('accessToken', accessToken);
-        } else {
-            delete api.defaults.headers.common.Authorization;
-            localStorage.removeItem('accessToken');
-        }
+        setApiAccessToken(accessToken);
     }, [accessToken]);
 
-    // Try to restore session from localStorage on mount
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser && accessToken) {
-            setUser(JSON.parse(storedUser));
-        }
-        setIsLoading(false);
-    }, [accessToken]);
+        setAuthFailureHandler(() => {
+            setAccessToken(null);
+            setUser(null);
+            navigateToUrl(getPublicUrl('/login'), true);
+        });
+    }, []);
+
+    useEffect(() => {
+        const restoreSession = async () => {
+            try {
+                const session = await requestRefresh();
+                setAccessToken(session.accessToken);
+                setUser(session.user);
+            } catch {
+                setAccessToken(null);
+                setUser(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        restoreSession();
+    }, []);
 
     const login = useCallback(async (email, password) => {
         try {
@@ -35,8 +49,6 @@ export const AuthProvider = ({ children }) => {
 
             setAccessToken(token);
             setUser(userData);
-            localStorage.setItem('user', JSON.stringify(userData));
-            localStorage.setItem('accessToken', token);
 
             return userData;
         } catch (error) {
@@ -52,14 +64,11 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setAccessToken(null);
             setUser(null);
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('user');
         }
     }, []);
 
     const value = {
         user,
-        accessToken,
         isLoading,
         isAuthenticated: !!accessToken && !!user,
         login,

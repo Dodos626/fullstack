@@ -3,10 +3,10 @@
     bottom: 0;
     display: flex;
     background: var(--nav-bg);
-    color: var(--nav-text, #1a1a1a);
+    color: var(--nav-text);
     align-items: center;
     justify-content: center;
-}
-
-.footerText {
+    border-top: 1px solid var(--surface-border);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
 }

@@ -1,6 +1,6 @@
 import { Landing } from '../pages/portfolio/Landing';
 import { Login } from '../pages/login/Login';
-import { PublicLayout } from '../layouts';
+import { PublicLayout } from '../layouts/public/PublicLayout';
 import { Projects } from '../pages/portfolio/subSections/Projects';
 
 export const publicRoutes = [

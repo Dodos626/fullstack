@@ -1,18 +1,30 @@
-import { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../auth/AuthProvider';
+import { useEffect } from 'react';
+import { getPublicUrl, navigateToUrl } from '../config/apps';
+import { useAuth } from '../hooks/useAuth';
 
 export const RoleRoute = ({ allowedRoles, children }) => {
-    const { isAuthenticated, user, isLoading } = useContext(AuthContext);
+    const { isAuthenticated, user, isLoading } = useAuth();
+    const hasAllowedRole = !allowedRoles?.length || allowedRoles.includes(user?.role);
 
-    if (isLoading) return null;
+    useEffect(() => {
+        if (isLoading) {
+            return;
+        }
 
-    if (!isAuthenticated) {
-        return <Navigate to="/forbidden" replace />;
-    }
+        if (!isAuthenticated) {
+            navigateToUrl(getPublicUrl('/login'), true);
+            return;
+        }
 
-    if (allowedRoles?.length && !allowedRoles.includes(user?.role)) {
-        return <Navigate to="/forbidden" replace />;
+        if (!hasAllowedRole) {
+            navigateToUrl(getPublicUrl('/forbidden'), true);
+        }
+    }, [hasAllowedRole, isAuthenticated, isLoading]);
+
+    if (isLoading) return <div aria-live="polite">Loading session…</div>;
+
+    if (!isAuthenticated || !hasAllowedRole) {
+        return null;
     }
 
     return children;

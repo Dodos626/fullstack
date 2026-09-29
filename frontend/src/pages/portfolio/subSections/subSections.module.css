@@ -23,11 +23,18 @@
     font-size: 40px;
     justify-content: flex-end;
 }
+
 .textBody {
     color: var(--letters-over-bg);
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 24px;
+    border: 1px solid var(--surface-border);
+    border-radius: 18px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(16px) saturate(120%);
 }
 
 /* company */
@@ -65,14 +72,18 @@
     color: var(--hyperlink-hover);
 }
 
-.iconButton {
-    background: transparent;
-    border: none;
+.textButton {
     padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    border: 0;
+    background: transparent;
     color: inherit;
+    text-align: left;
+}
+
+.textButton:focus-visible,
+.seeMore:focus-visible {
+    outline: 2px solid var(--button-focus);
+    outline-offset: 3px;
 }
 
 .companyPosition {
@@ -128,6 +139,7 @@
 .seeMore {
     text-decoration: underline;
     width: fit-content;
+    color: inherit;
 }
 
 .seeMore:hover {

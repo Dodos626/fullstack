@@ -3,3 +3,4 @@ dist
 build
 coverage
 package-lock.json
+backend/config/config.json

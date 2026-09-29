@@ -1,45 +1,25 @@
 const jwt = require('jsonwebtoken');
+const { env } = require('../config/env');
 const { errorResponse } = require('../utils/apiResponse.utils');
 
 const verifyAuth = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader?.startsWith('Bearer ')) {
+        return errorResponse(res, 'Authentication required', 401);
+    }
+
+    const token = authHeader.slice('Bearer '.length);
+
     try {
-        const authHeader = req.headers.authorization;
-
-        if (!authHeader) {
-            return errorResponse(res, 'No authorization header', 401);
-        }
-
-        const token = authHeader.split(' ')[1];
-
-        if (!token) {
-            return errorResponse(res, 'No token provided', 401);
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-
-        req.user = decoded;
-
-        next();
-    } catch (error) {
-        errorResponse(res, 'Invalid token', 401);
+        req.user = jwt.verify(token, env.JWT_ACCESS_SECRET, {
+            issuer: env.JWT_ISSUER,
+            audience: env.JWT_ACCESS_AUDIENCE,
+        });
+        return next();
+    } catch {
+        return errorResponse(res, 'Invalid or expired access token', 401);
     }
 };
 
-const verifyRole = (allowedRoles) => {
-    return (req, res, next) => {
-        if (!req.user) {
-            return errorResponse(res, 'User not authenticated', 401);
-        }
-
-        if (!allowedRoles.includes(req.user.role)) {
-            return errorResponse(res, 'Insufficient permissions', 403);
-        }
-
-        next();
-    };
-};
-
-module.exports = {
-    verifyAuth,
-    verifyRole,
-};
+module.exports = { verifyAuth };

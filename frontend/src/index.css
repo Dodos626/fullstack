@@ -1,16 +1,36 @@
 body {
     margin: 0;
+    min-width: 320px;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--button-focus);
+    outline-offset: 3px;
 }
 
 #root {
+    position: relative;
+    isolation: isolate;
     max-width: 100%;
     margin: 0 auto;
     text-align: center;
-    /* border-inline: 1px solid var(--border); */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+}
+
+.app-content {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
 }
 
 h1,
@@ -42,16 +62,23 @@ p {
     margin: 0;
 }
 
-code,
-.counter {
+code {
     display: inline-flex;
     border-radius: 4px;
     color: var(--text-h);
-}
-
-code {
     font-size: 15px;
     line-height: 135%;
     padding: 4px 8px;
     background: var(--code-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

@@ -1,0 +1,19 @@
+.iconButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 8px;
+    background: transparent !important;
+    color: inherit;
+    box-shadow: none;
+    transition: color 160ms ease;
+}
+
+.iconButton:hover:not(:disabled),
+.iconButton:focus-visible {
+    background: transparent !important;
+    color: var(--button-accent);
+    box-shadow: none;
+    transform: none;
+}

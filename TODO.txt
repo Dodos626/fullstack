@@ -1,3 +1,0 @@
-
-4. add a menu of public web apps
-5. create a blog app that as admin I can write / modify posts and that shows the latest posts

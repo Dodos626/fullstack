@@ -1,0 +1,4 @@
+.layoutContent {
+    display: grid;
+    place-items: center;
+}

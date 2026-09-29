@@ -43,6 +43,6 @@
 .boxes {
     padding: 5px 10px;
     border-radius: 12px;
-    background-color: var(--nav-pill);
-    color: var(--nav-text);
+    background-color: var(--button-surface);
+    color: var(--button-text);
 }

@@ -1,11 +1,26 @@
-require("dotenv").config();
+const { env } = require('./env');
+
+const baseConfig = {
+    username: env.DB_USER,
+    password: env.DB_PASSWORD,
+    host: env.DB_HOST,
+    port: env.DB_PORT,
+    dialect: 'postgres',
+    logging: false,
+};
 
 module.exports = {
-  development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-  },
+    development: {
+        ...baseConfig,
+        database: env.DB_NAME,
+    },
+    test: {
+        ...baseConfig,
+        database: env.DB_TEST_NAME,
+    },
+    production: {
+        ...baseConfig,
+        database: env.DB_NAME,
+        dialectOptions: env.DB_SSL ? { ssl: { require: true, rejectUnauthorized: false } } : {},
+    },
 };

@@ -1,0 +1,106 @@
+.matrixContainer {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--matrix-background);
+}
+
+.matrixPattern {
+    position: absolute;
+    inset: 0;
+    min-width: 1000px;
+    filter: blur(var(--matrix-blur));
+}
+
+.matrixColumn {
+    position: absolute;
+    top: -110%;
+    left: calc(var(--column) * 2.5%);
+    width: max(18px, 2.5%);
+    height: 100%;
+    font-family: var(--mono);
+    font-size: clamp(12px, 1.1vw, 16px);
+    line-height: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    animation: fall var(--duration) linear var(--delay) infinite;
+    will-change: transform, opacity;
+}
+
+.matrixColumn::before {
+    content: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    position: absolute;
+    inset: 0 auto auto 0;
+    background: linear-gradient(
+        to bottom,
+        var(--matrix-head) 0%,
+        var(--matrix-head) 5%,
+        var(--matrix-primary) 12%,
+        var(--matrix-primary) 30%,
+        var(--matrix-secondary) 48%,
+        var(--matrix-tail) 68%,
+        color-mix(in srgb, var(--matrix-tail) 45%, transparent) 88%,
+        transparent 100%
+    );
+    background-clip: text;
+    color: transparent;
+    writing-mode: vertical-lr;
+    letter-spacing: 1px;
+    text-rendering: optimizeLegibility;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-font-smoothing: antialiased;
+}
+
+.matrixColumn:nth-child(odd)::before {
+    content: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン123456789';
+}
+
+.matrixColumn:nth-child(even)::before {
+    content: 'ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポヴァィゥェォャュョッABCDEFGHIJKLMNOPQRSTUVWXYZ';
+}
+
+.matrixColumn:nth-child(3n)::before {
+    content: 'アカサタナハマヤラワイキシチニヒミリウクスツヌフムユルエケセテネヘメレオコソトノホモヨロヲン0987654321';
+}
+
+.matrixColumn:nth-child(4n)::before {
+    content: 'ンヲロヨモホノトソコオレメヘネテセケエルユムフヌツスクウリミヒニチシキイワラヤマハナタサカア';
+}
+
+.matrixColumn:nth-child(5n)::before {
+    content: 'ガザダバパギジヂビピグズヅブプゲゼデベペゴゾドボポヴァィゥェォャュョッ!@#$%^&*()_+-=[]{}|;:,.<>?';
+}
+
+@keyframes fall {
+    0% {
+        transform: translate3d(0, -10%, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(0, 210%, 0);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .matrixColumn {
+        font-size: 13px;
+        line-height: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .matrixColumn {
+        font-size: 11px;
+        line-height: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .matrixColumn {
+        animation-play-state: paused;
+    }
+}

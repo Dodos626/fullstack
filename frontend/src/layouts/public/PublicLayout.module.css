@@ -9,17 +9,11 @@
     min-height: var(--layout-height);
 }
 
-.findMeButtons {
-}
-
-.findMeButtons:hover {
-    cursor: pointer;
-    color: var(--palette-color-c-90);
-}
-
 .seperator {
-    border: 1px solid var(--nav-text, #1a1a1a);
-    min-height: stretch;
+    width: 1px;
+    height: 24px;
+    margin: 0 4px;
+    background: var(--nav-divider);
 }
 
 .name {

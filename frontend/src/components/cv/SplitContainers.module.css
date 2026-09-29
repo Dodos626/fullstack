@@ -34,7 +34,7 @@
 }
 
 .mainColumn {
-    color: var(--nav-text, #1a1a1a);
+    color: var(--nav-text);
 }
 
 .mainColumn p {
@@ -56,8 +56,8 @@
 .seperator {
     width: 100%;
     height: 2px;
-    background-color: var(--background-opossite); /* deep black */
-    /* margin: 48px 0; */
+    margin: 8px 0;
+    background-color: var(--nav-divider);
     border: none;
 }
 

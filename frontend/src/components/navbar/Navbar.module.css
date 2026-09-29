@@ -7,38 +7,49 @@
     justify-content: space-between;
     padding: 0px 28px;
     background: var(--nav-bg);
-    color: var(--nav-text, #1a1a1a);
+    color: var(--nav-text);
     min-height: var(--navbar-height);
+    border-bottom: 1px solid var(--surface-border);
+    box-shadow: var(--shadow-navbar);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
 }
 
 .navbarLeft,
 .navbarRight {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 6px;
 }
 
 .navbarButton {
     font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.2px;
+    font-weight: 650;
+    letter-spacing: 0.1px;
     text-decoration: none;
     color: inherit;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    min-height: 36px;
+    padding: 9px 16px;
+    border-radius: var(--navbar-button-radius);
+    background: var(--button-surface);
+    color: var(--button-text);
+    box-shadow: var(--shadow-button);
     transition:
-        transform 0.2s,
-        box-shadow 0.2s,
-        background 0.2s;
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.navbarLink,
-.navbarMenuLink {
-}
-
-.navbarMenuLink {
-    /* width: 100%; */
+.navbarButton:hover:not(:disabled),
+.navbarButton:focus-visible {
+    background: color-mix(in hsl, var(--button-surface) 84%, white 16%);
+    color: var(--button-text);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
 }
 
 .navbarLink:hover,
@@ -48,19 +59,18 @@
 }
 
 .navbarMenuLink:hover {
-    transform: translateX(4px);
-    margin-left: 0;
-    box-shadow: none;
+    color: var(--button-accent);
 }
 
 .navbarFirstItem:hover {
     transform: none;
     margin-left: 0;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    box-shadow: none;
 }
 
 .navbarLinkActive {
-    color: #fff;
+    background: var(--button-surface);
+    color: var(--button-text);
 }
 
 .navbarParent {
@@ -77,17 +87,16 @@
 }
 
 .navbarParentButton {
-    border: 1px solid transparent;
-    color: inherit;
     cursor: pointer;
 }
 
 .navbarParentButton.navbarLinkActive {
-    background: var(--nav-accent, #003d5b);
-    color: #fff;
+    background: var(--button-surface);
+    color: var(--button-text);
 }
 
-.navbarParent:hover .navbarMenu {
+.navbarParent:hover .navbarMenu,
+.navbarParent:focus-within .navbarMenu {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
@@ -146,39 +155,12 @@
     font-weight: 700;
     letter-spacing: 0.3px;
     text-transform: uppercase;
-    background: var(--nav-accent, #003d5b);
-    color: #fff;
-}
-
-.navbarPrimary,
-.navbarGhost {
-    border-radius: 999px;
-    border: 1px solid transparent;
-    padding: 8px 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        transform 0.3s,
-        box-shadow 0.2s,
-        background 0.2s;
-}
-
-.navbarPrimary {
-    background: var(--nav-accent, #003d5b);
-    color: #fff;
+    background: var(--button-accent);
+    color: var(--button-accent-text);
 }
 
 .navbarGhost {
-    background: transparent;
-    border-color: var(--nav-border, #d6d0c7);
-    color: inherit;
-}
-
-.navbarPrimary:hover,
-.navbarGhost:hover {
-    transform: translateY(-1px);
-    /* box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12); */
-    margin-left: 5px;
+    margin: 0;
 }
 
 @media (max-width: 900px) {
@@ -200,7 +182,8 @@
         transform: translate(-50%, -6px);
     }
 
-    .navbarParent:hover .navbarMenu {
+    .navbarParent:hover .navbarMenu,
+    .navbarParent:focus-within .navbarMenu {
         transform: translate(-50%, 0);
     }
 }

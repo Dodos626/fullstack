@@ -1,80 +1,45 @@
 import { openInNewTab } from '../../../utils/utils';
+import { Button } from '../../../components/buttons/Button';
 import { EducationCard } from './EducationCard';
+import { education } from '../../../data/portfolio';
 import styles from './subSections.module.css';
 
 export const educationSection = () => {
-    const buildUniversity = ({
-        UniversityName,
-        Position,
-        Place,
-        Years,
-        Bullets = [],
-        options = {},
-    }) => {
-        const hasLink = options?.link;
-
+    const buildUniversity = ({ universityName, position, place, years, bullets = [], link }) => {
         return (
-            <div className={styles.company} id={`${UniversityName}_${Position}`}>
+            <div
+                className={styles.company}
+                id={`${universityName}_${position}`}
+                key={universityName}
+            >
                 <div className={styles.companyHeaderRow}>
-                    <div
-                        className={[styles.companyName, hasLink && styles.companyNameLink]
-                            .filter(Boolean)
-                            .join(' ')}
-                        onClick={
-                            options?.link
-                                ? () => {
-                                      openInNewTab(options?.link);
-                                  }
-                                : null
-                        }
+                    <Button
+                        type="button"
+                        variant="unstyled"
+                        className={`${styles.companyName} ${styles.companyNameLink} ${styles.textButton}`}
+                        onClick={() => openInNewTab(link)}
                     >
-                        {UniversityName}
-                    </div>
-                    <div className={styles.companyYears}>{Years}</div>
+                        {universityName}
+                    </Button>
+                    <div className={styles.companyYears}>{years}</div>
                 </div>
 
                 <div className={styles.companyRoleRow}>
-                    <div className={styles.companyPosition}>{Position}</div>
-                    <div className={styles.companyPlace}>{Place}</div>
+                    <div className={styles.companyPosition}>{position}</div>
+                    <div className={styles.companyPlace}>{place}</div>
                 </div>
                 <div className={styles.companyBulletsBody}>
-                    {Bullets.map((v, index) => (
+                    {bullets.map((bullet) => (
                         <div
-                            key={`${UniversityName}-${Position}-${index}`}
+                            key={`${universityName}-${position}-${bullet}`}
                             className={styles.companyBullet}
                         >
-                            {v}
+                            {bullet}
                         </div>
                     ))}
                 </div>
             </div>
         );
-    };
-
-    const Master = {
-        UniversityName: 'Master Of Science',
-        Position: 'Computer Science Department',
-        Place: 'University of Crete, Heraklion, Greece',
-        Years: '02/2024 - 02/2026',
-        Bullets: [
-            'Major: Software Engineering and Programming Languages',
-            'Minor: High Performance Distributed Systems',
-            'CGPA 9.3/10',
-        ],
-        options: {
-            link: 'https://www.csd.uoc.gr/',
-        },
-    };
-
-    const Bachelor = {
-        UniversityName: 'Bachelor of Science',
-        Position: 'Computer Science Department',
-        Place: 'University of Crete, Heraklion, Greece',
-        Years: '09/2019 - 06/2023',
-        Bullets: ['Specialization: Software Engineering and Programming Languages', 'CGPA 8.05/10'],
-        options: {
-            link: 'https://www.csd.uoc.gr/',
-        },
     };
 
     return {
@@ -85,11 +50,6 @@ export const educationSection = () => {
         title: 'Education',
         titleClassName: styles.titleBodyRight,
         left: <EducationCard />,
-        right: (
-            <div className={styles.textBody}>
-                {buildUniversity(Master)}
-                {buildUniversity(Bachelor)}
-            </div>
-        ),
+        right: <div className={styles.textBody}>{education.map(buildUniversity)}</div>,
     };
 };

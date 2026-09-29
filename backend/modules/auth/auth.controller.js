@@ -1,90 +1,115 @@
 const jwt = require('jsonwebtoken');
-const { registerUser, loginUser } = require('./auth.service');
-
+const {
+    registerUser,
+    loginUser,
+    storeRefreshTokenHash,
+    validateRefreshToken,
+    clearRefreshToken,
+} = require('./auth.service');
 const { generateAccessToken, generateRefreshToken } = require('./auth.utils');
-
 const { registerSchema } = require('./validators/register.validator');
 const { loginSchema } = require('./validators/login.validator');
-
+const { env } = require('../../config/env');
 const { COOKIE_EXPIRATION } = require('../../utils/constants.utils');
 const { successResponse, errorResponse } = require('../../utils/apiResponse.utils');
+const { serializeUser } = require('../../utils/user.utils');
+
+const refreshCookieOptions = {
+    httpOnly: true,
+    secure: env.COOKIE_SECURE || env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    domain: env.COOKIE_DOMAIN || undefined,
+    path: '/api/auth',
+    maxAge: COOKIE_EXPIRATION,
+};
+
+const clearRefreshCookie = (res) => {
+    res.clearCookie('refreshToken', {
+        ...refreshCookieOptions,
+        maxAge: undefined,
+    });
+};
 
 const refresh = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+        return errorResponse(res, 'Authentication required', 401);
+    }
+
     try {
-        const refreshToken = req.cookies.refreshToken;
-
-        if (!refreshToken) {
-            errorResponse(res, 'No refresh token', 401);
-        }
-
-        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-
-        const accessToken = jwt.sign(
-            {
-                id: decoded.id,
-            },
-            process.env.JWT_ACCESS_SECRET,
-            {
-                expiresIn: '15m',
-            }
-        );
-
-        res.json({
-            accessToken,
+        const decoded = jwt.verify(refreshToken, env.JWT_REFRESH_SECRET, {
+            issuer: env.JWT_ISSUER,
+            audience: env.JWT_ACCESS_AUDIENCE,
         });
-    } catch (error) {
-        errorResponse(res, 'Invalid refresh token', 401);
+        const user = await validateRefreshToken(decoded.id, refreshToken);
+        const nextRefreshToken = generateRefreshToken(user);
+
+        await storeRefreshTokenHash(user, nextRefreshToken);
+        res.cookie('refreshToken', nextRefreshToken, refreshCookieOptions);
+
+        return successResponse(
+            res,
+            {
+                accessToken: generateAccessToken(user),
+                user: serializeUser(user),
+            },
+            'Session refreshed'
+        );
+    } catch {
+        clearRefreshCookie(res);
+        return errorResponse(res, 'Invalid or expired session', 401);
     }
 };
 
 const register = async (req, res) => {
     try {
-        const validatedData = registerSchema.parse(req.body);
-
-        const user = await registerUser(validatedData);
-
-        successResponse(res, user, 'User created', 201);
-    } catch (error) {
-        errorResponse(res, error.message, 400);
+        const user = await registerUser(registerSchema.parse(req.body));
+        return successResponse(res, serializeUser(user), 'User created', 201);
+    } catch {
+        return errorResponse(res, 'Unable to create user', 400);
     }
 };
 
 const login = async (req, res) => {
     try {
-        const validatedData = loginSchema.parse(req.body);
-
-        const user = await loginUser(req.body);
-
+        const user = await loginUser(loginSchema.parse(req.body));
         const accessToken = generateAccessToken(user);
-
         const refreshToken = generateRefreshToken(user);
 
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: COOKIE_EXPIRATION,
-        });
+        await storeRefreshTokenHash(user, refreshToken);
+        res.cookie('refreshToken', refreshToken, refreshCookieOptions);
 
-        const reply = {
-            accessToken,
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
+        return successResponse(
+            res,
+            {
+                accessToken,
+                user: serializeUser(user),
             },
-        };
-
-        successResponse(res, reply, 'Login Successful', 201);
-    } catch (error) {
-        errorResponse(res, error.message, 401);
+            'Login successful'
+        );
+    } catch {
+        return errorResponse(res, 'Invalid credentials', 401);
     }
 };
 
 const logout = async (req, res) => {
-    res.clearCookie('refreshToken');
+    const refreshToken = req.cookies.refreshToken;
 
-    successResponse(res, null, 'Logged out', 201);
+    if (refreshToken) {
+        try {
+            const decoded = jwt.verify(refreshToken, env.JWT_REFRESH_SECRET, {
+                issuer: env.JWT_ISSUER,
+                audience: env.JWT_ACCESS_AUDIENCE,
+            });
+            await clearRefreshToken(decoded.id);
+        } catch {
+            // Invalid and expired cookies are cleared just like active sessions.
+        }
+    }
+
+    clearRefreshCookie(res);
+    return successResponse(res, null, 'Logged out');
 };
 
 module.exports = {

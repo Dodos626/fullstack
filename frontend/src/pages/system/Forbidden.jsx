@@ -1,11 +1,12 @@
 import styles from './System.module.css';
-import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
+import { Button } from '../../components/buttons/Button';
+import { getPublicUrl, navigateToUrl } from '../../config/apps';
 
 export const Forbidden = () => {
     return (
         <div className={styles.systemPage}>
-            <div className={styles.title}>forbidden</div>
-            <BasicButton onClick={() => window.location.replace('/')}>home</BasicButton>
+            <h1 className={styles.title}>Forbidden</h1>
+            <Button onClick={() => navigateToUrl(getPublicUrl('/'), true)}>Home</Button>
         </div>
     );
 };

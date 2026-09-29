@@ -1,25 +1,40 @@
 const { apps } = require('../config/apps.config');
+const { errorResponse } = require('../utils/apiResponse.utils');
 
 const appAccess = (req, res, next) => {
-    const subdomain = req.subdomain;
+    const appName = req.subdomain || 'public';
+    const app = apps[appName];
 
-    if (!subdomain) {
-        return next();
-    }
-
-    const app = apps[subdomain];
-
-    if (!app) {
+    if (!Object.hasOwn(apps, appName)) {
         return res.status(404).json({
-            error: 'App not found',
+            success: false,
+            message: 'Application not found',
         });
     }
 
-    req.appConfig = app;
+    req.allowedRoles = app;
+    req.appName = appName;
 
-    next();
+    return next();
+};
+
+const enforceAppAccess = (req, res, next) => {
+    if (!req.allowedRoles) {
+        return next();
+    }
+
+    if (!req.user) {
+        return errorResponse(res, 'Authentication required', 401);
+    }
+
+    if (!req.allowedRoles.includes(req.user.role)) {
+        return errorResponse(res, 'Application access denied', 403);
+    }
+
+    return next();
 };
 
 module.exports = {
     appAccess,
+    enforceAppAccess,
 };

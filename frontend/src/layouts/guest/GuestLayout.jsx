@@ -1,38 +1,37 @@
-import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../../components/navbar/Navbar';
-import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
+import { Button } from '../../components/buttons/Button';
 import { useAuth } from '../../hooks/useAuth';
 import layoutStyles from '../Layout.module.css';
 import styles from './GuestLayout.module.css';
 import navbarStyles from '../../components/navbar/Navbar.module.css';
+import { buildUrl, getPublicUrl, navigateToUrl } from '../../config/apps';
 
 const guestLeftSide = [
-    { name: 'Guest', destination: '/guest', type: 'final' },
+    { name: 'Guest', destination: '/', type: 'final' },
     {
         name: 'Navigate',
         type: 'parent',
         options: [
-            { name: 'Home', destination: '/', type: 'final' },
-            { name: 'Admin', destination: '/admin', type: 'final' },
+            { name: 'User App', destination: buildUrl('user', '/'), type: 'external' },
+            { name: 'Portfolio', destination: getPublicUrl('/'), type: 'external' },
         ],
     },
 ];
 
 export const GuestLayout = ({ children }) => {
-    const navigate = useNavigate();
     const { user, logout } = useAuth();
 
     const handleLogout = async () => {
-        navigate('/', { replace: true });
         await logout();
+        navigateToUrl(getPublicUrl('/'), true);
     };
 
     const rightSide = () => (
         <div className={navbarStyles.navbarActions}>
             <span className={navbarStyles.navbarBadge}>{user?.role || 'guest'}</span>
-            <BasicButton className={navbarStyles.navbarGhost} onClick={handleLogout} type="button">
+            <Button className={navbarStyles.navbarGhost} onClick={handleLogout} type="button">
                 Logout
-            </BasicButton>
+            </Button>
         </div>
     );
 

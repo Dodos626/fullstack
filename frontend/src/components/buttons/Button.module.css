@@ -1,0 +1,43 @@
+.button {
+    padding: 9px 16px;
+    border: none;
+    border-radius: var(--navbar-button-radius);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    background: var(--button-surface);
+    color: var(--button-text);
+    box-shadow: var(--shadow-button);
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.button:hover:not(:disabled),
+.button.active {
+    background: color-mix(in hsl, var(--button-surface) 84%, white 16%);
+    color: var(--button-text);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
+}
+
+.button:focus-visible {
+    outline: 2px solid var(--button-focus);
+    outline-offset: 3px;
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.unstyled {
+    padding: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: inherit;
+    box-shadow: none;
+}

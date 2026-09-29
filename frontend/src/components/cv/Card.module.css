@@ -1,9 +1,12 @@
 .card {
     padding: 24px;
     border-radius: 12px;
-    background: var(--nav-bg);
-    color: var(--nav-text, #fefefe);
-    box-shadow: var(--shadow, 0 10px 22px rgba(0, 0, 0, 0.12));
+    background: var(--surface);
+    color: var(--letters-over-bg);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
     display: grid;
     gap: 16px;
 }
@@ -19,7 +22,7 @@
 
 .subtitle {
     margin: 0;
-    color: var(--letters-over-bg-opossite, #ffeae9);
+    color: inherit;
     opacity: 0.85;
 }
 

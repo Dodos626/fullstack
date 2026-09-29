@@ -1,28 +1,15 @@
 import styles from './Landing.module.css';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../../auth/AuthProvider';
-import { BasicButton } from '../../components/buttons/basic-button/BasicButton';
+import { Button } from '../../components/buttons/Button';
+import { buildUrl, getPublicUrl, navigateToUrl } from '../../config/apps';
 
 export const Admin = () => {
-    const navigate = useNavigate();
-    const { logout } = useContext(AuthContext);
-
-    const go = (path) => {
-        navigate(path, { replace: true });
-    };
-
-    const handleLogout = async () => {
-        // Navigate to landing immediately to avoid not-found after auth state clears
-        go('/');
-        await logout();
-    };
-
     return (
-        <div className={styles.landingPage}>
-            <div className={styles.title}>admin</div>
-            <BasicButton onClick={handleLogout}>logout</BasicButton>
-            <BasicButton onClick={() => go('/')}>home</BasicButton>
-        </div>
+        <section className={styles.landingPage}>
+            <h1 className={styles.title}>Admin application</h1>
+            <p>Manage platform features and access the role-specific applications.</p>
+            <Button onClick={() => navigateToUrl(buildUrl('user', '/'))}>User app</Button>
+            <Button onClick={() => navigateToUrl(buildUrl('guest', '/'))}>Guest app</Button>
+            <Button onClick={() => navigateToUrl(getPublicUrl('/'))}>Portfolio</Button>
+        </section>
     );
 };

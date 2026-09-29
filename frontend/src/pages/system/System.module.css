@@ -1,8 +1,17 @@
 .systemPage {
-    min-height: 100vh;
     display: grid;
     place-items: center;
     gap: 8px;
+    width: min(420px, calc(100% - 40px));
+    min-height: auto;
+    margin: 15vh auto;
+    padding: 40px 24px;
+    box-sizing: border-box;
+    border: 1px solid var(--surface-border);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
 }
 
 .title {

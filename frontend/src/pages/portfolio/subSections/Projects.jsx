@@ -1,65 +1,11 @@
 import styles from './subSections.module.css';
 import { FaGithub } from 'react-icons/fa';
 import { FilterTable } from '../../../components/table/FilterTable';
+import { projects } from '../../../data/portfolio';
 import { openInNewTab } from '../../../utils/utils';
+import { IconButton } from '../../../components/buttons/IconButton';
 
 export const Projects = () => {
-    const GahennPlains = {
-        projectName: 'Gahenn-Plains',
-        description:
-            'A configurable solar system simulation in Unity, implementing custom physics logic for orbital mechanics, system scaling, and real-time visualization.',
-        technologies: ['Unity', 'C#'],
-        github: 'https://github.com/Dodos626/Gahenn-Plains',
-    };
-
-    const SonicGame = {
-        projectName: 'Sonic Game',
-        description:
-            'Developed in colaboration from scratch, creating the engine using C++, includes shaders and advanced techniques for optimizations.',
-        technologies: ['C++'],
-        github: 'https://github.com/SoultatosStefanos/Sonic-the-Hedgehog',
-    };
-
-    const Compiler = {
-        projectName: 'Alpha Language Compiler and Virtual Machine',
-        description:
-            'Javascript like programming language with garbage collection developed in C, using YACC and LEX.',
-        technologies: ['C++', 'Yacc', 'Bison'],
-        github: 'https://github.com/aangelakis/AlphaCompiler',
-    };
-
-    const Fullstack = {
-        projectName: 'A full stack application',
-        description:
-            'The one you are currently browsing, containing my CV and other small applications for learning purposes.',
-        technologies: ['JavaScript', 'React', 'Node'],
-        github: 'https://github.com/Dodos626/fullstack',
-    };
-
-    const DatabasesSchool = {
-        projectName: 'Databases',
-        description: 'A university project of building a functioning banking-like system.',
-        technologies: ['Java', 'SQL'],
-        github: 'https://github.com/Dodos626/fullstack',
-    };
-
-    const WebDevSchool = {
-        projectName: 'Web dev class',
-        description:
-            'A project of a full stack application of doctor appointment platform, fully functioning with multiple roles. Also contains all exercises made as part of the course',
-        technologies: ['Java', 'SQL', 'HTML', 'JavaScript'],
-        github: 'https://github.com/Dodos626/fullstack',
-    };
-
-    const fullProjects = [
-        GahennPlains,
-        SonicGame,
-        Compiler,
-        Fullstack,
-        WebDevSchool,
-        DatabasesSchool,
-    ];
-
     const columns = [
         {
             header: 'Project',
@@ -102,13 +48,13 @@ export const Projects = () => {
             width: '5%',
             sticky: 'right',
             render: (project) => (
-                <button
+                <IconButton
                     type="button"
-                    className={`${styles.companyYears} ${styles.companyNameLink} ${styles.iconButton}`}
+                    className={styles.companyYears}
                     onClick={() => openInNewTab(project.github)}
                 >
                     <FaGithub size={30} />
-                </button>
+                </IconButton>
             ),
         },
     ];
@@ -120,7 +66,7 @@ export const Projects = () => {
             <div className={styles.textBody}>
                 <FilterTable
                     columns={columns}
-                    rows={fullProjects}
+                    rows={projects}
                     rowKey="projectName"
                     tagsKey="technologies"
                     pageSize={4}

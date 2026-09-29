@@ -1,7 +1,18 @@
 const app = require('./app');
+const { env } = require('../config/env');
+const { sequelize } = require('../models');
 
-const PORT = process.env.PORT || 5000;
+const startServer = async () => {
+    try {
+        await sequelize.authenticate();
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+        app.listen(env.PORT, () => {
+            console.log(`Server running on port ${env.PORT}`);
+        });
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+        process.exit(1);
+    }
+};
+
+startServer();

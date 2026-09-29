@@ -1,5 +1,4 @@
 :root {
-    /* MAIN THEME */
     --palette-color-a: #17bebb;
     --palette-color-b: #2e282a;
     --background-opossite: var(--palette-color-b);
@@ -13,8 +12,6 @@
     --palette-color-c-80: color-mix(in hsl, var(--palette-color-c) 80%, white 20%);
     --palette-color-c-90: color-mix(in hsl, var(--palette-color-c) 90%, rgb(255, 255, 255) 20%);
 
-    /* NAVBAR VARIABLES */
-
     --navbar-height: 60px;
     --navbar-button-radius: 6px;
 
@@ -24,24 +21,42 @@
     --nav-accent: var(--palette-color-c);
     --nav-border: var(--palette-color-c);
     --nav-pill: var(--palette-color-c-80);
+    --nav-divider: color-mix(in hsl, var(--nav-text) 24%, transparent);
+    --nav-button-bg: color-mix(in hsl, var(--nav-text) 8%, transparent);
+    --button-accent: var(--palette-color-c);
+    --button-surface: var(--palette-color-c);
+    --button-text: var(--letters-over-bg-opossite);
+    --button-accent-soft: color-mix(in hsl, var(--button-accent) 18%, var(--surface-strong));
+    --button-accent-text: var(--letters-over-bg-opossite);
+    --button-focus: var(--button-accent);
+    --chip-bg: color-mix(in hsl, var(--button-accent) 16%, var(--surface-strong));
+    --chip-text: var(--letters-over-bg);
+    --error-text: var(--palette-color-c);
 
-    --accent: var(--palette-color-a);
-    --accent-bg: color-mix(in hsl, var(--palette-color-a) 20%, transparent 80%);
-    --accent-border: color-mix(in hsl, var(--palette-color-a) 60%, white 40%);
     --border: color-mix(in hsl, var(--background-opossite) 20%, white 80%);
     --text-h: var(--background-opossite);
-    --social-bg: color-mix(in hsl, var(--palette-color-e) 80%, white 20%);
     --shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    --shadow-button: 0 5px 14px rgb(0 0 0 / 14%);
+    --shadow-button-hover: 0 8px 18px rgb(0 0 0 / 18%);
+    --shadow-navbar: 0 10px 32px rgb(0 0 0 / 9%);
+    --shadow-sticky: 6px 0 10px -8px rgb(0 0 0 / 40%);
+    --shadow-sticky-right: -6px 0 10px -8px rgb(0 0 0 / 40%);
+    --shadow-login: 0 24px 70px rgb(0 0 0 / 18%);
+    --surface: rgb(255 244 235 / 70%);
+    --surface-strong: rgb(255 248 242 / 88%);
+    --surface-border: rgb(46 40 42 / 18%);
+    --matrix-background: #f7e6d8;
+    --matrix-head: #fffaf6;
+    --matrix-primary: #0b8582;
+    --matrix-secondary: #b9482f;
+    --matrix-tail: #6b4a43;
     --heading: 'Space Grotesk', 'Segoe UI', sans-serif;
     --mono: ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, monospace;
     --code-bg: color-mix(in hsl, var(--palette-color-e) 70%, white 30%);
 
     --hyperlink-hover: var(--palette-color-c);
 
-    /* footer uses the same as navbar*/
     --footer-height: var(--navbar-height);
-
-    /* Layout variables */
     --layout-padding-top: 32px;
     --layout-padding-bottom: 32px;
     --layout-padding-left: 32px;
@@ -53,16 +68,39 @@
             var(--layout-padding-bottom)
     );
 
-    background: var(--main-bg-color);
+    background-color: var(--main-bg-color);
     color: var(--letters-over-bg);
 }
 
 :root[data-theme='night'] {
-    --palette-color-a: #521945;
-    --palette-color-b: #361f27;
-    --background-opossite: #361f27;
-    --palette-color-c: #912f56;
-    --main-bg-color: #0d090a;
-    --palette-color-e: #361f27;
-    --letters-over-bg: #eaf2ef;
+    --palette-color-a: #45d8d3;
+    --palette-color-b: #130f12;
+    --background-opossite: #f3e8ec;
+    --palette-color-c: #e47758;
+    --main-bg-color: #080b0d;
+    --palette-color-e: #2b1e24;
+    --letters-over-bg: #f3e8ec;
+    --letters-over-bg-opossite: #130f12;
+    --nav-bg: rgb(13 16 19 / 94%);
+    --nav-bg-80: rgb(28 31 35 / 92%);
+    --nav-text: #f3e8ec;
+    --nav-accent: var(--palette-color-c);
+    --nav-border: var(--palette-color-c);
+    --nav-pill: #b6553c;
+    --nav-divider: rgb(243 232 236 / 24%);
+    --nav-button-bg: rgb(243 232 236 / 8%);
+    --button-accent: var(--palette-color-a);
+    --button-surface: var(--palette-color-a);
+    --button-text: var(--letters-over-bg-opossite);
+    --border: rgb(243 232 236 / 20%);
+    --text-h: #f3e8ec;
+    --code-bg: rgb(69 216 211 / 12%);
+    --surface: rgb(12 17 20 / 76%);
+    --surface-strong: rgb(15 21 25 / 91%);
+    --surface-border: rgb(243 232 236 / 17%);
+    --matrix-background: #05090a;
+    --matrix-head: #ffffff;
+    --matrix-primary: #45d8d3;
+    --matrix-secondary: #e47758;
+    --matrix-tail: #74473d;
 }

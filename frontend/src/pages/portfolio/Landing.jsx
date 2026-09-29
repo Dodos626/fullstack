@@ -1,5 +1,4 @@
 import { SplitContainers } from '../../components/cv/SplitContainers';
-import styles from './Landing.module.css';
 import {
     educationSection,
     professionalExperienceSection,

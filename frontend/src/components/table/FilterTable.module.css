@@ -12,8 +12,8 @@
 }
 
 .tagButton {
-    border: 1px solid var(--background-opossite);
-    background: transparent;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-strong);
     color: var(--letters-over-bg);
     padding: 6px 14px;
     border-radius: 16px;
@@ -26,13 +26,20 @@
 
 .tagButton:hover {
     cursor: pointer;
-    border-color: var(--hyperlink-hover);
+    border-color: var(--button-accent);
+    background: color-mix(in hsl, var(--button-accent) 12%, var(--surface-strong));
 }
 
 .tagButtonActive {
-    background: var(--nav-bg);
-    color: var(--nav-text);
-    border-color: var(--nav-bg);
+    background: var(--button-accent);
+    color: var(--button-accent-text);
+    border-color: var(--button-accent);
+}
+
+.tagButton:focus-visible,
+.pageButton:focus-visible {
+    outline: 2px solid var(--button-focus);
+    outline-offset: 3px;
 }
 
 .table {
@@ -115,16 +122,16 @@
     position: sticky;
     left: 0;
     z-index: 3;
-    background: var(--background);
-    box-shadow: 6px 0 10px -8px rgba(0, 0, 0, 0.4);
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-sticky);
 }
 
 .stickyGroupRight {
     position: sticky;
     right: 0;
     z-index: 3;
-    background: var(--background);
-    box-shadow: -6px 0 10px -8px rgba(0, 0, 0, 0.4);
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-sticky-right);
 }
 
 .dataCell {
@@ -185,8 +192,8 @@
 }
 
 .pageButton {
-    border: 1px solid var(--background-opossite);
-    background: transparent;
+    border: 1px solid var(--surface-border);
+    background: var(--surface-strong);
     color: var(--letters-over-bg);
     padding: 6px 12px;
     border-radius: 12px;
@@ -203,8 +210,9 @@
 
 .pageButton:not(:disabled):hover {
     cursor: pointer;
-    border-color: var(--hyperlink-hover);
-    color: var(--hyperlink-hover);
+    border-color: var(--button-accent);
+    background: color-mix(in hsl, var(--button-accent) 12%, var(--surface-strong));
+    color: var(--letters-over-bg);
 }
 
 .pageIndicator {

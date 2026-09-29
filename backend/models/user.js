@@ -3,9 +3,7 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class User extends Model {
-        static associate(models) {}
-    }
+    class User extends Model {}
 
     User.init(
         {
@@ -27,8 +25,17 @@ module.exports = (sequelize, DataTypes) => {
             },
 
             role: {
-                type: DataTypes.ENUM('admin', 'user', 'guest'),
+                type: DataTypes.STRING,
+                allowNull: false,
                 defaultValue: 'user',
+                validate: {
+                    isIn: [['admin', 'user', 'guest']],
+                },
+            },
+
+            refreshTokenHash: {
+                type: DataTypes.STRING,
+                allowNull: true,
             },
         },
         {

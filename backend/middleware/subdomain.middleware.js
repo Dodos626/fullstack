@@ -1,17 +1,23 @@
 const extractSubdomain = (req, res, next) => {
-    const host = req.hostname;
+    const host = req.hostname.toLowerCase();
+    const rootDomain = process.env.APP_ROOT_DOMAIN || 'lvh.me';
+    const requestedApp = req.get('x-app-name')?.toLowerCase();
 
-    const parts = host.split('.');
-
-    let subdomain = null;
-
-    if (parts.length > 2) {
-        subdomain = parts[0];
+    if (['public', 'user', 'guest', 'admin'].includes(requestedApp)) {
+        req.subdomain = requestedApp === 'public' ? null : requestedApp;
+        return next();
     }
 
-    req.subdomain = subdomain;
+    if (host === rootDomain || host === 'localhost' || host === '127.0.0.1') {
+        req.subdomain = null;
+        return next();
+    }
 
-    next();
+    req.subdomain = host.endsWith(`.${rootDomain}`)
+        ? host.slice(0, -(rootDomain.length + 1))
+        : null;
+
+    return next();
 };
 
 module.exports = {

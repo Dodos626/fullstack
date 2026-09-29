@@ -1,11 +1,21 @@
 .landingPage {
-    min-height: 100vh;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     place-items: center;
-    gap: 8px;
+    align-items: center;
+    gap: 16px;
+    max-width: 560px;
+    text-align: center;
+    padding: 32px;
+    border: 1px solid var(--surface-border);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px) saturate(125%);
+    -webkit-backdrop-filter: blur(18px) saturate(125%);
 }
 
 .title {
-    font-size: 24px;
+    font-size: 36px;
     letter-spacing: 1px;
 }

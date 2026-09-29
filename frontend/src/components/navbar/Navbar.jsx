@@ -1,11 +1,19 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ComicButton } from '../buttons/comic-button/comic-button';
+import { Button } from '../buttons/Button';
 import styles from './Navbar.module.css';
 
 export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const renderRightSide = typeof rightSide === 'function' ? rightSide() : rightSide;
+    const goTo = (item) => {
+        if (item?.type === 'external') {
+            window.location.assign(item.destination);
+            return;
+        }
+
+        navigate(item.destination);
+    };
     const isPathActive = (target) => {
         if (!target) {
             return false;
@@ -32,7 +40,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
 
                         return (
                             <div className={styles.navbarParent} key={key}>
-                                <ComicButton
+                                <Button
                                     className={[
                                         styles.navbarButton,
                                         styles.navbarParentButton,
@@ -41,7 +49,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                     ]
                                         .filter(Boolean)
                                         .join(' ')}
-                                    isActive={hasActiveChild}
+                                    active={hasActiveChild}
                                     type="button"
                                 >
                                     {item?.icon ? (
@@ -49,10 +57,10 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                     ) : null}
                                     <span className={styles.navbarLabel}>{item?.name}</span>
                                     <span className={styles.navbarCaret} aria-hidden="true" />
-                                </ComicButton>
+                                </Button>
                                 <div className={styles.navbarMenu} role="menu">
                                     {(item?.options || []).map((option, optionIndex) => (
-                                        <ComicButton
+                                        <Button
                                             key={`${key}-option-${optionIndex}`}
                                             className={[
                                                 styles.navbarButton,
@@ -63,9 +71,9 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                             ]
                                                 .filter(Boolean)
                                                 .join(' ')}
-                                            isActive={isPathActive(option.destination)}
+                                            active={isPathActive(option.destination)}
                                             type="button"
-                                            onClick={() => navigate(option.destination)}
+                                            onClick={() => goTo(option)}
                                         >
                                             {option?.icon ? (
                                                 <span className={styles.navbarIcon}>
@@ -75,7 +83,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                             <span className={styles.navbarLabel}>
                                                 {option?.name}
                                             </span>
-                                        </ComicButton>
+                                        </Button>
                                     ))}
                                 </div>
                             </div>
@@ -83,7 +91,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                     }
 
                     return (
-                        <ComicButton
+                        <Button
                             key={key}
                             className={[
                                 styles.navbarButton,
@@ -93,15 +101,15 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                             ]
                                 .filter(Boolean)
                                 .join(' ')}
-                            isActive={isPathActive(item.destination)}
+                            active={isPathActive(item.destination)}
                             type="button"
-                            onClick={() => navigate(item.destination)}
+                            onClick={() => goTo(item)}
                         >
                             {item?.icon ? (
                                 <span className={styles.navbarIcon}>{item.icon}</span>
                             ) : null}
                             <span className={styles.navbarLabel}>{item?.name}</span>
-                        </ComicButton>
+                        </Button>
                     );
                 })}
             </div>

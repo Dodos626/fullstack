@@ -1,58 +1,21 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useState } from 'react';
 
-const DAY_MODE_COOKIE = 'dayMode';
-const DAY_MODE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
+const THEME_MODE_STORAGE_KEY = 'themeMode';
 
-const readDayModeCookie = () => {
-    if (typeof document === 'undefined') {
-        return null;
-    }
-
-    const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
-    const match = cookies.find((cookie) => cookie.startsWith(`${DAY_MODE_COOKIE}=`));
-    if (!match) {
-        return null;
-    }
-
-    const value = match.split('=')[1];
-    if (value === 'day') {
-        return true;
-    }
-
-    if (value === 'night') {
-        return false;
-    }
-
-    return null;
-};
-
-const writeDayModeCookie = (isDayMode) => {
-    if (typeof document === 'undefined') {
-        return;
-    }
-
-    const value = isDayMode ? 'day' : 'night';
-    document.cookie = `${DAY_MODE_COOKIE}=${value}; Path=/; Max-Age=${DAY_MODE_MAX_AGE_SECONDS}`;
-};
-
-const getSystemPreferredDayMode = () => {
-    if (typeof window === 'undefined' || !window.matchMedia) {
-        return true;
+const getInitialDayMode = () => {
+    try {
+        const storedMode = window.localStorage.getItem(THEME_MODE_STORAGE_KEY);
+        if (storedMode === 'day' || storedMode === 'night') {
+            return storedMode === 'day';
+        }
+    } catch {
+        // Use the system preference when storage is unavailable.
     }
 
     return !window.matchMedia('(prefers-color-scheme: dark)').matches;
 };
 
-const getInitialDayMode = () => {
-    const cookieValue = readDayModeCookie();
-    return cookieValue === null ? getSystemPreferredDayMode() : cookieValue;
-};
-
 const applyThemeToDocument = (isDayMode) => {
-    if (typeof document === 'undefined') {
-        return;
-    }
-
     document.documentElement.dataset.theme = isDayMode ? 'day' : 'night';
 };
 
@@ -62,35 +25,27 @@ applyThemeToDocument(initialDayMode);
 export const DayModeContext = createContext();
 
 export const DayModeProvider = ({ children }) => {
-    const [dayMode, setDayMode] = useState(() => initialDayMode);
+    const [dayMode, setDayMode] = useState(initialDayMode);
 
     const toggleDayMode = useCallback(() => {
         setDayMode((current) => {
             const nextValue = !current;
-            writeDayModeCookie(nextValue);
+            const mode = nextValue ? 'day' : 'night';
+
+            try {
+                window.localStorage.setItem(THEME_MODE_STORAGE_KEY, mode);
+            } catch {
+                // Theme still works for the current session when storage is unavailable.
+            }
+
+            applyThemeToDocument(nextValue);
             return nextValue;
         });
     }, []);
 
-    const updateDayMode = useCallback((value) => {
-        setDayMode(() => {
-            writeDayModeCookie(value);
-            return value;
-        });
-    }, []);
-
-    const value = useMemo(
-        () => ({
-            dayMode,
-            setDayMode: updateDayMode,
-            toggleDayMode,
-        }),
-        [dayMode, toggleDayMode, updateDayMode]
+    return (
+        <DayModeContext.Provider value={{ dayMode, toggleDayMode }}>
+            {children}
+        </DayModeContext.Provider>
     );
-
-    useEffect(() => {
-        applyThemeToDocument(dayMode);
-    }, [dayMode]);
-
-    return <DayModeContext.Provider value={value}>{children}</DayModeContext.Provider>;
 };
