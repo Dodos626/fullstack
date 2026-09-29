@@ -10,11 +10,12 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { MdEmail, MdNightlight, MdSunny } from 'react-icons/md';
 import { openInNewTab, sendEmail } from '../../utils/utils';
 import { Footer } from '../../components/footer/Footer';
+import { isDeployment } from '../../config/features';
 
 const publicLeftSide = [
     { name: 'Home', destination: '/', type: 'final' },
-    { name: 'Login', destination: '/login', type: 'final' },
     { name: 'Projects', destination: '/projects', type: 'final' },
+    ...(!isDeployment ? [{ name: 'Login', destination: '/login', type: 'final' }] : []),
     // { name: 'Communicate', destination: '/communicate', type: 'final' },
 ];
 
