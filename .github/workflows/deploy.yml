@@ -1,0 +1,67 @@
+name: Deploy
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: production-deploy
+    cancel-in-progress: false
+
+jobs:
+    deploy:
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        env:
+            DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+            DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+            DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+            DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        steps:
+            - uses: actions/checkout@v4
+            - name: Configure SSH
+              run: |
+                  set -euo pipefail
+                  : "${DEPLOY_HOST:?Set DEPLOY_HOST}"
+                  : "${DEPLOY_USER:?Set DEPLOY_USER}"
+                  : "${DEPLOY_SSH_KEY:?Set DEPLOY_SSH_KEY}"
+                  : "${DEPLOY_KNOWN_HOSTS:?Set DEPLOY_KNOWN_HOSTS}"
+                  install -m 700 -d ~/.ssh
+                  printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+                  printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+                  chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+            - name: Upload and deploy exact commit
+              env:
+                  APP_DOMAIN: ${{ secrets.APP_DOMAIN || vars.APP_DOMAIN }}
+                  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+                  JWT_ACCESS_SECRET: ${{ secrets.JWT_ACCESS_SECRET }}
+                  JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+              run: |
+                  set -euo pipefail
+                  : "${APP_DOMAIN:?Set the APP_DOMAIN repository secret or variable}"
+                  : "${DB_PASSWORD:?Set DB_PASSWORD secret}"
+                  : "${JWT_ACCESS_SECRET:?Set JWT_ACCESS_SECRET secret}"
+                  : "${JWT_REFRESH_SECRET:?Set JWT_REFRESH_SECRET secret}"
+                  # Restrict inputs to unambiguous dotenv values; never execute them as shell code.
+                  [[ "$APP_DOMAIN" =~ ^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$ ]] || { echo 'Invalid APP_DOMAIN'; exit 1; }
+                  for value in "$DB_PASSWORD" "$JWT_ACCESS_SECRET" "$JWT_REFRESH_SECRET"; do
+                      [[ "$value" =~ ^[a-fA-F0-9]{64}$ ]] || { echo 'App secrets must each be 64 hexadecimal characters'; exit 1; }
+                  done
+                  target="$DEPLOY_USER@$DEPLOY_HOST"
+                  release="/opt/fullstack/releases/$GITHUB_SHA"
+                  ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" 'bash -s' < deploy/bootstrap.sh
+                  ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" "mkdir -p '$release'"
+                  git archive HEAD | ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" "tar -x -C '$release'"
+                  printf 'APP_DOMAIN=%s\nDB_PASSWORD=%s\nJWT_ACCESS_SECRET=%s\nJWT_REFRESH_SECRET=%s\n' \
+                      "$APP_DOMAIN" "$DB_PASSWORD" "$JWT_ACCESS_SECRET" "$JWT_REFRESH_SECRET" |
+                      ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" \
+                          'umask 077; tmp=$(mktemp /opt/fullstack/.env.XXXXXX) && cat > "$tmp" && mv -f "$tmp" /opt/fullstack/.env'
+                  ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$target" "bash '$release/deploy/deploy.sh'"
+            - name: Remove SSH credentials
+              if: always()
+              run: rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts

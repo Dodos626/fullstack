@@ -331,3 +331,7 @@ The repository is still under active development. Current limitations include:
 - Expand the role-specific application areas.
 - Expand automated coverage with database-backed API and frontend interaction tests.
 - Continue refining the portfolio and project-table UI.
+# Production deployment
+
+For automatic deployment from `main` to an Ubuntu server on Hetzner, see
+[the deployment setup guide](deploy/README.md).

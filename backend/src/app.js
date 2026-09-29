@@ -14,6 +14,7 @@ const userRoutes = require('../modules/users/users.routes');
 const { errorHandler } = require('../middleware/error.middleware');
 
 const app = express();
+app.set('trust proxy', env.TRUST_PROXY_HOPS);
 
 app.use(
     cors({
