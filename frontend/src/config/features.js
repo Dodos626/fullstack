@@ -1,3 +1,3 @@
-const isDeployment = import.meta.env.VITE_IS_DEPLOYMENT === 'true';
+const isDevMode = import.meta.env.VITE_APP_MODE?.trim().toLowerCase() === 'dev';
 
-export { isDeployment };
+export { isDevMode };

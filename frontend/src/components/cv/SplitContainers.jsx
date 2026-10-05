@@ -31,6 +31,8 @@ export const SplitContainers = ({ sections = [] }) => {
                 const { left, right } = toRatio(section.ratio);
                 const isRightSticky = section.stickySide !== 'left';
                 const showTitle = Boolean(section.title);
+                const mobileOrderClass =
+                    section.mobileStackOrder === 'right-first' ? styles.mobileRightFirst : null;
                 const titleClassName = [styles.sectionTitle, section.titleClassName]
                     .filter(Boolean)
                     .join(' ');
@@ -43,7 +45,9 @@ export const SplitContainers = ({ sections = [] }) => {
                             </div>
                         )}
                         <section
-                            className={styles.splitRow}
+                            className={[styles.splitRow, mobileOrderClass]
+                                .filter(Boolean)
+                                .join(' ')}
                             style={{
                                 '--split-left': left,
                                 '--split-right': right,

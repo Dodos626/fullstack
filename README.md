@@ -277,12 +277,16 @@ Copy `frontend/.env.example` to `frontend/.env`. The development defaults are:
 
 ```env
 VITE_API_URL=http://lvh.me:5000/api
+VITE_APP_MODE=dev
 VITE_APP_ROOT_DOMAIN=lvh.me
 VITE_APP_MAIN_URL=http://lvh.me:5173
 VITE_APP_USER_URL=http://user.lvh.me:5173
 VITE_APP_GUEST_URL=http://guest.lvh.me:5173
 VITE_APP_ADMIN_URL=http://admin.lvh.me:5173
 ```
+
+`VITE_APP_MODE=dev` enables the login navigation item, `/login` route, and frontend login flow.
+Leave it unset, or set it to any other value, to keep login disabled.
 
 Development hosts map to the applications as follows:
 

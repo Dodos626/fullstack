@@ -46,6 +46,7 @@ export const educationSection = () => {
         id: 'education',
         stickySide: 'left',
         ratio: [40, 60],
+        mobileStackOrder: 'right-first',
 
         title: 'Education',
         titleClassName: styles.titleBodyRight,

@@ -153,6 +153,30 @@
     gap: 10px;
 }
 
+@media (max-width: 768px) {
+    .titlePage,
+    .titleBody,
+    .titleBodyRight,
+    .textBody,
+    .company,
+    .companyBullet,
+    .projectDescription {
+        letter-spacing: normal;
+    }
+
+    .companyBullet,
+    .projectDescription {
+        text-align: left;
+    }
+
+    .companyHeaderRow,
+    .companyRoleRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}
+
 /* Utils */
 .placeYearContainer {
     display: flex;

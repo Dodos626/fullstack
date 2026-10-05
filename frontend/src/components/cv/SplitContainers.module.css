@@ -66,6 +66,14 @@
         grid-template-columns: minmax(0, 1fr);
     }
 
+    .mobileRightFirst .mainColumn {
+        order: 1;
+    }
+
+    .mobileRightFirst .stickyColumn {
+        order: 2;
+    }
+
     .stickyColumn > * {
         position: static;
     }

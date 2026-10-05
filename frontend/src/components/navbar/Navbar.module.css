@@ -22,6 +22,16 @@
     gap: 6px;
 }
 
+.navbarLinks {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.navbarMobileToggle {
+    display: none;
+}
+
 .navbarButton {
     font-size: 14px;
     font-weight: 650;
@@ -165,25 +175,108 @@
 
 @media (max-width: 900px) {
     .navbar {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-        padding: 16px 18px;
+        gap: 10px;
+        padding: 12px 14px;
     }
 
-    .navbarLeft,
-    .navbarRight {
-        flex-wrap: wrap;
+    .navbarLeft {
+        position: relative;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .navbarMobileToggle {
+        display: inline-flex;
+        align-items: center;
         justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+    }
+
+    .navbarMobileToggle svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .navbarLinks {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+        min-width: 180px;
+        padding: 8px;
+        border: 1px solid var(--surface-border);
+        border-radius: var(--navbar-button-radius);
+        background: var(--nav-bg);
+        box-shadow: var(--shadow-navbar);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition:
+            opacity 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .navbarLeftOpen .navbarLinks {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .navbarLinks > .navbarButton,
+    .navbarLinks > .navbarParent {
+        width: 100%;
+    }
+
+    .navbarLinks > .navbarButton {
+        justify-content: flex-start;
     }
 
     .navbarMenu {
-        left: 50%;
-        transform: translate(-50%, -6px);
+        left: calc(100% + 5px);
+        top: 0;
+        transform: translateY(-6px);
     }
 
     .navbarParent:hover .navbarMenu,
     .navbarParent:focus-within .navbarMenu {
-        transform: translate(-50%, 0);
+        transform: translateY(0);
+    }
+
+    .navbarRight {
+        flex: 0 1 auto;
+        gap: clamp(4px, 1.5vw, 10px);
+    }
+
+    .navbarActions {
+        gap: clamp(4px, 1.5vw, 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .navbarActions {
+        gap: 4px;
+        letter-spacing: normal;
+    }
+
+    .navbarActions svg {
+        width: clamp(18px, 6vw, 24px);
+        height: clamp(18px, 6vw, 24px);
+    }
+
+    .navbarActions > div:nth-child(2),
+    .navbarActions > div:nth-child(6) {
+        display: none;
+    }
+
+    .navbarActions > div:first-child {
+        display: block;
+        font-size: clamp(11px, 3.5vw, 16px);
+        white-space: nowrap;
     }
 }

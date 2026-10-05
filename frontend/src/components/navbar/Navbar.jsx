@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { MdClose, MdMenu } from 'react-icons/md';
 import { Button } from '../buttons/Button';
 import styles from './Navbar.module.css';
 
 export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
     const renderRightSide = typeof rightSide === 'function' ? rightSide() : rightSide;
@@ -28,7 +31,20 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
 
     return (
         <nav className={styles.navbar}>
-            <div className={styles.navbarLeft}>
+            <div
+                className={`${styles.navbarLeft} ${isMobileMenuOpen ? styles.navbarLeftOpen : ''}`}
+            >
+                <Button
+                    className={styles.navbarMobileToggle}
+                    type="button"
+                    aria-expanded={isMobileMenuOpen}
+                    aria-controls="mobile-navigation-menu"
+                    aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                    onClick={() => setIsMobileMenuOpen((open) => !open)}
+                >
+                    {isMobileMenuOpen ? <MdClose aria-hidden="true" /> : <MdMenu aria-hidden="true" />}
+                </Button>
+                <div id="mobile-navigation-menu" className={styles.navbarLinks}>
                 {leftSide.map((item, index) => {
                     const key = `${item?.name || 'item'}-${index}`;
                     const firstItemClass = index === 0 ? styles.navbarFirstItem : null;
@@ -112,6 +128,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                         </Button>
                     );
                 })}
+                </div>
             </div>
             <div className={styles.navbarRight}>{renderRightSide}</div>
         </nav>
