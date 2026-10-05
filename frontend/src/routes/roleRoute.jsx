@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { getPublicUrl, navigateToUrl } from '../config/apps';
+import { isDevMode } from '../config/features';
 import { useAuth } from '../hooks/useAuth';
 
 export const RoleRoute = ({ allowedRoles, children }) => {
@@ -12,7 +13,7 @@ export const RoleRoute = ({ allowedRoles, children }) => {
         }
 
         if (!isAuthenticated) {
-            navigateToUrl(getPublicUrl('/login'), true);
+            navigateToUrl(getPublicUrl(isDevMode ? '/login' : '/'), true);
             return;
         }
 

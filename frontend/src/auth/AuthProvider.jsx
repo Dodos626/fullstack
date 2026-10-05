@@ -5,6 +5,7 @@ import api, {
     setAuthFailureHandler,
 } from '../api/client';
 import { getPublicUrl, navigateToUrl } from '../config/apps';
+import { isDevMode } from '../config/features';
 
 export const AuthContext = createContext();
 
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
         setAuthFailureHandler(() => {
             setAccessToken(null);
             setUser(null);
-            navigateToUrl(getPublicUrl('/login'), true);
+            navigateToUrl(getPublicUrl(isDevMode ? '/login' : '/'), true);
         });
     }, []);
 
@@ -43,6 +44,10 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = useCallback(async (email, password) => {
+        if (!isDevMode) {
+            throw 'Login is disabled outside development mode';
+        }
+
         try {
             const response = await api.post('/auth/login', { email, password });
             const { accessToken: token, user: userData } = response.data.data;

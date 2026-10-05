@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getCurrentApp, getPublicUrl, navigateToUrl } from '../config/apps';
+import { isDevMode } from '../config/features';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://lvh.me:5000/api';
 
@@ -63,7 +64,7 @@ api.interceptors.response.use(
                 if (authFailureHandler) {
                     authFailureHandler(refreshError);
                 } else {
-                    navigateToUrl(getPublicUrl('/login'), true);
+                    navigateToUrl(getPublicUrl(isDevMode ? '/login' : '/'), true);
                 }
             }
         }
