@@ -15,6 +15,7 @@ import { isDevMode } from '../../config/features';
 const publicLeftSide = [
     { name: 'Home', destination: '/', type: 'final' },
     { name: 'Projects', destination: '/projects', type: 'final' },
+    { name: 'About', destination: '/about', type: 'final' },
     ...(isDevMode ? [{ name: 'Login', destination: '/login', type: 'final' }] : []),
     // { name: 'Communicate', destination: '/communicate', type: 'final' },
 ];
@@ -22,9 +23,20 @@ const publicLeftSide = [
 export const PublicLayout = ({ children }) => {
     const { dayMode, toggleDayMode } = useDayMode();
 
-    const buildButton = (Icon, size, onClick, label) => {
+    const buildButton = (Icon, size, onClick, label, mobilePriority = false) => {
         return (
-            <IconButton type="button" onClick={onClick} aria-label={label}>
+            <IconButton
+                type="button"
+                className={[
+                    navbarStyles.navbarActionButton,
+                    mobilePriority ? navbarStyles.navbarActionMobilePriority : null,
+                ]
+                    .filter(Boolean)
+                    .join(' ')}
+                onClick={onClick}
+                aria-label={label}
+                title={label}
+            >
                 <Icon size={size} aria-hidden="true" />
             </IconButton>
         );
@@ -32,14 +44,23 @@ export const PublicLayout = ({ children }) => {
 
     const rightSide = () => (
         <div className={navbarStyles.navbarActions}>
-            <div className={styles.name}>Chalkidis Theodoros</div>
-            <div className={styles.seperator}></div>
-            {buildButton(MdEmail, 30, sendEmail, 'Send email')}
+            <div className={`${styles.name} ${navbarStyles.navbarIdentity}`}>
+                Chalkidis Theodoros
+            </div>
+            <div className={`${styles.seperator} ${navbarStyles.navbarSeparator}`}></div>
+            {buildButton(
+                MdEmail,
+                30,
+                sendEmail,
+                'Send email',
+                true
+            )}
             {buildButton(
                 FaGithub,
                 25,
                 () => openInNewTab('https://github.com/dodos626'),
-                'Open GitHub profile'
+                'Open GitHub profile',
+                true
             )}
             {buildButton(
                 FaLinkedin,
@@ -47,7 +68,7 @@ export const PublicLayout = ({ children }) => {
                 () => openInNewTab('https://www.linkedin.com/in/theodoros-chalkidis-a76879245/'),
                 'Open LinkedIn profile'
             )}
-            <div className={styles.seperator}></div>
+            <div className={`${styles.seperator} ${navbarStyles.navbarSeparator}`}></div>
             {buildButton(
                 dayMode ? MdNightlight : MdSunny,
                 25,

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080b0d"/>
+      <stop offset="1" stop-color="#152326"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#45d8d3"/>
+      <stop offset="1" stop-color="#e47758"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity=".13" fill="#45d8d3" font-family="monospace" font-size="28">
+    <text x="65" y="70">101101  SYSTEMS  REACT  NODE  C++  COMPILERS</text>
+    <text x="100" y="560">DISTRIBUTED  SOFTWARE  ARCHITECTURE  010011</text>
+  </g>
+  <rect x="72" y="82" width="9" height="466" rx="4.5" fill="url(#accent)"/>
+  <text x="125" y="225" fill="#f3e8ec" font-family="Arial, sans-serif" font-size="72" font-weight="700">Theodoros Chalkidis</text>
+  <text x="125" y="305" fill="#45d8d3" font-family="Arial, sans-serif" font-size="38" font-weight="600">Software Engineer</text>
+  <text x="125" y="380" fill="#f3e8ec" opacity=".88" font-family="Arial, sans-serif" font-size="31">Full-stack products · Distributed systems</text>
+  <text x="125" y="428" fill="#f3e8ec" opacity=".88" font-family="Arial, sans-serif" font-size="31">Compilers · Graphics programming</text>
+</svg>

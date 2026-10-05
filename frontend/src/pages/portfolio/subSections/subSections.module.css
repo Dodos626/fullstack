@@ -42,6 +42,7 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+    min-width: 0;
 }
 
 .companyHeaderRow {
@@ -55,6 +56,8 @@
     width: fit-content;
     font-family: var(--heading);
     font-size: 25px;
+    max-width: 100%;
+    overflow-wrap: anywhere;
 }
 
 .companyYears {
@@ -119,6 +122,7 @@
 .projectDescription {
     font-size: larger;
     text-align: justify;
+    overflow-wrap: anywhere;
 }
 
 .projectTechnologiesContainer {
@@ -134,6 +138,62 @@
     border-radius: 12px;
     background-color: var(--nav-bg);
     color: var(--nav-text);
+}
+
+.projectActions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.projectTableName {
+    font-size: 18px;
+    line-height: 1.3;
+}
+
+.projectTableDescription {
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.projectDetailsLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 0 12px;
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    background: var(--surface-strong);
+    color: var(--letters-over-bg);
+    font-family: var(--heading);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.projectDetailsLink:hover {
+    border-color: var(--button-accent);
+    color: var(--button-accent);
+}
+
+.projectActionButton {
+    min-width: 42px;
+    min-height: 38px;
+    padding: 0 12px !important;
+    border: 1px solid var(--surface-border) !important;
+    border-radius: 999px !important;
+    background: var(--surface-strong) !important;
+    color: var(--letters-over-bg) !important;
+}
+
+.projectActionButton:hover,
+.projectActionButton:focus-visible {
+    border-color: var(--button-accent) !important;
+    background: color-mix(in srgb, var(--button-accent) 12%, var(--surface-strong)) !important;
+    color: var(--button-accent) !important;
 }
 
 .seeMore {
@@ -174,6 +234,39 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .textBody {
+        gap: 16px;
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .titlePage,
+    .titleBody,
+    .titleBodyRight {
+        max-width: 100%;
+        font-size: clamp(30px, 10vw, 40px);
+        overflow-wrap: anywhere;
+    }
+
+    .companyName {
+        font-size: 22px;
+    }
+
+    .projectTableName {
+        font-size: 17px;
+    }
+
+    .projectTableDescription {
+        font-size: 14px;
+    }
+
+    .projectTechnologiesContainer {
+        align-items: flex-start;
     }
 }
 

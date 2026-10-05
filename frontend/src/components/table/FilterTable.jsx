@@ -223,7 +223,7 @@ export const FilterTable = ({
                                         key={column.key}
                                         className={`${styles.headerCell} ${styles.cellStickyLeft}`}
                                     >
-                                        {column.header}
+                                        {column.header ?? ''}
                                     </div>
                                 ))}
                             </div>
@@ -234,7 +234,7 @@ export const FilterTable = ({
                         >
                             {middleColumns.map((column) => (
                                 <div key={column.key} className={styles.headerCell}>
-                                    {column.header}
+                                    {column.header ?? ''}
                                 </div>
                             ))}
                         </div>
@@ -248,7 +248,7 @@ export const FilterTable = ({
                                         key={column.key}
                                         className={`${styles.headerCell} ${styles.cellStickyRight}`}
                                     >
-                                        {column.header}
+                                        {column.header ?? ''}
                                     </div>
                                 ))}
                             </div>
@@ -280,9 +280,11 @@ export const FilterTable = ({
                                                         styles.cellStickyLeft
                                                     }`}
                                                 >
-                                                    <span className={styles.cellLabel}>
-                                                        {column.header}
-                                                    </span>
+                                                    {column.header && (
+                                                        <span className={styles.cellLabel}>
+                                                            {column.header}
+                                                        </span>
+                                                    )}
                                                     <span className={styles.cellValue}>
                                                         {column.render
                                                             ? column.render(row)
@@ -300,9 +302,11 @@ export const FilterTable = ({
                                     >
                                         {middleColumns.map((column) => (
                                             <div key={column.key} className={styles.dataCell}>
-                                                <span className={styles.cellLabel}>
-                                                    {column.header}
-                                                </span>
+                                                {column.header && (
+                                                    <span className={styles.cellLabel}>
+                                                        {column.header}
+                                                    </span>
+                                                )}
                                                 <span className={styles.cellValue}>
                                                     {column.render
                                                         ? column.render(row)
@@ -326,9 +330,11 @@ export const FilterTable = ({
                                                         styles.cellStickyRight
                                                     }`}
                                                 >
-                                                    <span className={styles.cellLabel}>
-                                                        {column.header}
-                                                    </span>
+                                                    {column.header && (
+                                                        <span className={styles.cellLabel}>
+                                                            {column.header}
+                                                        </span>
+                                                    )}
                                                     <span className={styles.cellValue}>
                                                         {column.render
                                                             ? column.render(row)

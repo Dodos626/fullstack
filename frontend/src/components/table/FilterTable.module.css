@@ -139,6 +139,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
 }
 
 .cellLabel {
@@ -153,7 +154,9 @@
 
 .cellValue {
     display: block;
+    min-width: 0;
     text-align: left;
+    overflow-wrap: anywhere;
 }
 
 .cellStickyLeft {
@@ -282,5 +285,20 @@
         position: static;
         box-shadow: none;
         background: transparent;
+    }
+}
+
+@media (max-width: 480px) {
+    .dataCell {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 4px;
+    }
+
+    .tagsRow {
+        gap: 6px;
+    }
+
+    .tagButton {
+        padding: 7px 11px;
     }
 }

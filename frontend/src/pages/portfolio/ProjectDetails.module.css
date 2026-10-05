@@ -1,0 +1,155 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+.backButton,
+.repositoryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 9px;
+    min-height: 44px;
+    width: fit-content;
+    padding: 0 17px;
+    border: 1px solid var(--surface-border);
+    border-radius: 999px;
+    background: var(--surface-strong);
+    color: var(--letters-over-bg);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.backButton:hover,
+.repositoryButton:hover {
+    border-color: var(--button-accent);
+    color: var(--button-accent);
+}
+
+.header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding: clamp(24px, 5vw, 48px);
+    border: 1px solid var(--surface-border);
+    border-radius: 24px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px) saturate(125%);
+    min-width: 0;
+}
+
+.header > div {
+    min-width: 0;
+}
+
+.header h1 {
+    max-width: 800px;
+    margin: 12px 0;
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+}
+
+.header p {
+    max-width: 720px;
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.6;
+}
+
+.kicker {
+    color: var(--button-accent);
+    font-family: var(--heading);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.technologyList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.technologyList span {
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--nav-bg);
+    color: var(--nav-text);
+    font-weight: 600;
+}
+
+.contentGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    gap: 24px;
+}
+
+.contentPanel,
+.notFound {
+    padding: 28px;
+    border: 1px solid var(--surface-border);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.contentPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contentPanel h2 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.contentPanel p,
+.contentPanel li {
+    line-height: 1.75;
+}
+
+.contentPanel ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding-left: 22px;
+}
+
+.notFound {
+    display: grid;
+    gap: 16px;
+    place-items: start;
+}
+
+@media (max-width: 780px) {
+    .header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .contentGrid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .header,
+    .contentPanel,
+    .notFound {
+        padding: 20px 16px;
+        border-radius: 16px;
+    }
+
+    .header h1 {
+        font-size: clamp(34px, 11vw, 46px);
+    }
+
+}
