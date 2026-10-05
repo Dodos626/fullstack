@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styles from './MatrixBackground.module.css';
 
 const COLUMN_COUNT = 40;
@@ -5,14 +6,21 @@ const MIN_DURATION = 8;
 const DURATION_RANGE = 5;
 
 export const MatrixBackground = ({ speed = 1, blur = 0 }) => {
+    const [isPageVisible, setIsPageVisible] = useState(() => !document.hidden);
     const parsedSpeed = Number(speed);
     const parsedBlur = Number(blur);
     const speedMultiplier = Number.isFinite(parsedSpeed) ? Math.max(parsedSpeed, 0.1) : 1;
     const blurAmount = Number.isFinite(parsedBlur) ? Math.max(parsedBlur, 0) : 0;
 
+    useEffect(() => {
+        const handleVisibilityChange = () => setIsPageVisible(!document.hidden);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }, []);
+
     return (
         <div
-            className={styles.matrixContainer}
+            className={`${styles.matrixContainer} ${isPageVisible ? '' : styles.matrixPaused}`}
             style={{ '--matrix-blur': `${blurAmount}px` }}
             aria-hidden="true"
         >

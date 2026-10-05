@@ -4,6 +4,8 @@
 
 .body {
     width: min(1100px, 100%);
+    max-width: 100%;
+    min-width: 0;
     margin: 0 auto;
 
     min-height: var(--layout-height);

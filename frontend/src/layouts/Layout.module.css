@@ -7,6 +7,7 @@
 
 .layoutContent {
     flex: 1;
+    min-width: 0;
     padding: var(--layout-padding-top) var(--layout-padding-right) var(--layout-padding-bottom)
         var(--layout-padding-left);
 }

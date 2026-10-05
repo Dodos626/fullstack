@@ -5,6 +5,9 @@ import { FilterTable } from '../../../components/table/FilterTable';
 import { projects } from '../../../data/portfolio';
 import { openInNewTab } from '../../../utils/utils';
 import { IconButton } from '../../../components/buttons/IconButton';
+import { Link } from 'react-router-dom';
+import { FaArrowRight } from 'react-icons/fa';
+import { PageMeta } from '../../../components/seo/PageMeta';
 
 const MIN_PROJECTS_PER_PAGE = 4;
 const PROJECTS_TABLE_VERTICAL_OFFSET = 320;
@@ -41,25 +44,31 @@ export const Projects = () => {
         {
             header: 'Project',
             key: 'projectName',
-            width: '20%',
+            width: 'minmax(0, 20fr)',
             render: (project) => (
                 <div className={styles.companyHeaderRow}>
-                    <div className={styles.companyName}>{project.projectName}</div>
+                    <div className={`${styles.companyName} ${styles.projectTableName}`}>
+                        {project.projectName}
+                    </div>
                 </div>
             ),
         },
         {
             header: 'Description',
             key: 'description',
-            width: '50%',
+            width: 'minmax(0, 46fr)',
             render: (project) => (
-                <div className={styles.projectDescription}>{project.description}</div>
+                <div
+                    className={`${styles.projectDescription} ${styles.projectTableDescription}`}
+                >
+                    {project.description}
+                </div>
             ),
         },
         {
             header: 'Technologies',
             key: 'technologies',
-            width: '20%',
+            width: 'minmax(0, 20fr)',
             render: (project) => (
                 <div className={styles.projectTechnologiesContainer}>
                     {project.technologies.map((technology) => (
@@ -74,25 +83,39 @@ export const Projects = () => {
             ),
         },
         {
-            header: 'Link',
-            key: 'github',
-            width: '5%',
-            sticky: 'right',
+            header: null,
+            key: 'actions',
+            width: 'minmax(144px, 14fr)',
             render: (project) => (
-                <IconButton
-                    type="button"
-                    className={styles.companyYears}
-                    onClick={() => openInNewTab(project.github)}
-                >
-                    <FaGithub size={30} />
-                </IconButton>
+                <div className={styles.projectActions}>
+                    <IconButton
+                        type="button"
+                        aria-label={`Open ${project.projectName} on GitHub`}
+                        title={`Open ${project.projectName} on GitHub`}
+                        className={`${styles.companyYears} ${styles.projectActionButton}`}
+                        onClick={() => openInNewTab(project.github)}
+                    >
+                        <FaGithub size={26} aria-hidden="true" />
+                    </IconButton>
+                    <Link
+                        className={`${styles.projectDetailsLink} ${styles.projectActionButton}`}
+                        to={`/projects/${project.slug}`}
+                    >
+                        More <FaArrowRight aria-hidden="true" />
+                    </Link>
+                </div>
             ),
         },
     ];
 
     return (
         <div>
-            <div className={styles.titlePage}>Projects</div>
+            <PageMeta
+                title="Projects — Theodoros Chalkidis"
+                description="Software projects by Theodoros Chalkidis across full-stack development, distributed systems, compilers, databases, and graphics programming."
+                path="/projects"
+            />
+            <h1 className={styles.titlePage}>Projects</h1>
 
             <div className={styles.textBody}>
                 <FilterTable

@@ -72,6 +72,15 @@
     color: var(--letters-over-bg);
 }
 
+@media (max-width: 480px) {
+    :root {
+        --layout-padding-top: 24px;
+        --layout-padding-bottom: 24px;
+        --layout-padding-left: 12px;
+        --layout-padding-right: 12px;
+    }
+}
+
 :root[data-theme='night'] {
     --palette-color-a: #45d8d3;
     --palette-color-b: #130f12;

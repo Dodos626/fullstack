@@ -29,6 +29,10 @@
     will-change: transform, opacity;
 }
 
+.matrixPaused .matrixColumn {
+    animation-play-state: paused;
+}
+
 .matrixColumn::before {
     content: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     position: absolute;

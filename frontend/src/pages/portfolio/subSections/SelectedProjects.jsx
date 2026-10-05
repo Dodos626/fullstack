@@ -1,26 +1,21 @@
-import { openInNewTab } from '../../../utils/utils';
+import { Link } from 'react-router-dom';
 import { SelectedProjectsCard } from './SelectedProjectsCard';
 import styles from './subSections.module.css';
-import { FaGithub } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { projects } from '../../../data/portfolio';
-import { IconButton } from '../../../components/buttons/IconButton';
 
 export const selectedProjectsSection = () => {
-    const buildProject = ({ projectName, description, technologies, github }) => {
+    const buildProject = ({ slug, projectName, description, technologies }) => {
         return (
             <div className={styles.company} id={`${projectName}`} key={projectName}>
                 <div className={styles.companyHeaderRow}>
                     <div className={styles.companyName}>{projectName}</div>
-                    <IconButton
-                        type="button"
-                        aria-label={`Open ${projectName} on GitHub`}
-                        className={styles.companyYears}
-                        onClick={() => {
-                            openInNewTab(github);
-                        }}
+                    <Link
+                        className={styles.projectDetailsLink}
+                        to={`/projects/${slug}`}
                     >
-                        <FaGithub size={25} />
-                    </IconButton>
+                        More <FaArrowRight aria-hidden="true" />
+                    </Link>
                 </div>
                 <div className={styles.projectDescription}>{description}</div>
                 <div className={styles.projectTechnologiesContainer}>
@@ -49,9 +44,9 @@ export const selectedProjectsSection = () => {
         left: (
             <div className={styles.textBody}>
                 {projects.filter((project) => project.selected).map(buildProject)}
-                <a className={styles.seeMore} href="/projects">
+                <Link className={styles.seeMore} to="/projects">
                     See More Projects
-                </a>
+                </Link>
             </div>
         ),
         right: <SelectedProjectsCard />,
