@@ -63,6 +63,26 @@ const education = [
 
 const projects = [
     {
+        slug: 'abadar',
+        projectName: 'ABADAR',
+        summary: 'A distributed, event-driven market simulation and trading platform.',
+        description:
+            'A real-time electronic exchange simulation with deterministic order matching, durable event processing, replayable projections, and live market updates.',
+        details: [
+            'ABADAR models the core infrastructure of a modern electronic exchange through a deterministic price-time-priority matching engine and per-symbol workers.',
+            'Its ASP.NET Core backend combines PostgreSQL persistence, a transactional outbox, Kafka producers and consumers, idempotent projections, JWT authorization, SignalR updates, replay controls, and administration APIs.',
+            'A Next.js frontend provides authentication, user administration, profile editing, market history, simulation controls, event status, and projection replay tools.',
+        ],
+        highlights: [
+            'Built a deterministic event-driven matching engine with recovery and reset support',
+            'Implemented durable Kafka workflows with a transactional outbox and replayable projections',
+            'Containerized the exchange, PostgreSQL, Kafka, backend, and frontend with Docker Compose',
+        ],
+        technologies: ['C#', 'ASP.NET Core', 'Next.js', 'Kafka', 'PostgreSQL', 'Docker'],
+        github: 'https://github.com/Dodos626/Abadar',
+        selected: true,
+    },
+    {
         slug: 'gahenn-plains',
         projectName: 'Gahenn-Plains',
         summary: 'A configurable real-time orbital simulation built in Unity.',
