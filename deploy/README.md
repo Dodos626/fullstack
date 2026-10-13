@@ -8,15 +8,15 @@ the production images, runs migrations, and starts Docker Compose.
 
 Under **Settings → Secrets and variables → Actions → Secrets**, set:
 
-| Secret | Value |
-| --- | --- |
-| `DEPLOY_HOST` | Ubuntu server's public IP |
-| `DEPLOY_USER` | SSH username: `deploy`, or an administrative account for bootstrap |
-| `DEPLOY_SSH_KEY` | Entire private SSH key authorized for that user |
-| `DEPLOY_KNOWN_HOSTS` | Verified `IP ssh-ed25519 PUBLIC_KEY` server host-key entry |
-| `DB_PASSWORD` | Database password (no fixed format or length) |
-| `JWT_ACCESS_SECRET` | Independent secret, at least 16 characters as required by the API |
-| `JWT_REFRESH_SECRET` | Independent secret, at least 16 characters as required by the API |
+| Secret               | Value                                                              |
+| -------------------- | ------------------------------------------------------------------ |
+| `DEPLOY_HOST`        | Ubuntu server's public IP                                          |
+| `DEPLOY_USER`        | SSH username: `deploy`, or an administrative account for bootstrap |
+| `DEPLOY_SSH_KEY`     | Entire private SSH key authorized for that user                    |
+| `DEPLOY_KNOWN_HOSTS` | Verified `IP ssh-ed25519 PUBLIC_KEY` server host-key entry         |
+| `DB_PASSWORD`        | Database password (no fixed format or length)                      |
+| `JWT_ACCESS_SECRET`  | Independent secret, at least 16 characters as required by the API  |
+| `JWT_REFRESH_SECRET` | Independent secret, at least 16 characters as required by the API  |
 
 Secrets are serialized literally, including punctuation and spaces. You can use
 `openssl rand -hex 32` to generate secrets, but hexadecimal values are not required.
@@ -50,9 +50,9 @@ does not change firewall rules. GitHub-hosted runners must be able to reach SSH.
 ## Cloudflare DNS and HTTPS
 
 Create DNS-only A records pointing to the server IP for `@`, `user`, `guest`, `admin`,
-and `hello`. For `APP_DOMAIN=app.example.com`, use `app`, `user.app`, `guest.app`,
-`admin.app`, and `hello.app`. Remove conflicting records; add AAAA only if IPv6 is
-reachable too.
+and `gamefinder`. For `APP_DOMAIN=app.example.com`, use `app`, `user.app`, `guest.app`,
+`admin.app`, and `gamefinder.app`. Remove conflicting records; add AAAA only if IPv6
+is reachable too.
 
 Caddy obtains certificates automatically once DNS resolves and ports 80/443 are
 reachable. Containers can start before DNS is configured, but HTTPS and sign-in

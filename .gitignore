@@ -19,6 +19,8 @@ yarn-error.log*
 # Build output
 dist/
 build/
+.next/
+out/
 
 # Coverage
 coverage/
@@ -52,6 +54,7 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
+backend/modules/gamefinder/catalog/.downloads/
 
 # Cache
 .cache/

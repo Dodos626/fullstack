@@ -28,7 +28,7 @@ const envSchema = z.object({
     CORS_ORIGINS: z
         .string()
         .default(
-            'http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://hello.lvh.me:5174,http://localhost:5173,http://127.0.0.1:5173'
+            'http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://gamefinder.lvh.me:5175,http://localhost:5173,http://127.0.0.1:5173'
         ),
 });
 

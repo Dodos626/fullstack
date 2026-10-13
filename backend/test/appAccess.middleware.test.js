@@ -11,12 +11,12 @@ test('app access attaches role application configuration', () => {
     assert.deepEqual(req.allowedRoles, ['guest', 'admin']);
 });
 
-test('app access registers public standalone applications', () => {
-    const req = { subdomain: 'hello' };
+test('app access registers game finder as public', () => {
+    const req = { subdomain: 'gamefinder' };
 
     appAccess(req, {}, () => {});
 
-    assert.equal(req.appName, 'hello');
+    assert.equal(req.appName, 'gamefinder');
     assert.equal(req.allowedRoles, null);
 });
 

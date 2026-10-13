@@ -1,0 +1,151 @@
+I like this version much more. It solves the actual problem: a group of friends trying to agree on what to play, even when nobody knows exactly what everyone else wants.
+The important difference is that you're not building a game-library matcher. You're building a multiplayer preference-discovery and voting system. People join a room, answer questions individually, vote on games, and the app progressively narrows down the best choice.
+That also gives you a more interesting engineering project: real-time sessions, synchronized voting, preference modeling, a ranking algorithm, and session state management.
+What the Hell Are We Playing?
+Proposed product specification · MVP for a 2–3 day build
+
+1. The complete user journey
+
+1. Create a room
+   The creator becomes the admin and gets a shareable invite link. Everyone else joins through that link and chooses a display name. The room shows the current player count and who's connected.
+
+1. Everyone answers questions
+   Each player independently answers a short questionnaire about their mood, preferred genres, available time, PvP tolerance, sci-fi preferences, and more. Answers stay private until the voting phase, so players aren't influenced by their friends.
+
+1. Vote on games
+   The app presents a game at a time. Every player votes Like, Maybe, or Dislike. Votes are hidden until everyone has voted for that game, then the group moves to the next one.
+
+1. Find consensus or rank the options
+   If everyone likes the same game, stop immediately and announce the winner. Otherwise, the system uses the votes and questionnaire answers to rank the candidates and improve its recommendations.
+
+1. Reveal the results
+   After the maximum number of rounds, everyone sees the ranked games, compatibility scores, and the reasons behind the ranking. The admin can start another round with the same preferences or restart the whole process.
+
+1. The voting and recommendation logic
+   This is the heart of the product. I'd avoid AI for the first version and make the algorithm deterministic, explainable, and quick to implement.
+   Questionnaire
+   Each player answers questions such as:
+
+- What mood are you in? Chill, competitive, cooperative, chaotic, story-driven.
+- Which genres appeal to you? RPG, FPS, strategy, survival, horror, racing, etc.
+- What do you want to avoid? PvP, sci-fi, horror, difficult games, long campaigns.
+- How much time do you have? 30 minutes, 1 hour, 2+ hours.
+- What group size and gameplay styles do you prefer?
+  The distinction between preferences and deal-breakers matters. Disliking sci-fi a little should influence the ranking; absolutely refusing to play a PvP game should penalize it much more heavily.
+  Voting
+
+Deep Rock Galactic
+Co-op · Sci-fi · 4 players
+Like
+Maybe
+Dislike
+
+Illustrative voting card. Each player votes privately; the results are revealed when everyone has voted.
+
+Each game receives a score based on its votes:
+Vote Score
+Like +2
+Maybe +1
+Dislike -2
+For a four-player group, for example, Like, Like, Like, Dislike produces a score of 4 out of a possible 8. That's useful, but it shouldn't automatically outrank a game that everyone likes.
+I'd use a few additional rules:
+
+- Unanimous Like: Stop immediately and announce the game.
+- Strong consensus: Prioritize games with the fewest dislikes and the most likes.
+- Preference matching: Reward games that match questionnaire answers and penalize games with unwanted tags.
+- Tie-breaking: Prefer the game with fewer deal-breaker conflicts, then use the overall score.
+  The final score should combine the group vote with preference matching rather than simply adding up likes.
+  How recommendations improve over successive games
+  Suppose everyone votes on eight games. The system notices:
+- Three players consistently dislike PvP.
+- Everyone likes co-op survival games.
+- The group tends to dislike long, story-heavy sessions.
+  The remaining recommendations should favor co-op games with shorter sessions and avoid PvP-heavy titles.
+  To do this, each game in your catalog needs structured tags, such as:
+  co-op, PvP, sci-fi, survival, short-session, story-heavy.
+  The engine can use those tags alongside the questionnaire and previous votes to rank the next batch. No machine learning is required.
+
+3. Define the session rules
+   These are the decisions I'd lock down before coding.
+   Situation Proposed behavior
+   A player joins They choose a name and enter the lobby.
+   The admin starts The room's participant list is locked for the session.
+   A player disconnects Preserve their answers and votes temporarily; let them reconnect.
+   Someone hasn't voted Wait for them; show progress such as 3/4 votes.
+   Everyone likes one game End the voting queue and announce it.
+   No unanimous choice Continue until the configured game limit.
+   Maximum games reached Show the ranked results to everyone.
+   Continue Keep questionnaire answers and move to a fresh batch of games.
+   Start over Reset answers, votes, and recommendation history.
+   I'd also let the admin configure the maximum number of games, with a default of 8. Only the admin should be able to start, end, continue, or restart a session.
+4. Technical architecture
+   Given your existing React and Node experience, I'd use:
+   Next.js + React
+
+Lobby, questionnaire, voting cards, progress, results and responsive UI. Use CSS Modules for styling.
+
+Node.js + Express + Socket.IO
+
+Room membership, admin permissions, phase transitions, vote collection, synchronized results and reconnects.
+
+Curated game catalog + session state
+
+Start with a local JSON catalog of around 30–50 games. Keep active rooms in server memory for the prototype.
+
+For real-time events, keep the API small:
+
+- room:create
+- room:join
+- room:state
+- session:start
+- preferences:submit
+- vote:submit
+- game:revealed
+- session:results
+- session:continue
+- session:restart
+  The server must validate every action and calculate results itself. The client should never be trusted to declare a winner or advance the session.
+  One caveat: in-memory rooms are perfect for a short prototype, but rooms disappear on server restart. For a public deployment, add persistence and configure Socket.IO appropriately before scaling to multiple server instances.
+
+5. The realistic three-day plan
+   Day 1
+   Core loop
+
+Build the complete single-session flow
+
+- Room creation, join links and display names.
+- Admin and participant roles.
+- Questionnaire and curated game catalog.
+- Initial ranking algorithm.
+
+Day 2
+Multiplayer
+
+Make the entire experience synchronized
+
+- Real-time voting and vote progress.
+- Unanimous-choice detection.
+- Recommendation ranking and game queue.
+- Results, continue and restart.
+
+Day 3
+Polish
+
+Make it usable by real groups
+
+- Test with multiple browser windows and disconnected players.
+- Add loading states, empty states and error handling.
+- Polish the visual identity and humorous copy.
+- Deploy and record a short portfolio demo.
+
+6. One final product decision
+   I'd make the game selection a little more interesting than a fixed list of eight titles. There are two sensible approaches:
+
+Use this approach
+My recommendation is the adaptive queue, provided you keep the recommendation algorithm simple. It's the feature that makes the product more than a normal voting app: the group isn't just choosing from a list; the app is actively trying to figure out what they'll enjoy together.
+
+further instructions, the games can be found in this dumb https://github.com/leinstay/steamdb
+
+also the users when voting can put a price limit , for now show games only on steam
+
+the site should follow the portfolio's theme and dark / day mode.
