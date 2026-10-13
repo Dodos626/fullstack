@@ -40,11 +40,16 @@ test('catalog normalization produces source-backed recommendation fields', () =>
 });
 
 test('questionnaire facets select a multi-select above fifteen values', () => {
-    const metrics = Array.from({ length: 16 }, (_, index) => ({
-        type: 'tag',
-        name: `tag-${index}`,
-        count: 100 - index,
-    }));
+    const metrics = [
+        ...Array.from({ length: 16 }, (_, index) => ({
+            type: 'tag',
+            name: `tag-${index}`,
+            count: 100 - index,
+        })),
+        { type: 'tag', name: 'modern', count: 90 },
+        { type: 'genre', name: 'utilities', count: 20 },
+        { type: 'category', name: 'online-co-op', count: 80 },
+    ];
     const service = new GameFinderCatalogService();
     const options = service.buildOptions(metrics, {
         gameCount: 100,
@@ -54,9 +59,30 @@ test('questionnaire facets select a multi-select above fifteen values', () => {
     });
     assert.equal(options.facets.tags.control, 'multi-select');
     assert.equal(options.facets.tags.options[0].name, 'tag-0');
+    assert.equal(options.facets.categories, undefined);
+    assert.equal(options.facets.tags.options.some((option) => option.name === 'modern'), false);
+    assert.equal(options.facets.genres.options.some((option) => option.name === 'utilities'), false);
     assert.equal(options.price.maximum, 3000);
     assert.equal(options.reviews.countMaximum, 500000);
-    assert.ok(service.buildFeatureWeights(metrics, 100).get('tag:tag-15') > 0);
+    const weights = service.buildFeatureWeights(metrics, 100);
+    assert.ok(weights.get('tag:tag-15') > 0);
+    assert.equal(weights.has('tag:modern'), false);
+    assert.equal(weights.has('genre:utilities'), false);
+    assert.equal(weights.has('category:online-co-op'), false);
+});
+
+test('runtime games remove disabled recommendation values', () => {
+    const { toRuntimeGame } = require('../modules/gamefinder/catalog/gamefinderCatalog.service');
+    const game = toRuntimeGame({
+        steamAppId: 1,
+        genres: ['action', 'utilities'],
+        tags: ['co-op', 'modern', 'animation-and-modeling'],
+        categories: ['online-co-op'],
+    });
+
+    assert.deepEqual(game.genres, ['action']);
+    assert.deepEqual(game.tags, ['co-op']);
+    assert.deepEqual(game.categories, ['online-co-op']);
 });
 
 test('catalog validation rejects values absent from current metrics', () => {
@@ -74,8 +100,6 @@ test('catalog validation rejects values absent from current metrics', () => {
                 excludedGenres: [],
                 includedTags: [],
                 excludedTags: [],
-                includedCategories: [],
-                excludedCategories: [],
                 platforms: [],
                 priceFilterEnabled: false,
                 priceMinUsd: 0,

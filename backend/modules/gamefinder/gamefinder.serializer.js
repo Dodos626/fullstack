@@ -22,8 +22,6 @@ const PREFERENCE_FIELDS = [
     'excludedGenres',
     'includedTags',
     'excludedTags',
-    'includedCategories',
-    'excludedCategories',
     'platforms',
 ];
 

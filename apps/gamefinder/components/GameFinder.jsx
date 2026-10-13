@@ -23,7 +23,27 @@ const getSocketUrl = () => {
 
 const getInviteCode = () => {
     if (typeof window === 'undefined') return '';
-    return new URLSearchParams(window.location.search).get('room')?.toUpperCase() || '';
+    const code =
+        new URLSearchParams(window.location.search).get('room')?.trim().toUpperCase() || '';
+    return /^[A-Z2-9]{6}$/.test(code) ? code : '';
+};
+
+const copyText = async (value) => {
+    if (navigator.clipboard?.writeText && window.isSecureContext) {
+        await navigator.clipboard.writeText(value);
+        return;
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    textarea.remove();
+    if (!copied) throw new Error('Clipboard access is unavailable');
 };
 
 export default function GameFinder() {
@@ -33,7 +53,7 @@ export default function GameFinder() {
     const [connectionMessage, setConnectionMessage] = useState('Connecting to the room server…');
     const [room, setRoom] = useState(null);
     const [name, setName] = useState('');
-    const [joinCode, setJoinCode] = useState('');
+    const [joinCode, setJoinCode] = useState(getInviteCode);
     const [maxGames, setMaxGames] = useState(8);
     const [pending, setPending] = useState(false);
     const [message, setMessage] = useState('');
@@ -122,7 +142,8 @@ export default function GameFinder() {
         const resume = () => {
             setConnected(true);
             setConnectionMessage('Room server connected.');
-            setJoinCode((current) => current || getInviteCode());
+            const inviteCode = getInviteCode();
+            setJoinCode((current) => current || inviteCode);
             let stored = null;
             try {
                 stored = JSON.parse(window.localStorage.getItem(SESSION_KEY));
@@ -130,6 +151,7 @@ export default function GameFinder() {
                 stored = null;
             }
             if (!stored?.roomCode || !stored?.playerId || !stored?.reconnectToken) return;
+            if (inviteCode && stored.roomCode.toUpperCase() !== inviteCode) return;
             credentialsRef.current = stored;
             socket.emit('room:resume', stored, (response) => {
                 if (response?.success) setRoom(response.data.state);
@@ -201,15 +223,21 @@ export default function GameFinder() {
 
     const inviteUrl = useMemo(() => {
         if (typeof window === 'undefined' || !room) return '';
-        return `${window.location.origin}/?room=${room.code}`;
+        const url = new URL(window.location.href);
+        url.pathname = '/';
+        url.search = '';
+        url.hash = '';
+        url.searchParams.set('room', room.code);
+        return url.toString();
     }, [room]);
 
     const copyInvite = async () => {
+        if (!inviteUrl) return;
         try {
-            await navigator.clipboard.writeText(inviteUrl);
+            await copyText(inviteUrl);
             setMessage('Invite link copied.');
         } catch {
-            setMessage(inviteUrl);
+            window.prompt('Copy this invite link:', inviteUrl);
         }
     };
 
@@ -277,70 +305,114 @@ export default function GameFinder() {
                                 <span>No account required</span>
                             </div>
                         </div>
-                        <div className={styles.entryPanel}>
+                        <div
+                            className={`${styles.entryPanel} ${joinCode ? styles.inviteEntryPanel : ''}`}
+                        >
                             {!connected ? (
                                 <div className={styles.connectionAlert} role="status">
                                     <strong>Room server offline</strong>
                                     <span>{connectionMessage}</span>
                                 </div>
                             ) : null}
-                            <label>
-                                Your display name
-                                <input
-                                    value={name}
-                                    maxLength={24}
-                                    onChange={(event) => setName(event.target.value)}
-                                    placeholder="DefinitelyNotTheImpostor"
-                                />
-                            </label>
-                            <form className={styles.entryForm} onSubmit={createRoom}>
-                                <label>
-                                    Games before results
-                                    <select
-                                        value={maxGames}
-                                        onChange={(event) => setMaxGames(event.target.value)}
+                            {joinCode ? (
+                                <form className={styles.inviteJoinForm} onSubmit={joinRoom}>
+                                    <span className={styles.kicker}>Room invitation</span>
+                                    <h2>Join room {joinCode}</h2>
+                                    <p>Choose a display name and you are ready to enter.</p>
+                                    <label>
+                                        Your display name
+                                        <input
+                                            autoFocus
+                                            value={name}
+                                            maxLength={24}
+                                            onChange={(event) => setName(event.target.value)}
+                                            placeholder="DefinitelyNotTheImpostor"
+                                        />
+                                    </label>
+                                    <button
+                                        className={styles.primaryButton}
+                                        type="submit"
+                                        disabled={!connected || pending || name.trim().length < 2}
                                     >
-                                        {[4, 6, 8, 10, 12].map((count) => (
-                                            <option key={count} value={count}>
-                                                {count}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                                <button
-                                    className={styles.primaryButton}
-                                    type="submit"
-                                    disabled={!connected || pending || name.trim().length < 2}
-                                >
-                                    Create a room
-                                </button>
-                            </form>
-                            <div className={styles.or}>
-                                <span>or join friends</span>
-                            </div>
-                            <form className={styles.joinForm} onSubmit={joinRoom}>
-                                <input
-                                    value={joinCode}
-                                    onChange={(event) =>
-                                        setJoinCode(event.target.value.toUpperCase())
-                                    }
-                                    maxLength={6}
-                                    placeholder="ROOM CODE"
-                                    aria-label="Room code"
-                                />
-                                <button
-                                    className={styles.secondaryButton}
-                                    type="submit"
-                                    disabled={
-                                        !connected ||
-                                        pending ||
-                                        name.trim().length < 2 ||
-                                        joinCode.length !== 6
-                                    }
-                                >
-                                    Join
-                                </button>
-                            </form>
+                                        {pending ? 'Joining…' : 'Join room'}
+                                    </button>
+                                    <button
+                                        className={styles.inviteBackButton}
+                                        type="button"
+                                        disabled={pending}
+                                        onClick={() => {
+                                            setJoinCode('');
+                                            window.history.replaceState({}, '', '/');
+                                        }}
+                                    >
+                                        Create or join another room
+                                    </button>
+                                </form>
+                            ) : (
+                                <>
+                                    <label>
+                                        Your display name
+                                        <input
+                                            value={name}
+                                            maxLength={24}
+                                            onChange={(event) => setName(event.target.value)}
+                                            placeholder="DefinitelyNotTheImpostor"
+                                        />
+                                    </label>
+                                    <form className={styles.entryForm} onSubmit={createRoom}>
+                                        <label>
+                                            Games before results
+                                            <select
+                                                value={maxGames}
+                                                onChange={(event) =>
+                                                    setMaxGames(event.target.value)
+                                                }
+                                            >
+                                                {[4, 6, 8, 10, 12].map((count) => (
+                                                    <option key={count} value={count}>
+                                                        {count}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </label>
+                                        <button
+                                            className={styles.primaryButton}
+                                            type="submit"
+                                            disabled={
+                                                !connected || pending || name.trim().length < 2
+                                            }
+                                        >
+                                            Create a room
+                                        </button>
+                                    </form>
+                                    <div className={styles.or}>
+                                        <span>or join friends</span>
+                                    </div>
+                                    <form className={styles.joinForm} onSubmit={joinRoom}>
+                                        <input
+                                            value={joinCode}
+                                            onChange={(event) =>
+                                                setJoinCode(event.target.value.toUpperCase())
+                                            }
+                                            maxLength={6}
+                                            placeholder="ROOM CODE"
+                                            aria-label="Room code"
+                                        />
+                                        <button
+                                            className={styles.secondaryButton}
+                                            type="submit"
+                                            disabled={
+                                                !connected ||
+                                                pending ||
+                                                name.trim().length < 2 ||
+                                                joinCode.length !== 6
+                                            }
+                                        >
+                                            Join
+                                        </button>
+                                    </form>
+                                </>
+                            )}
                         </div>
                     </section>
                 ) : (

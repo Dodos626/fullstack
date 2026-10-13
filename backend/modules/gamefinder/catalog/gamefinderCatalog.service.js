@@ -1,6 +1,10 @@
 const { GameFinderCatalogRepository } = require('./gamefinderCatalog.repository');
+const {
+    filterRecommendationValues,
+    isRecommendationFacetEnabled,
+} = require('../gamefinder.facet-policy');
 
-const FACET_TYPES = ['genre', 'tag', 'category', 'platform'];
+const FACET_TYPES = ['genre', 'tag', 'platform'];
 
 const toRuntimeGame = (value) => {
     const game = value.toJSON ? value.toJSON() : value;
@@ -8,6 +12,8 @@ const toRuntimeGame = (value) => {
         ...game,
         id: game.steamAppId,
         platform: 'steam',
+        genres: filterRecommendationValues('genre', game.genres),
+        tags: filterRecommendationValues('tag', game.tags),
     };
 };
 
@@ -35,7 +41,7 @@ class GameFinderCatalogService {
         const grouped = Object.fromEntries(FACET_TYPES.map((type) => [type, []]));
         for (const value of metricRecords) {
             const metric = value.toJSON ? value.toJSON() : value;
-            if (grouped[metric.type]) {
+            if (grouped[metric.type] && isRecommendationFacetEnabled(metric.type, metric.name)) {
                 grouped[metric.type].push({ name: metric.name, count: metric.count });
             }
         }
@@ -47,7 +53,6 @@ class GameFinderCatalogService {
             facets: {
                 genres: this.facetOptions(grouped.genre),
                 tags: this.facetOptions(grouped.tag),
-                categories: this.facetOptions(grouped.category),
                 platforms: this.facetOptions(grouped.platform),
             },
             price: {
@@ -73,16 +78,18 @@ class GameFinderCatalogService {
     }
 
     buildFeatureWeights(metricRecords, gameCount) {
-        const typeWeights = { genre: 1.2, category: 1.1, tag: 1, platform: 0.6 };
+        const typeWeights = { genre: 1.2, tag: 1, platform: 0.6 };
         return new Map(
-            metricRecords.map((value) => {
-                const metric = value.toJSON ? value.toJSON() : value;
-                const idf = Math.max(
-                    0.5,
-                    Math.min(3, Math.log((gameCount + 1) / (metric.count + 1)) + 1)
-                );
-                return [`${metric.type}:${metric.name}`, idf * (typeWeights[metric.type] || 1)];
-            })
+            metricRecords
+                .map((value) => (value.toJSON ? value.toJSON() : value))
+                .filter((metric) => isRecommendationFacetEnabled(metric.type, metric.name))
+                .map((metric) => {
+                    const idf = Math.max(
+                        0.5,
+                        Math.min(3, Math.log((gameCount + 1) / (metric.count + 1)) + 1)
+                    );
+                    return [`${metric.type}:${metric.name}`, idf * (typeWeights[metric.type] || 1)];
+                })
         );
     }
 
@@ -139,8 +146,6 @@ class GameFinderCatalogService {
             ['excludedGenres', 'genres', 'excluded genre'],
             ['includedTags', 'tags', 'included tag'],
             ['excludedTags', 'tags', 'excluded tag'],
-            ['includedCategories', 'categories', 'included category'],
-            ['excludedCategories', 'categories', 'excluded category'],
             ['platforms', 'platforms', 'platform'],
         ];
 

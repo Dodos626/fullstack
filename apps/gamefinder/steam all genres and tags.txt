@@ -1,0 +1,3088 @@
+{
+  "success": true,
+  "status": 200,
+  "data": {
+    "genres": [
+      {
+        "name": "Indie",
+        "games": 139020
+      },
+      {
+        "name": "Casual",
+        "games": 81179
+      },
+      {
+        "name": "Action",
+        "games": 78273
+      },
+      {
+        "name": "Adventure",
+        "games": 76598
+      },
+      {
+        "name": "Simulation",
+        "games": 44417
+      },
+      {
+        "name": "Strategy",
+        "games": 41530
+      },
+      {
+        "name": "RPG",
+        "games": 38094
+      },
+      {
+        "name": "Early Access",
+        "games": 18817
+      },
+      {
+        "name": "Free To Play",
+        "games": 18454
+      },
+      {
+        "name": "Sports",
+        "games": 7064
+      },
+      {
+        "name": "Racing",
+        "games": 6176
+      },
+      {
+        "name": "Massively Multiplayer",
+        "games": 4486
+      },
+      {
+        "name": "Violent",
+        "games": 410
+      },
+      {
+        "name": "Gore",
+        "games": 250
+      },
+      {
+        "name": "Nudity",
+        "games": 90
+      },
+      {
+        "name": "Sexual Content",
+        "games": 88
+      },
+      {
+        "name": "Utilities",
+        "games": 64
+      },
+      {
+        "name": "Education",
+        "games": 43
+      },
+      {
+        "name": "Game Development",
+        "games": 40
+      },
+      {
+        "name": "Design & Illustration",
+        "games": 32
+      },
+      {
+        "name": "Animation & Modeling",
+        "games": 26
+      },
+      {
+        "name": "Software Training",
+        "games": 23
+      },
+      {
+        "name": "Audio Production",
+        "games": 15
+      },
+      {
+        "name": "Video Production",
+        "games": 11
+      },
+      {
+        "name": "Accounting",
+        "games": 7
+      },
+      {
+        "name": "Photo Editing",
+        "games": 4
+      },
+      {
+        "name": "Movie",
+        "games": 3
+      },
+      {
+        "name": "Web Publishing",
+        "games": 3
+      },
+      {
+        "name": "360 Video",
+        "games": 1
+      },
+      {
+        "name": "Documentary",
+        "games": 1
+      },
+      {
+        "name": "Episodic",
+        "games": 1
+      },
+      {
+        "name": "Short",
+        "games": 1
+      },
+      {
+        "name": "Tutorial",
+        "games": 1
+      }
+    ],
+    "tags": [
+      {
+        "name": "Singleplayer",
+        "games": 132248
+      },
+      {
+        "name": "Indie",
+        "games": 107779
+      },
+      {
+        "name": "Casual",
+        "games": 85759
+      },
+      {
+        "name": "Action",
+        "games": 80028
+      },
+      {
+        "name": "Adventure",
+        "games": 78379
+      },
+      {
+        "name": "2D",
+        "games": 72912
+      },
+      {
+        "name": "3D",
+        "games": 57931
+      },
+      {
+        "name": "Simulation",
+        "games": 46210
+      },
+      {
+        "name": "Strategy",
+        "games": 43723
+      },
+      {
+        "name": "Atmospheric",
+        "games": 43631
+      },
+      {
+        "name": "Colorful",
+        "games": 39768
+      },
+      {
+        "name": "RPG",
+        "games": 39023
+      },
+      {
+        "name": "Exploration",
+        "games": 39006
+      },
+      {
+        "name": "Story Rich",
+        "games": 36754
+      },
+      {
+        "name": "Puzzle",
+        "games": 36675
+      },
+      {
+        "name": "Pixel Graphics",
+        "games": 35982
+      },
+      {
+        "name": "Cute",
+        "games": 35442
+      },
+      {
+        "name": "First-Person",
+        "games": 33773
+      },
+      {
+        "name": "Fantasy",
+        "games": 32541
+      },
+      {
+        "name": "Relaxing",
+        "games": 27006
+      },
+      {
+        "name": "Action-Adventure",
+        "games": 26815
+      },
+      {
+        "name": "Arcade",
+        "games": 26755
+      },
+      {
+        "name": "Stylized",
+        "games": 26355
+      },
+      {
+        "name": "Combat",
+        "games": 25904
+      },
+      {
+        "name": "Multiplayer",
+        "games": 25677
+      },
+      {
+        "name": "Funny",
+        "games": 24818
+      },
+      {
+        "name": "Horror",
+        "games": 23652
+      },
+      {
+        "name": "Top-Down",
+        "games": 21837
+      },
+      {
+        "name": "Sci-fi",
+        "games": 21585
+      },
+      {
+        "name": "Anime",
+        "games": 21556
+      },
+      {
+        "name": "Controller",
+        "games": 20841
+      },
+      {
+        "name": "Retro",
+        "games": 20505
+      },
+      {
+        "name": "Shooter",
+        "games": 20485
+      },
+      {
+        "name": "Third Person",
+        "games": 20054
+      },
+      {
+        "name": "Choices Matter",
+        "games": 20024
+      },
+      {
+        "name": "Family Friendly",
+        "games": 19475
+      },
+      {
+        "name": "Female Protagonist",
+        "games": 19007
+      },
+      {
+        "name": "PvE",
+        "games": 18956
+      },
+      {
+        "name": "Platformer",
+        "games": 18531
+      },
+      {
+        "name": "Linear",
+        "games": 17783
+      },
+      {
+        "name": "Dark",
+        "games": 17623
+      },
+      {
+        "name": "Visual Novel",
+        "games": 17596
+      },
+      {
+        "name": "Mystery",
+        "games": 17585
+      },
+      {
+        "name": "Multiple Endings",
+        "games": 17330
+      },
+      {
+        "name": "Realistic",
+        "games": 16900
+      },
+      {
+        "name": "Cartoony",
+        "games": 16672
+      },
+      {
+        "name": "Roguelike",
+        "games": 16434
+      },
+      {
+        "name": "2D Platformer",
+        "games": 16360
+      },
+      {
+        "name": "Psychological Horror",
+        "games": 16330
+      },
+      {
+        "name": "Free to Play",
+        "games": 16155
+      },
+      {
+        "name": "Roguelite",
+        "games": 16060
+      },
+      {
+        "name": "Comedy",
+        "games": 15850
+      },
+      {
+        "name": "Physics",
+        "games": 15816
+      },
+      {
+        "name": "Survival",
+        "games": 15475
+      },
+      {
+        "name": "PvP",
+        "games": 15284
+      },
+      {
+        "name": "Early Access",
+        "games": 14860
+      },
+      {
+        "name": "Open World",
+        "games": 14340
+      },
+      {
+        "name": "Management",
+        "games": 13988
+      },
+      {
+        "name": "Character Customization",
+        "games": 13760
+      },
+      {
+        "name": "Co-op",
+        "games": 13426
+      },
+      {
+        "name": "Minimalist",
+        "games": 13289
+      },
+      {
+        "name": "Hand-drawn",
+        "games": 13276
+      },
+      {
+        "name": "Sexual Content",
+        "games": 13184
+      },
+      {
+        "name": "Point & Click",
+        "games": 13090
+      },
+      {
+        "name": "Resource Management",
+        "games": 12871
+      },
+      {
+        "name": "Sandbox",
+        "games": 12735
+      },
+      {
+        "name": "Magic",
+        "games": 12544
+      },
+      {
+        "name": "Nudity",
+        "games": 12173
+      },
+      {
+        "name": "FPS",
+        "games": 11884
+      },
+      {
+        "name": "Action Roguelike",
+        "games": 11628
+      },
+      {
+        "name": "Action RPG",
+        "games": 11527
+      },
+      {
+        "name": "Immersive Sim",
+        "games": 11334
+      },
+      {
+        "name": "Building",
+        "games": 10907
+      },
+      {
+        "name": "Tactical",
+        "games": 10904
+      },
+      {
+        "name": "Online Co-Op",
+        "games": 10803
+      },
+      {
+        "name": "Medieval",
+        "games": 10694
+      },
+      {
+        "name": "Difficult",
+        "games": 10627
+      },
+      {
+        "name": "Procedural Generation",
+        "games": 10573
+      },
+      {
+        "name": "3D Platformer",
+        "games": 10534
+      },
+      {
+        "name": "Interactive Fiction",
+        "games": 10435
+      },
+      {
+        "name": "Dark Fantasy",
+        "games": 10371
+      },
+      {
+        "name": "Crafting",
+        "games": 10313
+      },
+      {
+        "name": "Space",
+        "games": 10312
+      },
+      {
+        "name": "Violent",
+        "games": 10268
+      },
+      {
+        "name": "Logic",
+        "games": 10251
+      },
+      {
+        "name": "Choose Your Own Adventure",
+        "games": 10119
+      },
+      {
+        "name": "Emotional",
+        "games": 10114
+      },
+      {
+        "name": "Old School",
+        "games": 9920
+      },
+      {
+        "name": "Futuristic",
+        "games": 9890
+      },
+      {
+        "name": "Turn-Based Strategy",
+        "games": 9861
+      },
+      {
+        "name": "Incremental",
+        "games": 9710
+      },
+      {
+        "name": "Cartoon",
+        "games": 9588
+      },
+      {
+        "name": "Hidden Object",
+        "games": 9581
+      },
+      {
+        "name": "Turn-Based Tactics",
+        "games": 9545
+      },
+      {
+        "name": "Romance",
+        "games": 9515
+      },
+      {
+        "name": "Turn-Based Combat",
+        "games": 9437
+      },
+      {
+        "name": "Side Scroller",
+        "games": 9291
+      },
+      {
+        "name": "Nature",
+        "games": 8974
+      },
+      {
+        "name": "Survival Horror",
+        "games": 8933
+      },
+      {
+        "name": "Gore",
+        "games": 8926
+      },
+      {
+        "name": "Bullet Hell",
+        "games": 8886
+      },
+      {
+        "name": "Puzzle Platformer",
+        "games": 8808
+      },
+      {
+        "name": "Walking Simulator",
+        "games": 8459
+      },
+      {
+        "name": "1990's",
+        "games": 8314
+      },
+      {
+        "name": "Surreal",
+        "games": 8074
+      },
+      {
+        "name": "Dungeon Crawler",
+        "games": 7940
+      },
+      {
+        "name": "Hack and Slash",
+        "games": 7889
+      },
+      {
+        "name": "Score Attack",
+        "games": 7878
+      },
+      {
+        "name": "VR",
+        "games": 7847
+      },
+      {
+        "name": "Life Sim",
+        "games": 7777
+      },
+      {
+        "name": "Base Building",
+        "games": 7700
+      },
+      {
+        "name": "Dating Sim",
+        "games": 7628
+      },
+      {
+        "name": "Card Game",
+        "games": 7603
+      },
+      {
+        "name": "Idler",
+        "games": 7504
+      },
+      {
+        "name": "Sports",
+        "games": 7462
+      },
+      {
+        "name": "Economy",
+        "games": 7371
+      },
+      {
+        "name": "Text-Based",
+        "games": 7340
+      },
+      {
+        "name": "Hentai",
+        "games": 7184
+      },
+      {
+        "name": "Post-apocalyptic",
+        "games": 7092
+      },
+      {
+        "name": "Local Multiplayer",
+        "games": 6946
+      },
+      {
+        "name": "Shoot 'Em Up",
+        "games": 6797
+      },
+      {
+        "name": "Lore-Rich",
+        "games": 6657
+      },
+      {
+        "name": "Cinematic",
+        "games": 6639
+      },
+      {
+        "name": "2.5D",
+        "games": 6506
+      },
+      {
+        "name": "Investigation",
+        "games": 6459
+      },
+      {
+        "name": "Racing",
+        "games": 6421
+      },
+      {
+        "name": "Psychological",
+        "games": 6418
+      },
+      {
+        "name": "Time Management",
+        "games": 6342
+      },
+      {
+        "name": "Top-Down Shooter",
+        "games": 6301
+      },
+      {
+        "name": "Dialogue Heavy",
+        "games": 6272
+      },
+      {
+        "name": "Isometric",
+        "games": 6235
+      },
+      {
+        "name": "Deckbuilding",
+        "games": 6178
+      },
+      {
+        "name": "Stealth",
+        "games": 6163
+      },
+      {
+        "name": "JRPG",
+        "games": 6094
+      },
+      {
+        "name": "Thriller",
+        "games": 5983
+      },
+      {
+        "name": "Historical",
+        "games": 5865
+      },
+      {
+        "name": "War",
+        "games": 5858
+      },
+      {
+        "name": "Zombies",
+        "games": 5837
+      },
+      {
+        "name": "Collectathon",
+        "games": 5822
+      },
+      {
+        "name": "Cozy",
+        "games": 5819
+      },
+      {
+        "name": "Supernatural",
+        "games": 5563
+      },
+      {
+        "name": "Dark Humor",
+        "games": 5505
+      },
+      {
+        "name": "LGBTQ+",
+        "games": 5490
+      },
+      {
+        "name": "Detective",
+        "games": 5383
+      },
+      {
+        "name": "Tower Defense",
+        "games": 5279
+      },
+      {
+        "name": "Local Co-Op",
+        "games": 5270
+      },
+      {
+        "name": "Strategy RPG",
+        "games": 5263
+      },
+      {
+        "name": "Precision Platformer",
+        "games": 5261
+      },
+      {
+        "name": "Inventory Management",
+        "games": 5237
+      },
+      {
+        "name": "Replay Value",
+        "games": 5228
+      },
+      {
+        "name": "1980s",
+        "games": 5167
+      },
+      {
+        "name": "Cyberpunk",
+        "games": 5129
+      },
+      {
+        "name": "Education",
+        "games": 5060
+      },
+      {
+        "name": "Abstract",
+        "games": 5044
+      },
+      {
+        "name": "Nonlinear",
+        "games": 5013
+      },
+      {
+        "name": "Third-Person Shooter",
+        "games": 4956
+      },
+      {
+        "name": "Demons",
+        "games": 4902
+      },
+      {
+        "name": "Military",
+        "games": 4830
+      },
+      {
+        "name": "Real Time Tactics",
+        "games": 4825
+      },
+      {
+        "name": "Tabletop",
+        "games": 4801
+      },
+      {
+        "name": "Aliens",
+        "games": 4726
+      },
+      {
+        "name": "Board Game",
+        "games": 4659
+      },
+      {
+        "name": "Robots",
+        "games": 4648
+      },
+      {
+        "name": "Perma Death",
+        "games": 4627
+      },
+      {
+        "name": "Loot",
+        "games": 4603
+      },
+      {
+        "name": "Card Battler",
+        "games": 4600
+      },
+      {
+        "name": "Artificial Intelligence",
+        "games": 4520
+      },
+      {
+        "name": "Great Soundtrack",
+        "games": 4514
+      },
+      {
+        "name": "RTS",
+        "games": 4501
+      },
+      {
+        "name": "Arena Shooter",
+        "games": 4474
+      },
+      {
+        "name": "Tutorial",
+        "games": 4461
+      },
+      {
+        "name": "Automation",
+        "games": 4214
+      },
+      {
+        "name": "Dystopian",
+        "games": 4206
+      },
+      {
+        "name": "Tactical RPG",
+        "games": 4034
+      },
+      {
+        "name": "Modern",
+        "games": 4018
+      },
+      {
+        "name": "City Builder",
+        "games": 3995
+      },
+      {
+        "name": "Driving",
+        "games": 3973
+      },
+      {
+        "name": "Comic Book",
+        "games": 3960
+      },
+      {
+        "name": "Team-Based",
+        "games": 3918
+      },
+      {
+        "name": "Cats",
+        "games": 3911
+      },
+      {
+        "name": "Psychedelic",
+        "games": 3833
+      },
+      {
+        "name": "Party-Based RPG",
+        "games": 3743
+      },
+      {
+        "name": "Creature Collector",
+        "games": 3718
+      },
+      {
+        "name": "Wargame",
+        "games": 3631
+      },
+      {
+        "name": "Massively Multiplayer",
+        "games": 3621
+      },
+      {
+        "name": "Capitalism",
+        "games": 3579
+      },
+      {
+        "name": "Short",
+        "games": 3564
+      },
+      {
+        "name": "Metroidvania",
+        "games": 3500
+      },
+      {
+        "name": "Runner",
+        "games": 3477
+      },
+      {
+        "name": "Souls-like",
+        "games": 3447
+      },
+      {
+        "name": "Fast-Paced",
+        "games": 3429
+      },
+      {
+        "name": "Grid-Based Movement",
+        "games": 3427
+      },
+      {
+        "name": "Party Game",
+        "games": 3397
+      },
+      {
+        "name": "Beat 'em up",
+        "games": 3293
+      },
+      {
+        "name": "Mythology",
+        "games": 3287
+      },
+      {
+        "name": "Parkour",
+        "games": 3271
+      },
+      {
+        "name": "4 Player Local",
+        "games": 3211
+      },
+      {
+        "name": "Crime",
+        "games": 3205
+      },
+      {
+        "name": "Flight",
+        "games": 3164
+      },
+      {
+        "name": "Turn-Based",
+        "games": 3155
+      },
+      {
+        "name": "Alternate History",
+        "games": 3150
+      },
+      {
+        "name": "Auto Battler",
+        "games": 3142
+      },
+      {
+        "name": "Memes",
+        "games": 3087
+      },
+      {
+        "name": "Level Editor",
+        "games": 2978
+      },
+      {
+        "name": "Destruction",
+        "games": 2976
+      },
+      {
+        "name": "2D Fighter",
+        "games": 2944
+      },
+      {
+        "name": "CRPG",
+        "games": 2891
+      },
+      {
+        "name": "Farming Sim",
+        "games": 2835
+      },
+      {
+        "name": "Cooking",
+        "games": 2794
+      },
+      {
+        "name": "Philosophical",
+        "games": 2705
+      },
+      {
+        "name": "Rhythm",
+        "games": 2566
+      },
+      {
+        "name": "Dark Comedy",
+        "games": 2534
+      },
+      {
+        "name": "Word Game",
+        "games": 2528
+      },
+      {
+        "name": "Twin Stick Shooter",
+        "games": 2524
+      },
+      {
+        "name": "Wholesome",
+        "games": 2455
+      },
+      {
+        "name": "Class-Based",
+        "games": 2424
+      },
+      {
+        "name": "Trading",
+        "games": 2376
+      },
+      {
+        "name": "Colony Sim",
+        "games": 2339
+      },
+      {
+        "name": "Noir",
+        "games": 2333
+      },
+      {
+        "name": "3D Fighter",
+        "games": 2321
+      },
+      {
+        "name": "Automobile Sim",
+        "games": 2319
+      },
+      {
+        "name": "Space Sim",
+        "games": 2227
+      },
+      {
+        "name": "Music",
+        "games": 2196
+      },
+      {
+        "name": "Lovecraftian",
+        "games": 2154
+      },
+      {
+        "name": "Vehicular Combat",
+        "games": 2100
+      },
+      {
+        "name": "Roguelike Deckbuilder",
+        "games": 2014
+      },
+      {
+        "name": "Science",
+        "games": 2014
+      },
+      {
+        "name": "Match 3",
+        "games": 1992
+      },
+      {
+        "name": "Swordplay",
+        "games": 1985
+      },
+      {
+        "name": "Competitive",
+        "games": 1977
+      },
+      {
+        "name": "Grand Strategy",
+        "games": 1952
+      },
+      {
+        "name": "Shop Keeper",
+        "games": 1951
+      },
+      {
+        "name": "Gun Customization",
+        "games": 1917
+      },
+      {
+        "name": "Moddable",
+        "games": 1917
+      },
+      {
+        "name": "Mining",
+        "games": 1909
+      },
+      {
+        "name": "Mystery Dungeon",
+        "games": 1908
+      },
+      {
+        "name": "Experimental",
+        "games": 1886
+      },
+      {
+        "name": "Parody",
+        "games": 1878
+      },
+      {
+        "name": "Conspiracy",
+        "games": 1854
+      },
+      {
+        "name": "Gothic",
+        "games": 1833
+      },
+      {
+        "name": "Satire",
+        "games": 1833
+      },
+      {
+        "name": "Narrative",
+        "games": 1831
+      },
+      {
+        "name": "Underground",
+        "games": 1803
+      },
+      {
+        "name": "Fighting",
+        "games": 1788
+      },
+      {
+        "name": "Quick-Time Events",
+        "games": 1731
+      },
+      {
+        "name": "Dragons",
+        "games": 1730
+      },
+      {
+        "name": "Agriculture",
+        "games": 1710
+      },
+      {
+        "name": "Bullet Time",
+        "games": 1672
+      },
+      {
+        "name": "Fishing",
+        "games": 1650
+      },
+      {
+        "name": "Looter Shooter",
+        "games": 1648
+      },
+      {
+        "name": "eSports",
+        "games": 1644
+      },
+      {
+        "name": "Split Screen",
+        "games": 1593
+      },
+      {
+        "name": "Spectacle fighter",
+        "games": 1565
+      },
+      {
+        "name": "Voxel",
+        "games": 1551
+      },
+      {
+        "name": "Combat Racing",
+        "games": 1547
+      },
+      {
+        "name": "Bullet Heaven",
+        "games": 1545
+      },
+      {
+        "name": "Time Manipulation",
+        "games": 1532
+      },
+      {
+        "name": "Dynamic Narration",
+        "games": 1521
+      },
+      {
+        "name": "Action RTS",
+        "games": 1517
+      },
+      {
+        "name": "Classic",
+        "games": 1513
+      },
+      {
+        "name": "Solitaire",
+        "games": 1511
+      },
+      {
+        "name": "6DOF",
+        "games": 1493
+      },
+      {
+        "name": "Animals",
+        "games": 1469
+      },
+      {
+        "name": "Martial Arts",
+        "games": 1465
+      },
+      {
+        "name": "Battle Royale",
+        "games": 1444
+      },
+      {
+        "name": "Gambling",
+        "games": 1443
+      },
+      {
+        "name": "Co-op Campaign",
+        "games": 1440
+      },
+      {
+        "name": "Dogs",
+        "games": 1415
+      },
+      {
+        "name": "Mechs",
+        "games": 1412
+      },
+      {
+        "name": "Underwater",
+        "games": 1409
+      },
+      {
+        "name": "Hero Shooter",
+        "games": 1407
+      },
+      {
+        "name": "Soundtrack",
+        "games": 1400
+      },
+      {
+        "name": "God Game",
+        "games": 1398
+      },
+      {
+        "name": "Boomer Shooter",
+        "games": 1395
+      },
+      {
+        "name": "MMORPG",
+        "games": 1387
+      },
+      {
+        "name": "Job Simulator",
+        "games": 1349
+      },
+      {
+        "name": "Sokoban",
+        "games": 1338
+      },
+      {
+        "name": "Typing",
+        "games": 1323
+      },
+      {
+        "name": "Trading Card Game",
+        "games": 1311
+      },
+      {
+        "name": "FMV",
+        "games": 1309
+      },
+      {
+        "name": "Hex Grid",
+        "games": 1266
+      },
+      {
+        "name": "Political Sim",
+        "games": 1262
+      },
+      {
+        "name": "World War II",
+        "games": 1232
+      },
+      {
+        "name": "Time Travel",
+        "games": 1230
+      },
+      {
+        "name": "Steampunk",
+        "games": 1209
+      },
+      {
+        "name": "Pirates",
+        "games": 1208
+      },
+      {
+        "name": "Vampires",
+        "games": 1206
+      },
+      {
+        "name": "Open World Survival Craft",
+        "games": 1185
+      },
+      {
+        "name": "Design & Illustration",
+        "games": 1172
+      },
+      {
+        "name": "Hacking",
+        "games": 1134
+      },
+      {
+        "name": "Asynchronous Multiplayer",
+        "games": 1117
+      },
+      {
+        "name": "Immersive",
+        "games": 1104
+      },
+      {
+        "name": "Transportation",
+        "games": 1073
+      },
+      {
+        "name": "Faith",
+        "games": 1068
+      },
+      {
+        "name": "Hunting",
+        "games": 1045
+      },
+      {
+        "name": "4X",
+        "games": 1043
+      },
+      {
+        "name": "Ninja",
+        "games": 1001
+      },
+      {
+        "name": "Programming",
+        "games": 987
+      },
+      {
+        "name": "Otome",
+        "games": 984
+      },
+      {
+        "name": "Mouse Only",
+        "games": 983
+      },
+      {
+        "name": "Tanks",
+        "games": 974
+      },
+      {
+        "name": "Escape Room",
+        "games": 939
+      },
+      {
+        "name": "Minigames",
+        "games": 933
+      },
+      {
+        "name": "Character Action Game",
+        "games": 928
+      },
+      {
+        "name": "Party",
+        "games": 916
+      },
+      {
+        "name": "Western",
+        "games": 908
+      },
+      {
+        "name": "Dinosaurs",
+        "games": 878
+      },
+      {
+        "name": "Traditional Roguelike",
+        "games": 872
+      },
+      {
+        "name": "Snow",
+        "games": 868
+      },
+      {
+        "name": "Assassins",
+        "games": 845
+      },
+      {
+        "name": "Naval",
+        "games": 837
+      },
+      {
+        "name": "Diplomacy",
+        "games": 809
+      },
+      {
+        "name": "Software",
+        "games": 809
+      },
+      {
+        "name": "Trains",
+        "games": 806
+      },
+      {
+        "name": "Sailing",
+        "games": 798
+      },
+      {
+        "name": "Utilities",
+        "games": 773
+      },
+      {
+        "name": "Trivia",
+        "games": 771
+      },
+      {
+        "name": "Football (Soccer)",
+        "games": 754
+      },
+      {
+        "name": "Superhero",
+        "games": 754
+      },
+      {
+        "name": "Beautiful",
+        "games": 742
+      },
+      {
+        "name": "Time Attack",
+        "games": 737
+      },
+      {
+        "name": "MOBA",
+        "games": 713
+      },
+      {
+        "name": "Heist",
+        "games": 704
+      },
+      {
+        "name": "Desktop Companion",
+        "games": 702
+      },
+      {
+        "name": "Naval Combat",
+        "games": 694
+      },
+      {
+        "name": "Archery",
+        "games": 676
+      },
+      {
+        "name": "Cold War",
+        "games": 661
+      },
+      {
+        "name": "Organizing",
+        "games": 655
+      },
+      {
+        "name": "Game Development",
+        "games": 654
+      },
+      {
+        "name": "On-Rails Shooter",
+        "games": 629
+      },
+      {
+        "name": "Nostalgia",
+        "games": 617
+      },
+      {
+        "name": "Spelling",
+        "games": 589
+      },
+      {
+        "name": "Remake",
+        "games": 588
+      },
+      {
+        "name": "Transhumanism",
+        "games": 584
+      },
+      {
+        "name": "Real-Time",
+        "games": 581
+      },
+      {
+        "name": "Farming",
+        "games": 571
+      },
+      {
+        "name": "Music-Based Procedural Generation",
+        "games": 543
+      },
+      {
+        "name": "Chess",
+        "games": 539
+      },
+      {
+        "name": "Offroad",
+        "games": 532
+      },
+      {
+        "name": "Outbreak Sim",
+        "games": 508
+      },
+      {
+        "name": "Real-Time with Pause",
+        "games": 503
+      },
+      {
+        "name": "Cleaning",
+        "games": 500
+      },
+      {
+        "name": "Horses",
+        "games": 492
+      },
+      {
+        "name": "Decorating",
+        "games": 466
+      },
+      {
+        "name": "Boxing",
+        "games": 463
+      },
+      {
+        "name": "Werewolves",
+        "games": 458
+      },
+      {
+        "name": "Dice",
+        "games": 452
+      },
+      {
+        "name": "Villain Protagonist",
+        "games": 449
+      },
+      {
+        "name": "Addictive",
+        "games": 445
+      },
+      {
+        "name": "Sniper",
+        "games": 445
+      },
+      {
+        "name": "Social Deduction",
+        "games": 442
+      },
+      {
+        "name": "Spaceships",
+        "games": 425
+      },
+      {
+        "name": "Mars",
+        "games": 422
+      },
+      {
+        "name": "Medical Sim",
+        "games": 418
+      },
+      {
+        "name": "Golf",
+        "games": 403
+      },
+      {
+        "name": "Submarine",
+        "games": 392
+      },
+      {
+        "name": "Jump Scare",
+        "games": 381
+      },
+      {
+        "name": "Animation & Modeling",
+        "games": 376
+      },
+      {
+        "name": "Episodic",
+        "games": 375
+      },
+      {
+        "name": "Pinball",
+        "games": 375
+      },
+      {
+        "name": "Rome",
+        "games": 369
+      },
+      {
+        "name": "Boss Rush",
+        "games": 361
+      },
+      {
+        "name": "Dwarves",
+        "games": 361
+      },
+      {
+        "name": "Touch-Friendly",
+        "games": 345
+      },
+      {
+        "name": "World War I",
+        "games": 343
+      },
+      {
+        "name": "Motorbike",
+        "games": 331
+      },
+      {
+        "name": "Basketball",
+        "games": 320
+      },
+      {
+        "name": "Sequel",
+        "games": 318
+      },
+      {
+        "name": "Extraction Shooter",
+        "games": 312
+      },
+      {
+        "name": "Bikes",
+        "games": 303
+      },
+      {
+        "name": "Xianxia",
+        "games": 287
+      },
+      {
+        "name": "Wuxia",
+        "games": 267
+      },
+      {
+        "name": "Hobby Sim",
+        "games": 260
+      },
+      {
+        "name": "Mini Golf",
+        "games": 259
+      },
+      {
+        "name": "Falling Blocks",
+        "games": 255
+      },
+      {
+        "name": "Asymmetric VR",
+        "games": 253
+      },
+      {
+        "name": "Billiards",
+        "games": 251
+      },
+      {
+        "name": "Poker",
+        "games": 248
+      },
+      {
+        "name": "Elves",
+        "games": 244
+      },
+      {
+        "name": "Skateboarding",
+        "games": 244
+      },
+      {
+        "name": "Electronic Music",
+        "games": 243
+      },
+      {
+        "name": "Espionage",
+        "games": 238
+      },
+      {
+        "name": "Wrestling",
+        "games": 231
+      },
+      {
+        "name": "Cult",
+        "games": 227
+      },
+      {
+        "name": "Skating",
+        "games": 226
+      },
+      {
+        "name": "Vikings",
+        "games": 225
+      },
+      {
+        "name": "Mahjong",
+        "games": 219
+      },
+      {
+        "name": "Football (American)",
+        "games": 211
+      },
+      {
+        "name": "Audio Production",
+        "games": 208
+      },
+      {
+        "name": "360 Video",
+        "games": 189
+      },
+      {
+        "name": "Silent Protagonist",
+        "games": 189
+      },
+      {
+        "name": "Tennis",
+        "games": 189
+      },
+      {
+        "name": "Cycling",
+        "games": 187
+      },
+      {
+        "name": "Baseball",
+        "games": 185
+      },
+      {
+        "name": "Birds",
+        "games": 176
+      },
+      {
+        "name": "Hockey",
+        "games": 168
+      },
+      {
+        "name": "Intentionally Awkward Controls",
+        "games": 158
+      },
+      {
+        "name": "Gaming",
+        "games": 154
+      },
+      {
+        "name": "Samurai",
+        "games": 148
+      },
+      {
+        "name": "Epic",
+        "games": 139
+      },
+      {
+        "name": "Motocross",
+        "games": 139
+      },
+      {
+        "name": "Instrumental Music",
+        "games": 138
+      },
+      {
+        "name": "Lemmings",
+        "games": 135
+      },
+      {
+        "name": "Foxes",
+        "games": 134
+      },
+      {
+        "name": "Language Learning",
+        "games": 134
+      },
+      {
+        "name": "Video Production",
+        "games": 131
+      },
+      {
+        "name": "Bowling",
+        "games": 130
+      },
+      {
+        "name": "Photo Editing",
+        "games": 128
+      },
+      {
+        "name": "Skiing",
+        "games": 118
+      },
+      {
+        "name": "Snowboarding",
+        "games": 117
+      },
+      {
+        "name": "Rock Music",
+        "games": 111
+      },
+      {
+        "name": "Based On A Novel",
+        "games": 105
+      },
+      {
+        "name": "Voice Control",
+        "games": 101
+      },
+      {
+        "name": "Mod",
+        "games": 93
+      },
+      {
+        "name": "8-bit Music",
+        "games": 91
+      },
+      {
+        "name": "BMX",
+        "games": 91
+      },
+      {
+        "name": "ATV",
+        "games": 89
+      },
+      {
+        "name": "Capybaras",
+        "games": 77
+      },
+      {
+        "name": "Wolves",
+        "games": 75
+      },
+      {
+        "name": "Musou",
+        "games": 66
+      },
+      {
+        "name": "Cricket",
+        "games": 59
+      },
+      {
+        "name": "Software Training",
+        "games": 58
+      },
+      {
+        "name": "Zoo",
+        "games": 56
+      },
+      {
+        "name": "Volleyball",
+        "games": 55
+      },
+      {
+        "name": "Hardware",
+        "games": 52
+      },
+      {
+        "name": "TrackIR",
+        "games": 36
+      },
+      {
+        "name": "Rugby",
+        "games": 32
+      },
+      {
+        "name": "Reboot",
+        "games": 19
+      },
+      {
+        "name": "Benchmark",
+        "games": 16
+      }
+    ],
+    "categories": [
+      {
+        "name": "Family Sharing",
+        "games": 191937
+      },
+      {
+        "name": "Single-player",
+        "games": 182971
+      },
+      {
+        "name": "Steam Achievements",
+        "games": 90000
+      },
+      {
+        "name": "Steam Cloud",
+        "games": 51571
+      },
+      {
+        "name": "Full controller support",
+        "games": 49880
+      },
+      {
+        "name": "Multi-player",
+        "games": 38044
+      },
+      {
+        "name": "Playable without Timed Input",
+        "games": 31566
+      },
+      {
+        "name": "Custom Volume Controls",
+        "games": 31242
+      },
+      {
+        "name": "Co-op",
+        "games": 22888
+      },
+      {
+        "name": "PvP",
+        "games": 22383
+      },
+      {
+        "name": "DualShock Controller Support",
+        "games": 21612
+      },
+      {
+        "name": "Partial Controller Support",
+        "games": 20104
+      },
+      {
+        "name": "DualSense Controller Support",
+        "games": 19671
+      },
+      {
+        "name": "Stereo Sound",
+        "games": 18076
+      },
+      {
+        "name": "Save Anytime",
+        "games": 17813
+      },
+      {
+        "name": "Online PvP",
+        "games": 16955
+      },
+      {
+        "name": "Online Co-op",
+        "games": 16551
+      },
+      {
+        "name": "Steam Leaderboards",
+        "games": 14241
+      },
+      {
+        "name": "Mouse Only Option",
+        "games": 13500
+      },
+      {
+        "name": "Playable At Your Own Pace",
+        "games": 12764
+      },
+      {
+        "name": "Camera Comfort",
+        "games": 12106
+      },
+      {
+        "name": "Shared/Split Screen",
+        "games": 11785
+      },
+      {
+        "name": "Steam Trading Cards",
+        "games": 11785
+      },
+      {
+        "name": "Remote Play Together",
+        "games": 11699
+      },
+      {
+        "name": "Adjustable Difficulty",
+        "games": 10673
+      },
+      {
+        "name": "Keyboard Only Option",
+        "games": 9959
+      },
+      {
+        "name": "Stats",
+        "games": 9623
+      },
+      {
+        "name": "Gamepad Recommended",
+        "games": 8885
+      },
+      {
+        "name": "Shared/Split Screen PvP",
+        "games": 7712
+      },
+      {
+        "name": "Shared/Split Screen Co-op",
+        "games": 7133
+      },
+      {
+        "name": "Tracked Controller Support",
+        "games": 5991
+      },
+      {
+        "name": "VR Only",
+        "games": 5949
+      },
+      {
+        "name": "Color Alternatives",
+        "games": 5946
+      },
+      {
+        "name": "Cross-Platform Multiplayer",
+        "games": 5221
+      },
+      {
+        "name": "In-App Purchases",
+        "games": 4780
+      },
+      {
+        "name": "Surround Sound",
+        "games": 4627
+      },
+      {
+        "name": "Adjustable Text Size",
+        "games": 4289
+      },
+      {
+        "name": "Steam Workshop",
+        "games": 4214
+      },
+      {
+        "name": "Includes level editor",
+        "games": 4134
+      },
+      {
+        "name": "Subtitle Options",
+        "games": 3846
+      },
+      {
+        "name": "Steam Input API Support",
+        "games": 3770
+      },
+      {
+        "name": "Captions available",
+        "games": 3595
+      },
+      {
+        "name": "Touch Only Option",
+        "games": 3496
+      },
+      {
+        "name": "Remote Play on TV",
+        "games": 3101
+      },
+      {
+        "name": "LAN Co-op",
+        "games": 2889
+      },
+      {
+        "name": "LAN PvP",
+        "games": 2579
+      },
+      {
+        "name": "MMO",
+        "games": 2389
+      },
+      {
+        "name": "Contrast Controls",
+        "games": 1753
+      },
+      {
+        "name": "VR Supported",
+        "games": 1380
+      },
+      {
+        "name": "HDR available",
+        "games": 1168
+      },
+      {
+        "name": "Remote Play on Tablet",
+        "games": 1145
+      },
+      {
+        "name": "Remote Play on Phone",
+        "games": 992
+      },
+      {
+        "name": "Narrated Game Menus",
+        "games": 981
+      },
+      {
+        "name": "Commentary available",
+        "games": 511
+      },
+      {
+        "name": "Steam Timeline",
+        "games": 343
+      },
+      {
+        "name": "VR Support",
+        "games": 234
+      },
+      {
+        "name": "Steam Turn Notifications",
+        "games": 206
+      },
+      {
+        "name": "Playable Without Vision",
+        "games": 194
+      },
+      {
+        "name": "Includes Source SDK",
+        "games": 107
+      },
+      {
+        "name": "Valve Anti-Cheat enabled",
+        "games": 98
+      },
+      {
+        "name": "Chat Text-to-speech",
+        "games": 96
+      },
+      {
+        "name": "Chat Speech-to-text",
+        "games": 70
+      },
+      {
+        "name": "SteamVR Collectibles",
+        "games": 37
+      },
+      {
+        "name": "Mods",
+        "games": 2
+      },
+      {
+        "name": "Mods (require HL2)",
+        "games": 2
+      }
+    ],
+    "languages": [
+      {
+        "name": "English",
+        "games": 183941
+      },
+      {
+        "name": "Simplified Chinese",
+        "games": 62356
+      },
+      {
+        "name": "Japanese",
+        "games": 54002
+      },
+      {
+        "name": "German",
+        "games": 51995
+      },
+      {
+        "name": "French",
+        "games": 51835
+      },
+      {
+        "name": "Spanish - Spain",
+        "games": 49507
+      },
+      {
+        "name": "Russian",
+        "games": 48307
+      },
+      {
+        "name": "Korean",
+        "games": 37390
+      },
+      {
+        "name": "Italian",
+        "games": 35654
+      },
+      {
+        "name": "Portuguese - Brazil",
+        "games": 34727
+      },
+      {
+        "name": "Traditional Chinese",
+        "games": 31730
+      },
+      {
+        "name": "Polish",
+        "games": 24932
+      },
+      {
+        "name": "Turkish",
+        "games": 21882
+      },
+      {
+        "name": "Spanish - Latin America",
+        "games": 20222
+      },
+      {
+        "name": "Portuguese - Portugal",
+        "games": 19881
+      },
+      {
+        "name": "Ukrainian",
+        "games": 14129
+      },
+      {
+        "name": "Dutch",
+        "games": 13010
+      },
+      {
+        "name": "Czech",
+        "games": 11413
+      },
+      {
+        "name": "Thai",
+        "games": 11044
+      },
+      {
+        "name": "Swedish",
+        "games": 10540
+      },
+      {
+        "name": "Arabic",
+        "games": 9930
+      },
+      {
+        "name": "Hungarian",
+        "games": 9753
+      },
+      {
+        "name": "Vietnamese",
+        "games": 9585
+      },
+      {
+        "name": "Danish",
+        "games": 9382
+      },
+      {
+        "name": "Finnish",
+        "games": 9311
+      },
+      {
+        "name": "Norwegian",
+        "games": 9234
+      },
+      {
+        "name": "Romanian",
+        "games": 8834
+      },
+      {
+        "name": "Greek",
+        "games": 8646
+      },
+      {
+        "name": "Indonesian",
+        "games": 8543
+      },
+      {
+        "name": "Bulgarian",
+        "games": 8072
+      },
+      {
+        "name": "Malay",
+        "games": 4378
+      },
+      {
+        "name": "Hindi",
+        "games": 4080
+      },
+      {
+        "name": "Catalan",
+        "games": 3644
+      },
+      {
+        "name": "Slovak",
+        "games": 3441
+      },
+      {
+        "name": "Serbian",
+        "games": 3333
+      },
+      {
+        "name": "Filipino",
+        "games": 3322
+      },
+      {
+        "name": "Hebrew",
+        "games": 3304
+      },
+      {
+        "name": "Croatian",
+        "games": 3295
+      },
+      {
+        "name": "Lithuanian",
+        "games": 3253
+      },
+      {
+        "name": "Estonian",
+        "games": 3233
+      },
+      {
+        "name": "Persian",
+        "games": 3221
+      },
+      {
+        "name": "Belarusian",
+        "games": 3216
+      },
+      {
+        "name": "Kazakh",
+        "games": 3197
+      },
+      {
+        "name": "Latvian",
+        "games": 3187
+      },
+      {
+        "name": "Slovenian",
+        "games": 3169
+      },
+      {
+        "name": "Basque",
+        "games": 3161
+      },
+      {
+        "name": "Azerbaijani",
+        "games": 3153
+      },
+      {
+        "name": "Bangla",
+        "games": 3139
+      },
+      {
+        "name": "Icelandic",
+        "games": 3137
+      },
+      {
+        "name": "Galician",
+        "games": 3132
+      },
+      {
+        "name": "Afrikaans",
+        "games": 3122
+      },
+      {
+        "name": "Georgian",
+        "games": 3120
+      },
+      {
+        "name": "Urdu",
+        "games": 3102
+      },
+      {
+        "name": "Uzbek",
+        "games": 3101
+      },
+      {
+        "name": "Irish",
+        "games": 3094
+      },
+      {
+        "name": "Swahili",
+        "games": 3088
+      },
+      {
+        "name": "Albanian",
+        "games": 3086
+      },
+      {
+        "name": "Welsh",
+        "games": 3086
+      },
+      {
+        "name": "Bosnian",
+        "games": 3085
+      },
+      {
+        "name": "Tamil",
+        "games": 3077
+      },
+      {
+        "name": "Macedonian",
+        "games": 3062
+      },
+      {
+        "name": "Armenian",
+        "games": 3061
+      },
+      {
+        "name": "Telugu",
+        "games": 3058
+      },
+      {
+        "name": "Luxembourgish",
+        "games": 3056
+      },
+      {
+        "name": "Mongolian",
+        "games": 3050
+      },
+      {
+        "name": "Marathi",
+        "games": 3041
+      },
+      {
+        "name": "Gujarati",
+        "games": 3040
+      },
+      {
+        "name": "Punjabi (Gurmukhi)",
+        "games": 3040
+      },
+      {
+        "name": "Nepali",
+        "games": 3039
+      },
+      {
+        "name": "Kyrgyz",
+        "games": 3031
+      },
+      {
+        "name": "Zulu",
+        "games": 3030
+      },
+      {
+        "name": "Kannada",
+        "games": 3028
+      },
+      {
+        "name": "Malayalam",
+        "games": 3027
+      },
+      {
+        "name": "Turkmen",
+        "games": 3023
+      },
+      {
+        "name": "Hausa",
+        "games": 3022
+      },
+      {
+        "name": "Scots",
+        "games": 3022
+      },
+      {
+        "name": "Tatar",
+        "games": 3022
+      },
+      {
+        "name": "Igbo",
+        "games": 3021
+      },
+      {
+        "name": "Maltese",
+        "games": 3021
+      },
+      {
+        "name": "Tajik",
+        "games": 3019
+      },
+      {
+        "name": "Maori",
+        "games": 3018
+      },
+      {
+        "name": "Xhosa",
+        "games": 3018
+      },
+      {
+        "name": "Sinhala",
+        "games": 3015
+      },
+      {
+        "name": "Yoruba",
+        "games": 3014
+      },
+      {
+        "name": "Punjabi (Shahmukhi)",
+        "games": 3007
+      },
+      {
+        "name": "Amharic",
+        "games": 3006
+      },
+      {
+        "name": "Uyghur",
+        "games": 3006
+      },
+      {
+        "name": "Kinyarwanda",
+        "games": 3004
+      },
+      {
+        "name": "Khmer",
+        "games": 3003
+      },
+      {
+        "name": "Odia",
+        "games": 3001
+      },
+      {
+        "name": "Sotho",
+        "games": 3001
+      },
+      {
+        "name": "Sindhi",
+        "games": 2999
+      },
+      {
+        "name": "Quechua",
+        "games": 2994
+      },
+      {
+        "name": "Assamese",
+        "games": 2993
+      },
+      {
+        "name": "Konkani",
+        "games": 2991
+      },
+      {
+        "name": "Sorani",
+        "games": 2989
+      },
+      {
+        "name": "Tswana",
+        "games": 2984
+      },
+      {
+        "name": "Valencian",
+        "games": 2984
+      },
+      {
+        "name": "Dari",
+        "games": 2982
+      },
+      {
+        "name": "Tigrinya",
+        "games": 2980
+      },
+      {
+        "name": "Cherokee",
+        "games": 2979
+      },
+      {
+        "name": "K'iche'",
+        "games": 2976
+      },
+      {
+        "name": "Wolof",
+        "games": 2975
+      },
+      {
+        "name": "English[b][/b]",
+        "games": 3
+      },
+      {
+        "name": "#lang_slovakian",
+        "games": 2
+      },
+      {
+        "name": "German;",
+        "games": 2
+      },
+      {
+        "name": "English\r\nRussian\r\nSpanish - Spain\r\nJapanese\r\nCzech",
+        "games": 1
+      },
+      {
+        "name": "English (full audio)",
+        "games": 1
+      },
+      {
+        "name": "English Dutch  English",
+        "games": 1
+      },
+      {
+        "name": "German[b][/b]",
+        "games": 1
+      },
+      {
+        "name": "Italian \r\n\r\n[b][/b] languages with full audio support",
+        "games": 1
+      },
+      {
+        "name": "Japanese (all with full audio support)",
+        "games": 1
+      },
+      {
+        "name": "Russian\r\n[b][/b]languages with full audio support",
+        "games": 1
+      },
+      {
+        "name": "Russian\r\nEnglish\r\nSpanish - Spain\r\nFrench\r\nJapanese\r\nCzech",
+        "games": 1
+      },
+      {
+        "name": "Spanish - Spain\r\n[b][/b]languages with full audio support",
+        "games": 1
+      },
+      {
+        "name": "Traditional Chinese (text only)",
+        "games": 1
+      }
+    ],
+    "audiolanguages": [
+      {
+        "name": "English",
+        "games": 75319
+      },
+      {
+        "name": "Simplified Chinese",
+        "games": 11001
+      },
+      {
+        "name": "Japanese",
+        "games": 9586
+      },
+      {
+        "name": "German",
+        "games": 8036
+      },
+      {
+        "name": "Russian",
+        "games": 7960
+      },
+      {
+        "name": "French",
+        "games": 7933
+      },
+      {
+        "name": "Spanish - Spain",
+        "games": 7328
+      },
+      {
+        "name": "Portuguese - Brazil",
+        "games": 5401
+      },
+      {
+        "name": "Italian",
+        "games": 5253
+      },
+      {
+        "name": "Korean",
+        "games": 5057
+      },
+      {
+        "name": "Traditional Chinese",
+        "games": 4744
+      },
+      {
+        "name": "Polish",
+        "games": 4009
+      },
+      {
+        "name": "Spanish - Latin America",
+        "games": 3925
+      },
+      {
+        "name": "Turkish",
+        "games": 3624
+      },
+      {
+        "name": "Portuguese - Portugal",
+        "games": 3574
+      },
+      {
+        "name": "Ukrainian",
+        "games": 2845
+      },
+      {
+        "name": "Dutch",
+        "games": 2644
+      },
+      {
+        "name": "Czech",
+        "games": 2501
+      },
+      {
+        "name": "Arabic",
+        "games": 2500
+      },
+      {
+        "name": "Swedish",
+        "games": 2421
+      },
+      {
+        "name": "Thai",
+        "games": 2299
+      },
+      {
+        "name": "Danish",
+        "games": 2269
+      },
+      {
+        "name": "Norwegian",
+        "games": 2249
+      },
+      {
+        "name": "Finnish",
+        "games": 2248
+      },
+      {
+        "name": "Hungarian",
+        "games": 2212
+      },
+      {
+        "name": "Greek",
+        "games": 2184
+      },
+      {
+        "name": "Romanian",
+        "games": 2174
+      },
+      {
+        "name": "Vietnamese",
+        "games": 2169
+      },
+      {
+        "name": "Bulgarian",
+        "games": 2062
+      },
+      {
+        "name": "Indonesian",
+        "games": 1885
+      },
+      {
+        "name": "Malay",
+        "games": 1473
+      },
+      {
+        "name": "Hindi",
+        "games": 1377
+      },
+      {
+        "name": "Catalan",
+        "games": 1338
+      },
+      {
+        "name": "Serbian",
+        "games": 1296
+      },
+      {
+        "name": "Slovak",
+        "games": 1295
+      },
+      {
+        "name": "Filipino",
+        "games": 1274
+      },
+      {
+        "name": "Hebrew",
+        "games": 1274
+      },
+      {
+        "name": "Persian",
+        "games": 1274
+      },
+      {
+        "name": "Kazakh",
+        "games": 1268
+      },
+      {
+        "name": "Bangla",
+        "games": 1266
+      },
+      {
+        "name": "Croatian",
+        "games": 1265
+      },
+      {
+        "name": "Georgian",
+        "games": 1264
+      },
+      {
+        "name": "Latvian",
+        "games": 1260
+      },
+      {
+        "name": "Azerbaijani",
+        "games": 1255
+      },
+      {
+        "name": "Welsh",
+        "games": 1254
+      },
+      {
+        "name": "Lithuanian",
+        "games": 1253
+      },
+      {
+        "name": "Slovenian",
+        "games": 1252
+      },
+      {
+        "name": "Swahili",
+        "games": 1252
+      },
+      {
+        "name": "Estonian",
+        "games": 1251
+      },
+      {
+        "name": "Icelandic",
+        "games": 1251
+      },
+      {
+        "name": "Belarusian",
+        "games": 1249
+      },
+      {
+        "name": "Galician",
+        "games": 1248
+      },
+      {
+        "name": "Urdu",
+        "games": 1248
+      },
+      {
+        "name": "Nepali",
+        "games": 1247
+      },
+      {
+        "name": "Punjabi (Gurmukhi)",
+        "games": 1247
+      },
+      {
+        "name": "Tamil",
+        "games": 1247
+      },
+      {
+        "name": "Uzbek",
+        "games": 1247
+      },
+      {
+        "name": "Bosnian",
+        "games": 1246
+      },
+      {
+        "name": "Gujarati",
+        "games": 1245
+      },
+      {
+        "name": "Luxembourgish",
+        "games": 1245
+      },
+      {
+        "name": "Basque",
+        "games": 1244
+      },
+      {
+        "name": "Albanian",
+        "games": 1243
+      },
+      {
+        "name": "Macedonian",
+        "games": 1241
+      },
+      {
+        "name": "Irish",
+        "games": 1240
+      },
+      {
+        "name": "Telugu",
+        "games": 1238
+      },
+      {
+        "name": "Afrikaans",
+        "games": 1237
+      },
+      {
+        "name": "Armenian",
+        "games": 1236
+      },
+      {
+        "name": "Mongolian",
+        "games": 1236
+      },
+      {
+        "name": "Hausa",
+        "games": 1235
+      },
+      {
+        "name": "Kannada",
+        "games": 1235
+      },
+      {
+        "name": "Marathi",
+        "games": 1235
+      },
+      {
+        "name": "Amharic",
+        "games": 1234
+      },
+      {
+        "name": "Kyrgyz",
+        "games": 1234
+      },
+      {
+        "name": "Malayalam",
+        "games": 1234
+      },
+      {
+        "name": "Igbo",
+        "games": 1233
+      },
+      {
+        "name": "Maltese",
+        "games": 1233
+      },
+      {
+        "name": "Punjabi (Shahmukhi)",
+        "games": 1233
+      },
+      {
+        "name": "Sinhala",
+        "games": 1233
+      },
+      {
+        "name": "Yoruba",
+        "games": 1233
+      },
+      {
+        "name": "Zulu",
+        "games": 1233
+      },
+      {
+        "name": "Scots",
+        "games": 1232
+      },
+      {
+        "name": "Sotho",
+        "games": 1231
+      },
+      {
+        "name": "Tajik",
+        "games": 1231
+      },
+      {
+        "name": "Tatar",
+        "games": 1231
+      },
+      {
+        "name": "Turkmen",
+        "games": 1231
+      },
+      {
+        "name": "Uyghur",
+        "games": 1231
+      },
+      {
+        "name": "Xhosa",
+        "games": 1231
+      },
+      {
+        "name": "Khmer",
+        "games": 1230
+      },
+      {
+        "name": "Kinyarwanda",
+        "games": 1230
+      },
+      {
+        "name": "Odia",
+        "games": 1230
+      },
+      {
+        "name": "Sindhi",
+        "games": 1228
+      },
+      {
+        "name": "Assamese",
+        "games": 1227
+      },
+      {
+        "name": "Maori",
+        "games": 1227
+      },
+      {
+        "name": "Quechua",
+        "games": 1227
+      },
+      {
+        "name": "Sorani",
+        "games": 1227
+      },
+      {
+        "name": "Konkani",
+        "games": 1226
+      },
+      {
+        "name": "Tigrinya",
+        "games": 1225
+      },
+      {
+        "name": "Valencian",
+        "games": 1224
+      },
+      {
+        "name": "Dari",
+        "games": 1223
+      },
+      {
+        "name": "Tswana",
+        "games": 1223
+      },
+      {
+        "name": "Cherokee",
+        "games": 1222
+      },
+      {
+        "name": "K'iche'",
+        "games": 1222
+      },
+      {
+        "name": "Wolof",
+        "games": 1222
+      }
+    ],
+    "platforms": [
+      "windows",
+      "mac",
+      "linux"
+    ],
+    "currencies": [
+      "USD",
+      "EUR",
+      "GBP",
+      "BRL",
+      "RUB",
+      "JPY",
+      "CNY",
+      "INR",
+      "UAH",
+      "KZT",
+      "AUD",
+      "CAD",
+      "PLN",
+      "CHF"
+    ],
+    "sorts": [
+      {
+        "sort": "appid",
+        "order": "asc"
+      },
+      {
+        "sort": "name",
+        "order": "asc"
+      },
+      {
+        "sort": "players",
+        "order": "desc"
+      },
+      {
+        "sort": "peak30d",
+        "order": "desc"
+      },
+      {
+        "sort": "hoursplayed30d",
+        "order": "desc"
+      },
+      {
+        "sort": "peakalltime",
+        "order": "desc"
+      },
+      {
+        "sort": "change24h",
+        "order": "desc"
+      },
+      {
+        "sort": "reviews",
+        "order": "desc"
+      },
+      {
+        "sort": "reviews30d",
+        "order": "desc"
+      },
+      {
+        "sort": "rating",
+        "order": "desc"
+      },
+      {
+        "sort": "rating30d",
+        "order": "desc"
+      },
+      {
+        "sort": "price",
+        "order": "asc"
+      },
+      {
+        "sort": "discount",
+        "order": "desc"
+      },
+      {
+        "sort": "releasedate",
+        "order": "desc"
+      },
+      {
+        "sort": "updatedat",
+        "order": "desc"
+      },
+      {
+        "sort": "metricsupdatedat",
+        "order": "asc"
+      }
+    ],
+    "generatedat": "2026-10-13T16:22:11+00:00"
+  }
+}

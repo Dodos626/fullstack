@@ -23,8 +23,6 @@ const preferences = (overrides = {}) => ({
     excludedGenres: [],
     includedTags: [],
     excludedTags: [],
-    includedCategories: [],
-    excludedCategories: [],
     platforms: [],
     priceFilterEnabled: false,
     priceMinUsd: 0,
@@ -80,14 +78,47 @@ test('optional rating and review-count requirements are hard filters', () => {
 });
 
 test('source-backed matching influences selection', () => {
-    const currentRoom = room(
-        preferences({ includedCategories: ['online-co-op'], includedTags: ['zombies'] })
-    );
+    const currentRoom = room(preferences({ includedTags: ['zombies'] }));
     const selected = selectNextGame(currentRoom, [
         game({ id: 2, categories: ['online-pvp'], tags: [] }),
         game(),
     ]);
     assert.equal(selected.id, 1);
+});
+
+test('categories and disabled facets do not affect matching or learning', () => {
+    const currentRoom = room(
+        preferences({
+            includedGenres: ['modern'],
+            includedTags: ['utilities'],
+            excludedTags: ['modern'],
+        })
+    );
+    const source = game({
+        genres: ['action', 'modern'],
+        tags: ['zombies', 'utilities'],
+        categories: ['online-co-op'],
+    });
+
+    assert.equal(isGameEligible(source, currentRoom), true);
+    const features = require('../modules/gamefinder/gamefinder.engine').typedGameFeatures(source);
+    assert.equal(features.includes('genre:modern'), false);
+    assert.equal(features.includes('tag:utilities'), false);
+    assert.equal(features.some((feature) => feature.startsWith('category:')), false);
+
+    currentRoom.votes.set(source.id, new Map([['p0', 'like']]));
+    applyVoteLearning(currentRoom, source);
+    assert.equal(currentRoom.playerAffinities.get('p0').has('genre:modern'), false);
+    assert.equal(currentRoom.playerAffinities.get('p0').has('tag:utilities'), false);
+    assert.equal(currentRoom.playerAffinities.get('p0').has('category:online-co-op'), false);
+});
+
+test('categories do not change candidate scores', () => {
+    const currentRoom = room(preferences());
+    const { scoreGame } = require('../modules/gamefinder/gamefinder.engine');
+    const coOpScore = scoreGame(game({ categories: ['online-co-op'] }), currentRoom).score;
+    const pvpScore = scoreGame(game({ categories: ['online-pvp'] }), currentRoom).score;
+    assert.equal(coOpScore, pvpScore);
 });
 
 test('unfiltered selection does not always return the lowest Steam app ID', () => {

@@ -26,8 +26,6 @@ const preferenceSchema = z
         excludedGenres: facets,
         includedTags: facets,
         excludedTags: facets,
-        includedCategories: facets,
-        excludedCategories: facets,
         platforms: facets,
         priceFilterEnabled: z.boolean().default(false),
         priceMinUsd: z.number().int().min(0).max(1000000),
@@ -53,16 +51,6 @@ const preferenceSchema = z
         (preferences) =>
             !preferences.includedTags.some((tag) => preferences.excludedTags.includes(tag)),
         { message: 'A tag cannot be both included and excluded', path: ['excludedTags'] }
-    )
-    .refine(
-        (preferences) =>
-            !preferences.includedCategories.some((category) =>
-                preferences.excludedCategories.includes(category)
-            ),
-        {
-            message: 'A category cannot be both included and excluded',
-            path: ['excludedCategories'],
-        }
     );
 
 const preferencesSubmitSchema = resumeRoomSchema.extend({ preferences: preferenceSchema });
