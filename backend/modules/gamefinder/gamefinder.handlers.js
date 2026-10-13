@@ -173,8 +173,9 @@ const registerGameFinderHandlers = (io, store) => {
                     room.votes = new Map();
                     room.shownGameIds = [];
                     room.recommendationHistoryIds = [];
-                    room.playerAffinities = new Map();
-                    room.playerEvidence = new Map();
+                    room.playerFeatureStats = new Map();
+                    room.playerLearningVoteCounts = new Map();
+                    room.recommendationDecisions = [];
                     room.results = [];
                     room.reveal = null;
                     room.winnerId = null;
@@ -327,8 +328,9 @@ const registerGameFinderHandlers = (io, store) => {
                 room.recommendationHistoryIds = [];
                 room.currentGameId = null;
                 room.votes = new Map();
-                room.playerAffinities = new Map();
-                room.playerEvidence = new Map();
+                room.playerFeatureStats = new Map();
+                room.playerLearningVoteCounts = new Map();
+                room.recommendationDecisions = [];
                 room.results = [];
                 room.reveal = null;
                 room.winnerId = null;

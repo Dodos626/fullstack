@@ -22,13 +22,13 @@ services:
         container_name: app_backend
         restart: always
         ports:
-            - '5000:5000'
+            - '5050:5050'
         volumes:
             - ./backend:/app
             - backend_node_modules:/app/node_modules
         command: sh -c "npm install --no-audit --no-fund && npm run db:migrate && npm run dev"
         environment:
-            PORT: 5000
+            PORT: 5050
             DB_HOST: db
             DB_USER: postgres
             DB_PASSWORD: postgres
@@ -49,7 +49,7 @@ services:
                     'CMD',
                     'node',
                     '-e',
-                    "fetch('http://localhost:5000/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+                    "fetch('http://localhost:5050/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
                 ]
             interval: 10s
             timeout: 5s
@@ -66,7 +66,7 @@ services:
             - /app/node_modules
         environment:
             CHOKIDAR_USEPOLLING: 'true'
-            VITE_API_URL: http://lvh.me:5000/api
+            VITE_API_URL: http://lvh.me:5050/api
             VITE_APP_MODE: dev
             VITE_APP_ROOT_DOMAIN: lvh.me
             VITE_APP_PROTOCOL: http
@@ -87,8 +87,8 @@ services:
             - ./apps/gamefinder:/app
             - /app/node_modules
         environment:
-            NEXT_PUBLIC_SOCKET_URL: http://lvh.me:5000
-            NEXT_PUBLIC_API_URL: http://lvh.me:5000/api
+            NEXT_PUBLIC_SOCKET_URL: http://lvh.me:5050
+            NEXT_PUBLIC_API_URL: http://lvh.me:5050/api
             NEXT_PUBLIC_PORTFOLIO_URL: http://lvh.me:5173
             WATCHPACK_POLLING: 'true'
         depends_on:

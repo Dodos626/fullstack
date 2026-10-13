@@ -10,7 +10,7 @@ const booleanFromString = z
 
 const envSchema = z.object({
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-    PORT: z.coerce.number().int().positive().default(5000),
+    PORT: z.coerce.number().int().positive().default(5050),
     TRUST_PROXY_HOPS: z.coerce.number().int().min(0).max(1).default(0),
     JWT_ACCESS_SECRET: z.string().min(16).optional(),
     JWT_REFRESH_SECRET: z.string().min(16).optional(),

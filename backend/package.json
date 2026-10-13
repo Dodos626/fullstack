@@ -11,6 +11,7 @@
         "format": "prettier --write .",
         "gamefinder:sync-catalog": "node modules/gamefinder/catalog/sync-steamdb.js",
         "gamefinder:refresh-catalog": "node modules/gamefinder/catalog/sync-steamdb.js",
+        "gamefinder:replay": "node scripts/gamefinder-replay.js",
         "db:migrate": "sequelize-cli db:migrate",
         "db:seed": "sequelize-cli db:seed:all",
         "db:reset": "sequelize-cli db:migrate:undo:all && sequelize-cli db:migrate && sequelize-cli db:seed:all"

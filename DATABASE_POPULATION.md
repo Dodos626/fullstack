@@ -88,7 +88,7 @@ docker compose exec db psql -U postgres -d app_db -c \
 Verify the catalog API after the backend starts:
 
 ```bash
-curl http://lvh.me:5000/api/gamefinder/catalog/options
+curl http://lvh.me:5050/api/gamefinder/catalog/options
 ```
 
 The response reports `source` as `postgres`, the current game count, price bounds, and every metric
