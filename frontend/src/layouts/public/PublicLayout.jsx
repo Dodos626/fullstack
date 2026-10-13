@@ -14,6 +14,7 @@ import { isDevMode } from '../../config/features';
 
 const publicLeftSide = [
     { name: 'Home', destination: '/', type: 'final' },
+    { name: 'Apps', destination: '/apps', type: 'final' },
     { name: 'Projects', destination: '/projects', type: 'final' },
     { name: 'About', destination: '/about', type: 'final' },
     ...(isDevMode ? [{ name: 'Login', destination: '/login', type: 'final' }] : []),

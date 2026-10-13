@@ -1,9 +1,11 @@
+const { apps } = require('../config/apps.config');
+
 const extractSubdomain = (req, res, next) => {
     const host = req.hostname.toLowerCase();
     const rootDomain = process.env.APP_ROOT_DOMAIN || 'lvh.me';
     const requestedApp = req.get('x-app-name')?.toLowerCase();
 
-    if (['public', 'user', 'guest', 'admin'].includes(requestedApp)) {
+    if (requestedApp && Object.hasOwn(apps, requestedApp)) {
         req.subdomain = requestedApp === 'public' ? null : requestedApp;
         return next();
     }

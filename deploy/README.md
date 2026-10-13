@@ -49,9 +49,10 @@ does not change firewall rules. GitHub-hosted runners must be able to reach SSH.
 
 ## Cloudflare DNS and HTTPS
 
-Create DNS-only A records pointing to the server IP for `@`, `user`, `guest`, and
-`admin`. For `APP_DOMAIN=app.example.com`, use `app`, `user.app`, `guest.app`, and
-`admin.app`. Remove conflicting records; add AAAA only if IPv6 is reachable too.
+Create DNS-only A records pointing to the server IP for `@`, `user`, `guest`, `admin`,
+and `hello`. For `APP_DOMAIN=app.example.com`, use `app`, `user.app`, `guest.app`,
+`admin.app`, and `hello.app`. Remove conflicting records; add AAAA only if IPv6 is
+reachable too.
 
 Caddy obtains certificates automatically once DNS resolves and ports 80/443 are
 reachable. Containers can start before DNS is configured, but HTTPS and sign-in

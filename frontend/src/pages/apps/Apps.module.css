@@ -1,0 +1,122 @@
+.page {
+    width: 100%;
+    padding: 28px 0 48px;
+}
+
+.header {
+    max-width: 720px;
+    margin-bottom: 32px;
+}
+
+.kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--button-accent);
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.header h1 {
+    margin: 0 0 12px;
+}
+
+.header p,
+.card p {
+    color: color-mix(in srgb, var(--letters-over-bg) 78%, transparent);
+}
+
+.header p {
+    font-size: 18px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+    padding: 26px;
+    border: 1px solid var(--surface-border);
+    border-radius: 22px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--chip-bg);
+    color: var(--chip-text);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.host {
+    color: color-mix(in srgb, var(--letters-over-bg) 62%, transparent);
+    font-family: var(--mono);
+    font-size: 12px;
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.card p {
+    margin-bottom: 28px;
+}
+
+.openButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: fit-content;
+    min-height: 44px;
+    margin-top: auto;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--button-surface);
+    color: var(--button-text);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: var(--shadow-button);
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+}
+
+.openButton:hover {
+    background: color-mix(in hsl, var(--button-surface) 84%, white 16%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-button-hover);
+}
+
+@media (max-width: 520px) {
+    .page {
+        padding-top: 12px;
+    }
+
+    .cardHeader {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+}

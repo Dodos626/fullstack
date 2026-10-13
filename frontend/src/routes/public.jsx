@@ -4,6 +4,7 @@ import { PublicLayout } from '../layouts/public/PublicLayout';
 import { Projects } from '../pages/portfolio/subSections/Projects';
 import { ProjectDetails } from '../pages/portfolio/ProjectDetails';
 import { About } from '../pages/portfolio/About';
+import { Apps } from '../pages/apps/Apps';
 import { isDevMode } from '../config/features';
 
 const loginRoute = {
@@ -25,6 +26,14 @@ export const publicRoutes = [
         ),
     },
     ...(isDevMode ? [loginRoute] : []),
+    {
+        path: '/apps',
+        element: (
+            <PublicLayout>
+                <Apps />
+            </PublicLayout>
+        ),
+    },
     {
         path: '/about',
         element: (

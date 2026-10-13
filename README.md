@@ -1,6 +1,6 @@
 # Full-Stack Portfolio Platform
 
-A full-stack JavaScript project that combines a public portfolio/CV website with a secure, subdomain-based application platform. The repository includes a React frontend, an Express API, PostgreSQL persistence, rotating JWT sessions, role-aware applications, a lightweight animated CSS background, reusable UI components, automated backend tests, and a Docker-based development setup.
+A full-stack JavaScript project that combines a public portfolio/CV website with a secure, subdomain-based application platform. The repository includes a React frontend, standalone sub apps, an Express API, PostgreSQL persistence, rotating JWT sessions, role-aware applications, a lightweight animated CSS background, reusable UI components, automated backend tests, and a Docker-based development setup.
 
 For a dated record of implementation decisions and step-by-step reconstruction guidance, see [CHANGELOG.md](./CHANGELOG.md).
 
@@ -23,6 +23,7 @@ Today's work turned the original portfolio and authentication prototype into a m
 | `user.lvh.me:5173`  | User workspace             | User and admin  |
 | `guest.lvh.me:5173` | Guest workspace            | Guest and admin |
 | `admin.lvh.me:5173` | Administration workspace   | Admin           |
+| `hello.lvh.me:5174` | Hello World sub app         | Public          |
 
 ### Authentication and API security
 
@@ -179,6 +180,8 @@ Route -> middleware/validation -> controller -> service -> Sequelize model -> Po
 
 ```text
 fullstack/
+├── apps/
+│   └── hello/         # First standalone sub app (hello.chlktheo.com)
 ├── backend/
 │   ├── config/        # Database and application-area configuration
 │   ├── middleware/    # Authentication, access, subdomain, and error middleware
@@ -206,7 +209,8 @@ fullstack/
 
 ### Docker Compose
 
-The intended development setup starts all three services together:
+The intended development setup starts the database, backend, portfolio frontend, and
+standalone sub apps together:
 
 ```bash
 docker compose up --build
@@ -215,6 +219,8 @@ docker compose up --build
 Once running:
 
 - Frontend: `http://lvh.me:5173`
+- Apps page: `http://lvh.me:5173/apps`
+- Hello app: `http://hello.lvh.me:5174`
 - Backend API: `http://lvh.me:5000/api`
 - PostgreSQL: `localhost:5432`
 
@@ -269,7 +275,7 @@ DB_PASSWORD=postgres
 DB_NAME=app_db
 DB_PORT=5432
 COOKIE_DOMAIN=.lvh.me
-CORS_ORIGINS=http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173
+CORS_ORIGINS=http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://hello.lvh.me:5174
 APP_ROOT_DOMAIN=lvh.me
 ```
 
@@ -283,6 +289,7 @@ VITE_APP_MAIN_URL=http://lvh.me:5173
 VITE_APP_USER_URL=http://user.lvh.me:5173
 VITE_APP_GUEST_URL=http://guest.lvh.me:5173
 VITE_APP_ADMIN_URL=http://admin.lvh.me:5173
+VITE_APP_HELLO_URL=http://hello.lvh.me:5174
 ```
 
 `VITE_APP_MODE=dev` enables the login navigation item, `/login` route, and frontend login flow.
@@ -294,6 +301,7 @@ Development hosts map to the applications as follows:
 - `http://user.lvh.me:5173` — user application
 - `http://guest.lvh.me:5173` — guest application
 - `http://admin.lvh.me:5173` — admin application
+- `http://hello.lvh.me:5174` — standalone Hello World application
 
 Start each application in a separate terminal:
 
@@ -304,6 +312,11 @@ npm run dev
 
 # Frontend
 cd frontend
+npm run dev
+
+# Hello sub app
+cd ../apps/hello
+npm install
 npm run dev
 ```
 
