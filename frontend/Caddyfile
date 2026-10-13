@@ -4,7 +4,19 @@
 	}
 
 	handle {
-		root * /srv
+		root * /srv/main
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+hello.{$APP_DOMAIN} {
+	handle /api/* {
+		reverse_proxy backend:5000
+	}
+
+	handle {
+		root * /srv/apps/hello
 		try_files {path} /index.html
 		file_server
 	}

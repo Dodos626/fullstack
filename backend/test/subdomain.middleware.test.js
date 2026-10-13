@@ -21,6 +21,14 @@ test('application header identifies the frontend app behind a shared API host', 
     assert.equal(req.subdomain, 'user');
 });
 
+test('application header identifies a standalone public app', () => {
+    const req = { hostname: 'lvh.me', get: () => 'hello' };
+
+    extractSubdomain(req, {}, () => {});
+
+    assert.equal(req.subdomain, 'hello');
+});
+
 test('root lvh.me host resolves to the public app', () => {
     const result = runMiddleware('lvh.me');
 

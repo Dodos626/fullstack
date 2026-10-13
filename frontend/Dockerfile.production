@@ -1,8 +1,8 @@
-FROM node:22-bookworm-slim AS build
-WORKDIR /app
-COPY package*.json ./
+FROM node:22-bookworm-slim AS portfolio-build
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
 RUN npm ci
-COPY . .
+COPY frontend/ ./
 ARG APP_DOMAIN
 ENV VITE_API_URL=/api \
     VITE_APP_ROOT_DOMAIN=${APP_DOMAIN} \
@@ -10,9 +10,20 @@ ENV VITE_API_URL=/api \
     VITE_APP_MAIN_URL=https://${APP_DOMAIN} \
     VITE_APP_USER_URL=https://user.${APP_DOMAIN} \
     VITE_APP_GUEST_URL=https://guest.${APP_DOMAIN} \
-    VITE_APP_ADMIN_URL=https://admin.${APP_DOMAIN}
+    VITE_APP_ADMIN_URL=https://admin.${APP_DOMAIN} \
+    VITE_APP_HELLO_URL=https://hello.${APP_DOMAIN}
+RUN npm run build
+
+FROM node:22-bookworm-slim AS hello-build
+WORKDIR /app/apps/hello
+COPY apps/hello/package*.json ./
+RUN npm ci
+COPY apps/hello/ ./
+ARG APP_DOMAIN
+ENV VITE_APP_MAIN_URL=https://${APP_DOMAIN}
 RUN npm run build
 
 FROM caddy:2-alpine
-COPY --from=build /app/dist /srv
-COPY Caddyfile /etc/caddy/Caddyfile
+COPY --from=portfolio-build /app/frontend/dist /srv/main
+COPY --from=hello-build /app/apps/hello/dist /srv/apps/hello
+COPY frontend/Caddyfile /etc/caddy/Caddyfile

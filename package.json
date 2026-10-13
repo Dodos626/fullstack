@@ -2,11 +2,11 @@
     "name": "fullstack-portfolio-platform",
     "private": true,
     "scripts": {
-        "dev": "concurrently -n backend,frontend -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev -- --host\"",
-        "build": "npm --prefix frontend run build",
-        "lint": "npm --prefix backend run lint && npm --prefix frontend run lint",
+        "dev": "concurrently -n backend,frontend,hello -c blue,green,magenta \"npm --prefix backend run dev\" \"npm --prefix frontend run dev -- --host\" \"npm --prefix apps/hello run dev -- --host\"",
+        "build": "npm --prefix frontend run build && npm --prefix apps/hello run build",
+        "lint": "npm --prefix backend run lint && npm --prefix frontend run lint && npm --prefix apps/hello run lint",
         "test": "npm --prefix backend test",
-        "format": "npm --prefix backend run format && npm --prefix frontend run format",
+        "format": "npm --prefix backend run format && npm --prefix frontend run format && npm --prefix apps/hello run format",
         "db:migrate": "npm --prefix backend run db:migrate",
         "db:seed": "npm --prefix backend run db:seed"
     },
