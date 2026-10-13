@@ -36,7 +36,7 @@ services:
             APP_ROOT_DOMAIN: ${APP_DOMAIN:?Set APP_DOMAIN}
             COOKIE_DOMAIN: .${APP_DOMAIN}
             COOKIE_SECURE: 'true'
-            CORS_ORIGINS: https://${APP_DOMAIN},https://user.${APP_DOMAIN},https://guest.${APP_DOMAIN},https://admin.${APP_DOMAIN},https://hello.${APP_DOMAIN},https://gamefinder.${APP_DOMAIN}
+            CORS_ORIGINS: https://${APP_DOMAIN},https://user.${APP_DOMAIN},https://guest.${APP_DOMAIN},https://admin.${APP_DOMAIN},https://gamefinder.${APP_DOMAIN}
         depends_on:
             db:
                 condition: service_healthy

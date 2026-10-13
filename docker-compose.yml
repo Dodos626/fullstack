@@ -37,7 +37,7 @@ services:
             JWT_ACCESS_SECRET: development-access-secret-change-me
             JWT_REFRESH_SECRET: development-refresh-secret-change-me
             COOKIE_DOMAIN: .lvh.me
-            CORS_ORIGINS: http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://hello.lvh.me:5174,http://gamefinder.lvh.me:5175,http://localhost:5173,http://127.0.0.1:5173
+            CORS_ORIGINS: http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://gamefinder.lvh.me:5175,http://localhost:5173,http://127.0.0.1:5173
             APP_ROOT_DOMAIN: lvh.me
             CHOKIDAR_USEPOLLING: 'true'
         depends_on:
@@ -71,26 +71,11 @@ services:
             VITE_APP_ROOT_DOMAIN: lvh.me
             VITE_APP_PROTOCOL: http
             VITE_APP_PORT: 5173
-            VITE_APP_HELLO_PORT: 5174
             VITE_APP_GAMEFINDER_PORT: 5175
-            VITE_APP_HELLO_URL: http://hello.lvh.me:5174
             VITE_APP_GAMEFINDER_URL: http://gamefinder.lvh.me:5175
         depends_on:
             backend:
                 condition: service_healthy
-
-    hello:
-        build: ./apps/hello
-        container_name: app_hello
-        restart: always
-        ports:
-            - '5174:5174'
-        volumes:
-            - ./apps/hello:/app
-            - /app/node_modules
-        environment:
-            CHOKIDAR_USEPOLLING: 'true'
-            VITE_APP_MAIN_URL: http://lvh.me:5173
 
     gamefinder:
         build: ./apps/gamefinder

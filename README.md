@@ -23,7 +23,6 @@ Today's work turned the original portfolio and authentication prototype into a m
 | `user.lvh.me:5173`       | User workspace             | User and admin  |
 | `guest.lvh.me:5173`      | Guest workspace            | Guest and admin |
 | `admin.lvh.me:5173`      | Administration workspace   | Admin           |
-| `hello.lvh.me:5174`      | Hello World sub app        | Public          |
 | `gamefinder.lvh.me:5175` | Multiplayer Game Finder    | Public          |
 
 ### Authentication and API security
@@ -182,7 +181,7 @@ Route -> middleware/validation -> controller -> service -> Sequelize model -> Po
 ```text
 fullstack/
 ├── apps/
-│   └── hello/         # First standalone sub app (hello.chlktheo.com)
+│   └── gamefinder/    # Multiplayer Steam recommendation app
 ├── backend/
 │   ├── config/        # Database and application-area configuration
 │   ├── middleware/    # Authentication, access, subdomain, and error middleware
@@ -221,7 +220,6 @@ Once running:
 
 - Frontend: `http://lvh.me:5173`
 - Apps page: `http://lvh.me:5173/apps`
-- Hello app: `http://hello.lvh.me:5174`
 - Game Finder: `http://gamefinder.lvh.me:5175`
 - Backend API: `http://lvh.me:5000/api`
 - PostgreSQL: `localhost:5432`
@@ -289,7 +287,7 @@ DB_PASSWORD=postgres
 DB_NAME=app_db
 DB_PORT=5432
 COOKIE_DOMAIN=.lvh.me
-CORS_ORIGINS=http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://hello.lvh.me:5174
+CORS_ORIGINS=http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://gamefinder.lvh.me:5175
 APP_ROOT_DOMAIN=lvh.me
 ```
 
@@ -303,7 +301,6 @@ VITE_APP_MAIN_URL=http://lvh.me:5173
 VITE_APP_USER_URL=http://user.lvh.me:5173
 VITE_APP_GUEST_URL=http://guest.lvh.me:5173
 VITE_APP_ADMIN_URL=http://admin.lvh.me:5173
-VITE_APP_HELLO_URL=http://hello.lvh.me:5174
 VITE_APP_GAMEFINDER_URL=http://gamefinder.lvh.me:5175
 ```
 
@@ -316,7 +313,6 @@ Development hosts map to the applications as follows:
 - `http://user.lvh.me:5173` — user application
 - `http://guest.lvh.me:5173` — guest application
 - `http://admin.lvh.me:5173` — admin application
-- `http://hello.lvh.me:5174` — standalone Hello World application
 - `http://gamefinder.lvh.me:5175` — real-time multiplayer Game Finder
 
 Start each application in a separate terminal:
@@ -330,8 +326,8 @@ npm run dev
 cd frontend
 npm run dev
 
-# Hello sub app
-cd ../apps/hello
+# Game Finder sub app
+cd ../apps/gamefinder
 npm install
 npm run dev
 ```

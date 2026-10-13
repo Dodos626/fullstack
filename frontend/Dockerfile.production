@@ -11,17 +11,7 @@ ENV VITE_API_URL=/api \
     VITE_APP_USER_URL=https://user.${APP_DOMAIN} \
     VITE_APP_GUEST_URL=https://guest.${APP_DOMAIN} \
     VITE_APP_ADMIN_URL=https://admin.${APP_DOMAIN} \
-    VITE_APP_HELLO_URL=https://hello.${APP_DOMAIN} \
     VITE_APP_GAMEFINDER_URL=https://gamefinder.${APP_DOMAIN}
-RUN npm run build
-
-FROM node:22-bookworm-slim AS hello-build
-WORKDIR /app/apps/hello
-COPY apps/hello/package*.json ./
-RUN npm ci
-COPY apps/hello/ ./
-ARG APP_DOMAIN
-ENV VITE_APP_MAIN_URL=https://${APP_DOMAIN}
 RUN npm run build
 
 FROM node:22-bookworm-slim AS gamefinder-build
@@ -37,6 +27,5 @@ RUN npm run build
 
 FROM caddy:2-alpine
 COPY --from=portfolio-build /app/frontend/dist /srv/main
-COPY --from=hello-build /app/apps/hello/dist /srv/apps/hello
 COPY --from=gamefinder-build /app/apps/gamefinder/out /srv/apps/gamefinder
 COPY frontend/Caddyfile /etc/caddy/Caddyfile
