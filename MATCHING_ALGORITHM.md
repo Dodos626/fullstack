@@ -9,7 +9,7 @@ and keeps enough structure to explain its decisions.
 A game is considered only when it is an enabled, released Steam multiplayer title that has not already
 appeared in the room. Every player's hard requirements are then applied:
 
-- excluded genres, tags, and categories
+- excluded genres and tags
 - required platforms
 - optional price range
 - optional minimum Steam positive-review percentage
@@ -20,19 +20,20 @@ Exploration never bypasses these filters.
 ## 2. Typed features
 
 Game metadata is converted into typed features such as `genre:action`, `tag:survival`, and
-`category:online-co-op`. Keeping the type prevents unrelated values from collapsing into one signal.
+`platform:windows`. Keeping the type prevents unrelated values from collapsing into one signal. Steam
+categories are used only when importing multiplayer-capable games and do not influence matching.
 
 ## 3. Information weights
 
 `gamefinder_metrics` contains the number of games using every feature. Game Finder converts those
 counts to capped inverse-document-frequency weights. Common features such as `tag:multiplayer` carry
 less information than specific features such as `tag:social-deduction`. Genres receive a small
-reliability bonus, followed by Steam categories and community tags.
+reliability bonus, followed by community tags and platforms.
 
 ## 4. Explicit questionnaire score
 
-For each player, a candidate receives points for matching selected genres, multiplayer categories,
-tags, and platforms. Matches are multiplied by their information weights. Exclusions remain hard
+For each player, a candidate receives points for matching selected genres, tags, and platforms.
+Matches are multiplied by their information weights. Exclusions remain hard
 filters rather than score penalties.
 
 ## 5. Per-player vote learning

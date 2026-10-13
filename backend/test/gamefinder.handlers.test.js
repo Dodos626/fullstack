@@ -101,8 +101,6 @@ const readyPreferences = {
     excludedGenres: [],
     includedTags: [],
     excludedTags: [],
-    includedCategories: [],
-    excludedCategories: [],
     platforms: [],
     priceFilterEnabled: false,
     priceMinUsd: 0,

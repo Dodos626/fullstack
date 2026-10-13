@@ -7,21 +7,26 @@ import styles from './GameFinder.module.css';
 const titleCase = (value) =>
     value.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 
-function FacetChoices({ name, facet, selected, onToggle }) {
+function FacetChoices({ name, facet, selected, unavailable, onToggle, groupTags }) {
+    const availableFacet = {
+        ...facet,
+        options: facet.options.filter((option) => !unavailable.includes(option.name)),
+    };
     if (facet.control === 'multi-select') {
         return (
             <MultiSelect
                 key={name}
                 name={name}
-                options={facet.options}
+                options={availableFacet.options}
                 selected={selected}
                 onToggle={onToggle}
+                groupTags={groupTags}
             />
         );
     }
     return (
         <div className={styles.choiceGrid}>
-            {facet.options.map((option) => (
+            {availableFacet.options.map((option) => (
                 <label className={styles.choice} key={option.name}>
                     <input
                         type="checkbox"
@@ -50,8 +55,6 @@ export default function Questionnaire({ onSubmit, pending, options }) {
         excludedGenres: [],
         includedTags: [],
         excludedTags: [],
-        includedCategories: [],
-        excludedCategories: [],
         platforms: [],
         priceFilterEnabled: false,
         priceMinUsd: priceMinimum,
@@ -75,13 +78,18 @@ export default function Questionnaire({ onSubmit, pending, options }) {
                 excludedGenres: 'includedGenres',
                 includedTags: 'excludedTags',
                 excludedTags: 'includedTags',
-                includedCategories: 'excludedCategories',
-                excludedCategories: 'includedCategories',
             };
             if (opposites[name])
                 next[opposites[name]] = current[opposites[name]].filter((item) => item !== value);
             return next;
         });
+    };
+
+    const opposites = {
+        includedGenres: 'excludedGenres',
+        excludedGenres: 'includedGenres',
+        includedTags: 'excludedTags',
+        excludedTags: 'includedTags',
     };
 
     const facetStep = (title, description, name, facetName) => ({
@@ -93,7 +101,9 @@ export default function Questionnaire({ onSubmit, pending, options }) {
                 name={name}
                 facet={options.facets[facetName]}
                 selected={form[name]}
+                unavailable={form[opposites[name]] || []}
                 onToggle={toggle}
+                groupTags={facetName === 'tags'}
             />
         ),
     });
@@ -122,18 +132,6 @@ export default function Questionnaire({ onSubmit, pending, options }) {
             'Use this for themes or mechanics nobody wants.',
             'excludedTags',
             'tags'
-        ),
-        facetStep(
-            'Preferred multiplayer modes?',
-            'Choose co-op, PvP, online, local, or another Steam feature.',
-            'includedCategories',
-            'categories'
-        ),
-        facetStep(
-            'Multiplayer modes to exclude?',
-            'Selected Steam categories become hard filters.',
-            'excludedCategories',
-            'categories'
         ),
         facetStep(
             'Which platforms must work?',

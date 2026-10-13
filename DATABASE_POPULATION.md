@@ -60,8 +60,8 @@ guaranteed for a particular room size. Games without a release date and games wi
 date are excluded. Free and unknown-price games are retained.
 
 The refresh upserts games, disables rows that no longer qualify, and rebuilds `gamefinder_metrics` in
-one transaction. The metrics table contains `name`, `type`, and `count` rows for genres, tags,
-categories, and platforms.
+one transaction. The metrics table contains `name`, `type`, and `count` rows for genres, tags, and
+platforms. Steam categories are retained only as import metadata for multiplayer eligibility.
 
 ## Verify the populated database
 

@@ -43,8 +43,6 @@ test('room serialization hides private preferences and unrevealed vote choices',
                         excludedGenres: ['fps'],
                         includedTags: ['co-op'],
                         excludedTags: [],
-                        includedCategories: ['online-co-op'],
-                        excludedCategories: [],
                         platforms: ['win'],
                         priceFilterEnabled: true,
                         priceMinUsd: 0,
@@ -68,8 +66,6 @@ test('room serialization hides private preferences and unrevealed vote choices',
                         excludedGenres: [],
                         includedTags: [],
                         excludedTags: [],
-                        includedCategories: ['online-co-op'],
-                        excludedCategories: [],
                         platforms: ['win'],
                         priceFilterEnabled: false,
                         priceMinUsd: 0,
@@ -92,9 +88,7 @@ test('room serialization hides private preferences and unrevealed vote choices',
     assert.equal(serialized.players[0].preferences, undefined);
     assert.equal(serialized.players[0].priceMaxUsd, undefined);
     assert.deepEqual(serialized.preferenceSummary.includedGenres, [{ value: 'action', count: 2 }]);
-    assert.deepEqual(serialized.preferenceSummary.includedCategories, [
-        { value: 'online-co-op', count: 2 },
-    ]);
+    assert.equal(serialized.preferenceSummary.includedCategories, undefined);
     assert.deepEqual(serialized.preferenceSummary.platforms, [{ value: 'win', count: 2 }]);
     assert.deepEqual(serialized.preferenceSummary.priceRanges, [
         { minimum: 0, maximum: 1000, count: 1 },

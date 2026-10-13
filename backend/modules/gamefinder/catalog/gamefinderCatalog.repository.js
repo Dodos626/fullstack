@@ -111,7 +111,6 @@ class GameFinderCatalogRepository {
 
     async rebuildMetrics(transaction) {
         const facetColumns = {
-            category: 'categories',
             genre: 'genres',
             tag: 'tags',
             platform: 'platforms',

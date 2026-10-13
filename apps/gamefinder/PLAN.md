@@ -18,7 +18,7 @@ Build **What the Hell Are We Playing?**, a real-time multiplayer preference-disc
 1. Create a room or join with a six-character code/invite link.
 2. The creator becomes admin and configures the maximum number of games.
 3. The admin starts once at least two players are present, locking membership.
-4. Every player privately selects included/excluded genres, tags, multiplayer categories, platforms, and an optional price range.
+4. Every player privately selects included/excluded genres and tags, required platforms, and optional price and review filters.
 5. The server filters and ranks eligible multiplayer-capable Steam games from source-backed metadata.
 6. Players privately vote Like, Maybe, or Dislike; only completion progress is visible until everyone votes.
 7. A unanimous Like ends immediately. Otherwise, votes update tag affinity and the server adaptively selects the next game.
@@ -54,8 +54,8 @@ Build **What the Hell Are We Playing?**, a real-time multiplayer preference-disc
 ## Recommendation model
 
 1. Exclude non-Steam games, previously shown games, selected exclusions, platform mismatches, and games outside an enabled price range.
-2. Score included genres, tags, and Steam multiplayer categories.
-3. Treat excluded genres, tags, and categories as hard filters.
+2. Score included genres, tags, and required platforms.
+3. Treat excluded genres and tags as hard filters.
 4. Apply a small review-confidence bonus.
 5. Learn a separate typed-feature affinity profile for every player from Like, Maybe, and Dislike votes.
 6. Aggregate predictions using mean utility, weakest-player utility, and a disagreement penalty.

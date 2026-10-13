@@ -1,12 +1,14 @@
 const { VOTE_VALUES } = require('./gamefinder.constants');
+const { filterRecommendationValues } = require('./gamefinder.facet-policy');
 
 const unique = (values) => [...new Set(values)];
 const typedGameFeatures = (game) =>
     unique([
-        ...(game.genres || []).map((value) => `genre:${value}`),
-        ...(game.tags || []).map((value) => `tag:${value}`),
-        ...(game.categories || []).map((value) => `category:${value}`),
-        ...(game.platforms || []).map((value) => `platform:${value}`),
+        ...filterRecommendationValues('genre', game.genres).map((value) => `genre:${value}`),
+        ...filterRecommendationValues('tag', game.tags).map((value) => `tag:${value}`),
+        ...filterRecommendationValues('platform', game.platforms).map(
+            (value) => `platform:${value}`
+        ),
     ]);
 const gameSignals = (game) => typedGameFeatures(game);
 const featureWeight = (feature, featureWeights) => featureWeights.get(feature) || 1;
@@ -24,7 +26,9 @@ const explicitPlayerScore = (game, preferences, featureWeights) => {
     let score = 0;
     const reasons = [];
     const addMatches = (type, values, gameValues, baseWeight, label) => {
-        const matches = values.filter((value) => gameValues.includes(value));
+        const enabledValues = filterRecommendationValues(type, values);
+        const enabledGameValues = filterRecommendationValues(type, gameValues);
+        const matches = enabledValues.filter((value) => enabledGameValues.includes(value));
         for (const value of matches) {
             score += baseWeight * featureWeight(`${type}:${value}`, featureWeights);
         }
@@ -32,7 +36,6 @@ const explicitPlayerScore = (game, preferences, featureWeights) => {
     };
 
     addMatches('genre', preferences.includedGenres, game.genres, 3, 'matches');
-    addMatches('category', preferences.includedCategories, game.categories, 2.5, 'supports');
     addMatches('tag', preferences.includedTags, game.tags, 2, 'matches');
     addMatches('platform', preferences.platforms, game.platforms, 0.75, 'runs on');
     return { score, reasons };
@@ -86,9 +89,17 @@ const isGameEligible = (game, room) => {
                 game.steamReviewsCount < preferences.minimumRatingCount)
         )
             return false;
-        if (preferences.excludedGenres.some((value) => game.genres.includes(value))) return false;
-        if (preferences.excludedTags.some((value) => game.tags.includes(value))) return false;
-        if (preferences.excludedCategories.some((value) => game.categories.includes(value)))
+        if (
+            filterRecommendationValues('genre', preferences.excludedGenres).some((value) =>
+                filterRecommendationValues('genre', game.genres).includes(value)
+            )
+        )
+            return false;
+        if (
+            filterRecommendationValues('tag', preferences.excludedTags).some((value) =>
+                filterRecommendationValues('tag', game.tags).includes(value)
+            )
+        )
             return false;
         if (
             preferences.platforms.length &&

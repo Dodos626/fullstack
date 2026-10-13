@@ -28,9 +28,10 @@ date or with a future release date are disabled during refresh.
 
 ### `gamefinder_metrics` (implemented)
 
-This table stores `(type, name, count)` rows for every genre, tag, category, and platform represented
+This table stores `(type, name, count)` rows for every enabled genre, tag, and platform represented
 by enabled games. It is rebuilt transactionally after each successful catalog refresh and drives the
-questionnaire options.
+questionnaire options. Steam categories remain catalog metadata used only to identify multiplayer-
+capable games during import.
 
 ### `GameFinderRooms`
 
@@ -167,12 +168,11 @@ presence and cross-instance broadcasts; PostgreSQL remains the source of truth f
 
 ## Later: game-to-game similarity
 
-The current adaptive queue transfers each player's votes through typed Steam genres, tags, categories,
-and platforms using frequency-aware feature weights. A later optimization could persist a precomputed
+The current adaptive queue transfers each player's votes through typed Steam genres, tags, and
+platforms using frequency-aware feature weights. A later optimization could persist a precomputed
 neighbor list for every Steam game:
 
-1. Build a weighted feature set from normalized genres, community tags, Steam categories, and
-   platforms.
+1. Build a weighted feature set from normalized genres, community tags, and platforms.
 2. Compute weighted Jaccard or cosine similarity between eligible games during catalog generation.
 3. Store the top 20–50 neighbors per game with a similarity score.
 4. When game A closes, multiply its normalized group vote by `similarity(A, B)` and add that value to

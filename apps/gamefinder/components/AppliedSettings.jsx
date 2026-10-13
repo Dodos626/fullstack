@@ -12,8 +12,6 @@ const GROUPS = [
     { key: 'excludedGenres', label: 'Avoided genres', tone: 'negative' },
     { key: 'includedTags', label: 'Wanted tags', tone: 'positive' },
     { key: 'excludedTags', label: 'Avoided tags', tone: 'negative' },
-    { key: 'includedCategories', label: 'Wanted modes', tone: 'positive' },
-    { key: 'excludedCategories', label: 'Avoided modes', tone: 'negative' },
     { key: 'platforms', label: 'Required platforms', tone: 'neutral' },
 ];
 
