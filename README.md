@@ -17,13 +17,14 @@ Today's work turned the original portfolio and authentication prototype into a m
 - Added an `X-App-Name` API header so the backend can identify requests made through the shared API hostname.
 - Added backend application-resolution and access middleware to enforce which roles may use each subdomain.
 
-| Development host    | Application                | Access          |
-| ------------------- | -------------------------- | --------------- |
-| `lvh.me:5173`       | Public portfolio and login | Public          |
-| `user.lvh.me:5173`  | User workspace             | User and admin  |
-| `guest.lvh.me:5173` | Guest workspace            | Guest and admin |
-| `admin.lvh.me:5173` | Administration workspace   | Admin           |
-| `hello.lvh.me:5174` | Hello World sub app         | Public          |
+| Development host         | Application                | Access          |
+| ------------------------ | -------------------------- | --------------- |
+| `lvh.me:5173`            | Public portfolio and login | Public          |
+| `user.lvh.me:5173`       | User workspace             | User and admin  |
+| `guest.lvh.me:5173`      | Guest workspace            | Guest and admin |
+| `admin.lvh.me:5173`      | Administration workspace   | Admin           |
+| `hello.lvh.me:5174`      | Hello World sub app        | Public          |
+| `gamefinder.lvh.me:5175` | Multiplayer Game Finder    | Public          |
 
 ### Authentication and API security
 
@@ -221,6 +222,7 @@ Once running:
 - Frontend: `http://lvh.me:5173`
 - Apps page: `http://lvh.me:5173/apps`
 - Hello app: `http://hello.lvh.me:5174`
+- Game Finder: `http://gamefinder.lvh.me:5175`
 - Backend API: `http://lvh.me:5000/api`
 - PostgreSQL: `localhost:5432`
 
@@ -229,6 +231,18 @@ The backend container runs database migrations before starting. Development seed
 ```bash
 docker compose exec backend npm run db:seed
 ```
+
+Download and populate the multiplayer-capable Steam catalog with:
+
+```bash
+docker compose exec backend npm run gamefinder:refresh-catalog
+```
+
+For migrations, catalog refreshes, verification commands, manual game maintenance, and database reset
+instructions, see [DATABASE_POPULATION.md](DATABASE_POPULATION.md).
+
+For the recommendation, vote-learning, fairness, exploration, and final-ranking calculations, see
+[MATCHING_ALGORITHM.md](MATCHING_ALGORITHM.md).
 
 Seeded development accounts are:
 
@@ -290,6 +304,7 @@ VITE_APP_USER_URL=http://user.lvh.me:5173
 VITE_APP_GUEST_URL=http://guest.lvh.me:5173
 VITE_APP_ADMIN_URL=http://admin.lvh.me:5173
 VITE_APP_HELLO_URL=http://hello.lvh.me:5174
+VITE_APP_GAMEFINDER_URL=http://gamefinder.lvh.me:5175
 ```
 
 `VITE_APP_MODE=dev` enables the login navigation item, `/login` route, and frontend login flow.
@@ -302,6 +317,7 @@ Development hosts map to the applications as follows:
 - `http://guest.lvh.me:5173` — guest application
 - `http://admin.lvh.me:5173` — admin application
 - `http://hello.lvh.me:5174` — standalone Hello World application
+- `http://gamefinder.lvh.me:5175` — real-time multiplayer Game Finder
 
 Start each application in a separate terminal:
 
@@ -348,6 +364,7 @@ The repository is still under active development. Current limitations include:
 - Expand the role-specific application areas.
 - Expand automated coverage with database-backed API and frontend interaction tests.
 - Continue refining the portfolio and project-table UI.
+
 # Production deployment
 
 For automatic deployment from `main` to an Ubuntu server on Hetzner, see

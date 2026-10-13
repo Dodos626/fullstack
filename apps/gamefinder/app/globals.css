@@ -1,0 +1,121 @@
+:root {
+    --teal: #0b8582;
+    --terracotta: #cd5334;
+    --peach: #edb88b;
+    --ink: #2e282a;
+    --cream: #fff8f2;
+    --bg: #edb88b;
+    --text: #2e282a;
+    --muted: rgb(46 40 42 / 70%);
+    --surface: rgb(255 248 242 / 82%);
+    --surface-strong: rgb(255 250 246 / 94%);
+    --border: rgb(46 40 42 / 18%);
+    --nav: rgb(46 40 42 / 95%);
+    --nav-text: #ffeae9;
+    --primary: #cd5334;
+    --primary-text: #fff8f2;
+    --secondary: #0b8582;
+    --positive: #167c66;
+    --negative: #b23d36;
+    --warning: #9b6412;
+    --shadow: 0 24px 70px rgb(46 40 42 / 18%);
+    --focus: #0b8582;
+    color-scheme: light;
+}
+
+:root[data-theme='night'] {
+    --teal: #45d8d3;
+    --terracotta: #e47758;
+    --peach: #2b1e24;
+    --ink: #f3e8ec;
+    --cream: #130f12;
+    --bg: #080b0d;
+    --text: #f3e8ec;
+    --muted: rgb(243 232 236 / 68%);
+    --surface: rgb(12 17 20 / 82%);
+    --surface-strong: rgb(15 21 25 / 95%);
+    --border: rgb(243 232 236 / 17%);
+    --nav: rgb(13 16 19 / 95%);
+    --nav-text: #f3e8ec;
+    --primary: #45d8d3;
+    --primary-text: #130f12;
+    --secondary: #e47758;
+    --positive: #54d7a7;
+    --negative: #ff8273;
+    --warning: #f5c365;
+    --shadow: 0 26px 80px rgb(0 0 0 / 42%);
+    --focus: #45d8d3;
+    color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    min-width: 320px;
+    min-height: 100%;
+    background: var(--bg);
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body), 'IBM Plex Sans', sans-serif;
+    line-height: 1.5;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+a,
+input,
+select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+}
+
+a {
+    color: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+    color: var(--text);
+    font-family: var(--font-heading), 'Space Grotesk', sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -11,6 +11,7 @@ const { env } = require('../config/env');
 
 const authRoutes = require('../modules/auth/auth.routes');
 const userRoutes = require('../modules/users/users.routes');
+const gameFinderCatalogRoutes = require('../modules/gamefinder/catalog/gamefinderCatalog.routes');
 const { errorHandler } = require('../middleware/error.middleware');
 
 const app = express();
@@ -47,6 +48,7 @@ app.get('/api/health', (req, res) =>
 app.use('/api/auth', authLimiter, authRoutes);
 
 app.use('/api/users', verifyAuth, enforceAppAccess, userRoutes);
+app.use('/api/gamefinder/catalog', gameFinderCatalogRoutes);
 
 app.use(errorHandler);
 

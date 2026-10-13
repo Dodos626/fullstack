@@ -21,3 +21,19 @@ hello.{$APP_DOMAIN} {
 		file_server
 	}
 }
+
+gamefinder.{$APP_DOMAIN} {
+	handle /api/* {
+		reverse_proxy backend:5000
+	}
+
+	handle /socket.io/* {
+		reverse_proxy backend:5000
+	}
+
+	handle {
+		root * /srv/apps/gamefinder
+		try_files {path} {path}/ /index.html
+		file_server
+	}
+}

@@ -25,7 +25,8 @@ services:
             - '5000:5000'
         volumes:
             - ./backend:/app
-            - backend_node_modules:/app/node_modules # Named volume instead of anonymous
+            - backend_node_modules:/app/node_modules
+        command: sh -c "npm install --no-audit --no-fund && npm run db:migrate && npm run dev"
         environment:
             PORT: 5000
             DB_HOST: db
@@ -36,7 +37,7 @@ services:
             JWT_ACCESS_SECRET: development-access-secret-change-me
             JWT_REFRESH_SECRET: development-refresh-secret-change-me
             COOKIE_DOMAIN: .lvh.me
-            CORS_ORIGINS: http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://hello.lvh.me:5174,http://localhost:5173,http://127.0.0.1:5173
+            CORS_ORIGINS: http://lvh.me:5173,http://user.lvh.me:5173,http://guest.lvh.me:5173,http://admin.lvh.me:5173,http://hello.lvh.me:5174,http://gamefinder.lvh.me:5175,http://localhost:5173,http://127.0.0.1:5173
             APP_ROOT_DOMAIN: lvh.me
             CHOKIDAR_USEPOLLING: 'true'
         depends_on:
@@ -71,7 +72,9 @@ services:
             VITE_APP_PROTOCOL: http
             VITE_APP_PORT: 5173
             VITE_APP_HELLO_PORT: 5174
+            VITE_APP_GAMEFINDER_PORT: 5175
             VITE_APP_HELLO_URL: http://hello.lvh.me:5174
+            VITE_APP_GAMEFINDER_URL: http://gamefinder.lvh.me:5175
         depends_on:
             backend:
                 condition: service_healthy
@@ -88,6 +91,24 @@ services:
         environment:
             CHOKIDAR_USEPOLLING: 'true'
             VITE_APP_MAIN_URL: http://lvh.me:5173
+
+    gamefinder:
+        build: ./apps/gamefinder
+        container_name: app_gamefinder
+        restart: always
+        ports:
+            - '5175:5175'
+        volumes:
+            - ./apps/gamefinder:/app
+            - /app/node_modules
+        environment:
+            NEXT_PUBLIC_SOCKET_URL: http://lvh.me:5000
+            NEXT_PUBLIC_API_URL: http://lvh.me:5000/api
+            NEXT_PUBLIC_PORTFOLIO_URL: http://lvh.me:5173
+            WATCHPACK_POLLING: 'true'
+        depends_on:
+            backend:
+                condition: service_healthy
 
 volumes:
     postgres_data:

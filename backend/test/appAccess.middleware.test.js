@@ -20,6 +20,15 @@ test('app access registers public standalone applications', () => {
     assert.equal(req.allowedRoles, null);
 });
 
+test('app access registers game finder as public', () => {
+    const req = { subdomain: 'gamefinder' };
+
+    appAccess(req, {}, () => {});
+
+    assert.equal(req.appName, 'gamefinder');
+    assert.equal(req.allowedRoles, null);
+});
+
 test('app access rejects unknown application hosts', () => {
     const req = { subdomain: 'unknown' };
     let statusCode;

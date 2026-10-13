@@ -4,6 +4,7 @@ const appProtocol =
     import.meta.env.VITE_APP_PROTOCOL || window.location.protocol.replace(':', '') || 'http';
 const appPorts = {
     hello: import.meta.env.VITE_APP_HELLO_PORT || '5174',
+    gamefinder: import.meta.env.VITE_APP_GAMEFINDER_PORT || '5175',
 };
 
 const buildUrl = (subdomain = '', path = '/') => {
@@ -13,6 +14,7 @@ const buildUrl = (subdomain = '', path = '/') => {
         guest: import.meta.env.VITE_APP_GUEST_URL,
         admin: import.meta.env.VITE_APP_ADMIN_URL,
         hello: import.meta.env.VITE_APP_HELLO_URL,
+        gamefinder: import.meta.env.VITE_APP_GAMEFINDER_URL,
     };
     const appName = subdomain || 'public';
     const configuredUrl = configuredUrls[appName];

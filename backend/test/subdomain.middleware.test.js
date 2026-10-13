@@ -29,6 +29,14 @@ test('application header identifies a standalone public app', () => {
     assert.equal(req.subdomain, 'hello');
 });
 
+test('application header identifies the game finder app', () => {
+    const req = { hostname: 'lvh.me', get: () => 'gamefinder' };
+
+    extractSubdomain(req, {}, () => {});
+
+    assert.equal(req.subdomain, 'gamefinder');
+});
+
 test('root lvh.me host resolves to the public app', () => {
     const result = runMiddleware('lvh.me');
 
