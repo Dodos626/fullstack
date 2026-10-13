@@ -18,7 +18,7 @@ const VOTE_VALUES = {
     like: 2,
     maybe: 1,
     skipped: 0,
-    dislike: -2,
+    dislike: -3,
 };
 
 module.exports = {

@@ -12,13 +12,13 @@ import styles from './GameFinder.module.css';
 
 const SESSION_KEY = 'gamefinderSession';
 const configuredSocketUrl = process.env.NEXT_PUBLIC_SOCKET_URL?.trim();
-const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://lvh.me:5000/api';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://lvh.me:5050/api';
 const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'http://lvh.me:5173';
 
 const getSocketUrl = () => {
     if (configuredSocketUrl) return configuredSocketUrl;
-    if (typeof window === 'undefined') return 'http://lvh.me:5000';
-    return `${window.location.protocol}//${window.location.hostname}:5000`;
+    if (typeof window === 'undefined') return 'http://lvh.me:5050';
+    return `${window.location.protocol}//${window.location.hostname}:5050`;
 };
 
 const getInviteCode = () => {

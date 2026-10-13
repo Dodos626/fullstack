@@ -58,7 +58,7 @@ Development host mapping:
 
 `lvh.me` was selected because it resolves to `127.0.0.1` and supports arbitrary local subdomains without editing the operating system's hosts file.
 
-The API remains shared at `lvh.me:5000/api`. Frontend API requests include an `X-App-Name` header so the backend knows which browser application initiated a request even though all requests reach the same API hostname.
+The API remains shared at `lvh.me:5050/api`. Frontend API requests include an `X-App-Name` header so the backend knows which browser application initiated a request even though all requests reach the same API hostname.
 
 ### Main files
 

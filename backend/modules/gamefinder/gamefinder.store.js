@@ -29,8 +29,9 @@ class GameFinderStore {
             recommendationHistoryIds: [],
             currentGameId: null,
             votes: new Map(),
-            playerAffinities: new Map(),
-            playerEvidence: new Map(),
+            playerFeatureStats: new Map(),
+            playerLearningVoteCounts: new Map(),
+            recommendationDecisions: [],
             results: [],
             winnerId: null,
             reveal: null,
@@ -94,8 +95,8 @@ class GameFinderStore {
         if (player.isAdmin) throw new Error('The admin must delete the room');
 
         room.players.delete(playerId);
-        room.playerAffinities?.delete(playerId);
-        room.playerEvidence?.delete(playerId);
+        room.playerFeatureStats?.delete(playerId);
+        room.playerLearningVoteCounts?.delete(playerId);
         for (const votes of room.votes.values()) votes.delete(playerId);
         this.touch(room);
         return player;

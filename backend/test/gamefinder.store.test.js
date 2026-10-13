@@ -48,6 +48,23 @@ test('players can leave after the session starts and their votes are removed', (
     assert.equal(room.votes.get(548430).has(player.id), false);
 });
 
+test('leaving removes the player learning model without changing other players', () => {
+    const store = new GameFinderStore();
+    const { room, player: admin } = store.createRoom('Theo', 8);
+    const { player } = store.joinRoom(room.code, 'Alex');
+    room.playerFeatureStats.set(player.id, new Map([['tag:co-op', { evidence: 1 }]]));
+    room.playerFeatureStats.set(admin.id, new Map([['tag:action', { evidence: 1 }]]));
+    room.playerLearningVoteCounts.set(player.id, 2);
+    room.playerLearningVoteCounts.set(admin.id, 3);
+
+    store.leaveRoom(room, player.id);
+
+    assert.equal(room.playerFeatureStats.has(player.id), false);
+    assert.equal(room.playerLearningVoteCounts.has(player.id), false);
+    assert.equal(room.playerFeatureStats.has(admin.id), true);
+    assert.equal(room.playerLearningVoteCounts.get(admin.id), 3);
+});
+
 test('deleting a room invalidates future reconnects', () => {
     const store = new GameFinderStore();
     const { room, player } = store.createRoom('Theo', 8);

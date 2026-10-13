@@ -75,7 +75,7 @@ PostgreSQL.
 | `roomId`          | UUID           | Foreign key with cascade delete           |
 | `gameId`          | INTEGER        | Steam app ID                              |
 | `roundNumber`     | INTEGER        | Unique with `roomId`                      |
-| `preferenceScore` | DECIMAL        | Score at selection time                   |
+| `preferenceScore` | DECIMAL        | Versioned next-game score at selection time |
 | `revealedAt`      | DATE, nullable | Set when voting closes or the admin skips |
 | `wasForced`       | BOOLEAN        | True for an admin force-skip              |
 | timestamps        | DATE           | Audit fields                              |
@@ -88,7 +88,7 @@ PostgreSQL.
 | `roundId`  | UUID     | Foreign key with cascade delete       |
 | `playerId` | UUID     | Foreign key with cascade delete       |
 | `value`    | ENUM     | `like`, `maybe`, `dislike`, `skipped` |
-| `score`    | SMALLINT | `2`, `1`, `-2`, or `0`                |
+| `score`    | SMALLINT | Aggregate display score for the submitted vote |
 | timestamps | DATE     | Submission time                       |
 
 Add a unique constraint on `(roundId, playerId)` so retries cannot create duplicate votes.

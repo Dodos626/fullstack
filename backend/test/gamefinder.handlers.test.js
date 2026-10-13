@@ -226,3 +226,43 @@ test('admin can delete the room through the socket command', async () => {
     assert.throws(() => store.getRoom(room.code), /Room not found/);
     assert.ok(io.emitted.some((event) => event.event === 'room:deleted'));
 });
+
+test('fresh batch keeps learning and exposure while start over clears them', async () => {
+    const store = new GameFinderStore();
+    const { room, player: admin } = store.createRoom('Admin', 4);
+    const { player: guest } = store.joinRoom(room.code, 'Guest');
+    admin.preferences = readyPreferences;
+    guest.preferences = readyPreferences;
+    room.phase = 'results';
+    room.shownGameIds = [548430];
+    room.recommendationHistoryIds = [548430];
+    room.playerFeatureStats.set(
+        admin.id,
+        new Map([
+            [
+                'tag:co-op',
+                { signedEvidence: 1, evidence: 1, lastUpdatedRound: 1 },
+            ],
+        ])
+    );
+    room.playerLearningVoteCounts.set(admin.id, 1);
+
+    const io = new FakeIo();
+    registerGameFinderHandlers(io, store);
+    const socket = new FakeSocket('admin-socket');
+    io.connect(socket);
+
+    const continued = await socket.trigger('session:continue', credentials(room, admin));
+    assert.equal(continued.success, true);
+    assert.equal(room.playerLearningVoteCounts.get(admin.id), 1);
+    assert.equal(room.playerFeatureStats.get(admin.id).has('tag:co-op'), true);
+    assert.equal(room.recommendationHistoryIds.includes(548430), true);
+
+    room.phase = 'results';
+    const restarted = await socket.trigger('session:restart', credentials(room, admin));
+    assert.equal(restarted.success, true);
+    assert.equal(room.playerFeatureStats.size, 0);
+    assert.equal(room.playerLearningVoteCounts.size, 0);
+    assert.equal(room.recommendationHistoryIds.length, 0);
+    assert.equal(admin.preferences, null);
+});

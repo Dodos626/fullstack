@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getCurrentApp, getPublicUrl, navigateToUrl } from '../config/apps';
 import { isDevMode } from '../config/features';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://lvh.me:5000/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://lvh.me:5050/api';
 
 const api = axios.create({
     baseURL: API_BASE,

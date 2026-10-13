@@ -1,64 +1,85 @@
+const { GAMEFINDER_ALGORITHM_CONFIG: CONFIG } = require('./gamefinder.algorithm-config');
+const {
+    featureWeight,
+    recommendationFeatureVector,
+    recommendationFeatures,
+    weightedJaccardSimilarity,
+} = require('./gamefinder.features');
 const { VOTE_VALUES } = require('./gamefinder.constants');
 const { filterRecommendationValues } = require('./gamefinder.facet-policy');
 
+const clamp = (value, minimum = 0, maximum = 1) => Math.max(minimum, Math.min(maximum, value));
 const unique = (values) => [...new Set(values)];
-const typedGameFeatures = (game) =>
-    unique([
-        ...filterRecommendationValues('genre', game.genres).map((value) => `genre:${value}`),
-        ...filterRecommendationValues('tag', game.tags).map((value) => `tag:${value}`),
-        ...filterRecommendationValues('platform', game.platforms).map(
-            (value) => `platform:${value}`
-        ),
-    ]);
+const mean = (values, fallback = 0) =>
+    values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : fallback;
+
+const typedGameFeatures = (game) => {
+    const features = recommendationFeatures(game);
+    return [...features.genre, ...features.tag];
+};
 const gameSignals = (game) => typedGameFeatures(game);
-const featureWeight = (feature, featureWeights) => featureWeights.get(feature) || 1;
-const normalizedFeatureWeights = (game, featureWeights) => {
-    const features = typedGameFeatures(game);
-    const normalization = Math.sqrt(Math.max(1, features.length));
-    return features.map((feature) => ({
-        feature,
-        weight: featureWeight(feature, featureWeights) / normalization,
-    }));
-};
 
-const explicitPlayerScore = (game, preferences, featureWeights) => {
-    if (!preferences) return { score: 0, reasons: [] };
-    let score = 0;
-    const reasons = [];
-    const addMatches = (type, values, gameValues, baseWeight, label) => {
-        const enabledValues = filterRecommendationValues(type, values);
-        const enabledGameValues = filterRecommendationValues(type, gameValues);
-        const matches = enabledValues.filter((value) => enabledGameValues.includes(value));
-        for (const value of matches) {
-            score += baseWeight * featureWeight(`${type}:${value}`, featureWeights);
-        }
-        if (matches.length) reasons.push(`${label} ${matches.slice(0, 2).join(' and ')}`);
+const questionnairePlayerScore = (game, preferences, featureWeights = new Map()) => {
+    if (!preferences) return { score: 0.5, reasons: [] };
+    const selectedGenres = unique(
+        filterRecommendationValues('genre', preferences.includedGenres)
+    );
+    const selectedGenreNames = new Set(selectedGenres);
+    const selected = {
+        genre: selectedGenres,
+        tag: unique(filterRecommendationValues('tag', preferences.includedTags)).filter(
+            (tag) => !selectedGenreNames.has(tag)
+        ),
     };
+    const gameValues = {
+        genre: new Set(filterRecommendationValues('genre', game.genres)),
+        tag: new Set(filterRecommendationValues('tag', game.tags)),
+    };
+    const activeTypes = Object.keys(selected).filter((type) => selected[type].length);
+    if (!activeTypes.length) return { score: 0.5, reasons: [] };
 
-    addMatches('genre', preferences.includedGenres, game.genres, 3, 'matches');
-    addMatches('tag', preferences.includedTags, game.tags, 2, 'matches');
-    addMatches('platform', preferences.platforms, game.platforms, 0.75, 'runs on');
-    return { score, reasons };
+    const reasons = [];
+    let score = 0;
+    let budgetTotal = 0;
+    for (const type of activeTypes) {
+        const values = selected[type];
+        const totalWeight = values.reduce(
+            (sum, value) => sum + featureWeight(`${type}:${value}`, featureWeights),
+            0
+        );
+        const matches = values.filter((value) => gameValues[type].has(value));
+        const matchedWeight = matches.reduce(
+            (sum, value) => sum + featureWeight(`${type}:${value}`, featureWeights),
+            0
+        );
+        const budget = CONFIG.featureBudgets[type];
+        score += (totalWeight ? matchedWeight / totalWeight : 0) * budget;
+        budgetTotal += budget;
+        if (matches.length) reasons.push(`matches ${matches.slice(0, 2).join(' and ')}`);
+    }
+    return { score: budgetTotal ? score / budgetTotal : 0.5, reasons };
 };
 
-const learnedPlayerScore = (game, room, playerId, featureWeights) => {
-    const affinities = room.playerAffinities?.get(playerId);
-    const evidence = room.playerEvidence?.get(playerId);
-    if (!affinities || !evidence) return { score: 0, uncertainty: 1 };
+const explicitPlayerScore = questionnairePlayerScore;
 
-    let score = 0;
+const learnedPlayerScore = (game, room, playerId, featureWeights = new Map()) => {
+    const stats = room.playerFeatureStats?.get(playerId) || new Map();
+    const vector = recommendationFeatureVector(game, featureWeights);
+    if (!vector.length) return { score: 0.5, confidence: 0, uncertainty: 1 };
+
+    let direction = 0;
     let confidence = 0;
-    let weightTotal = 0;
-    for (const { feature, weight } of normalizedFeatureWeights(game, featureWeights)) {
-        const observations = evidence.get(feature) || 0;
-        const shrinkage = observations / (observations + 2);
-        score += (affinities.get(feature) || 0) * shrinkage * weight;
-        confidence += shrinkage * weight;
-        weightTotal += weight;
+    for (const { feature, weight } of vector) {
+        const stat = stats.get(feature) || { signedEvidence: 0, evidence: 0 };
+        const affinity = stat.signedEvidence / (CONFIG.evidenceSmoothing + stat.evidence);
+        const featureConfidence = stat.evidence / (CONFIG.evidenceSmoothing + stat.evidence);
+        direction += clamp(affinity, -1, 1) * weight;
+        confidence += featureConfidence * weight;
     }
     return {
-        score,
-        uncertainty: weightTotal ? Math.max(0, 1 - confidence / weightTotal) : 1,
+        score: clamp(0.5 + direction * 0.5),
+        confidence: clamp(confidence),
+        uncertainty: clamp(1 - confidence),
     };
 };
 
@@ -121,114 +142,121 @@ const bayesianReviewScore = (game) => {
     );
 };
 
+const questionnaireGroupScore = (game, room, featureWeights = new Map()) =>
+    mean(
+        [...room.players.values()].map(
+            (player) => questionnairePlayerScore(game, player.preferences, featureWeights).score
+        ),
+        0.5
+    );
+
 const scoreGame = (game, room, featureWeights = new Map()) => {
     const playerScores = [];
+    const questionnaireScores = [];
     const reasons = [];
-    let uncertainty = 0;
-    const completedRounds = room.shownGameIds.length;
-    const hasLearnedEvidence = [...(room.playerEvidence?.values() || [])].some(
-        (evidence) => evidence.size > 0
-    );
-    const learnedBlend = hasLearnedEvidence
-        ? Math.max(0.2, Math.min(0.65, completedRounds / Math.max(1, room.maxGames || 8)))
-        : 0;
+    const uncertainties = [];
 
     for (const [playerId, player] of room.players.entries()) {
-        const explicit = explicitPlayerScore(game, player.preferences, featureWeights);
+        const questionnaire = questionnairePlayerScore(game, player.preferences, featureWeights);
         const learned = learnedPlayerScore(game, room, playerId, featureWeights);
-        const playerScore = explicit.score * (1 - learnedBlend) + learned.score * learnedBlend;
-        playerScores.push(playerScore);
-        uncertainty += learned.uncertainty;
-        reasons.push(...explicit.reasons);
+        const voteCount = room.playerLearningVoteCounts?.get(playerId) || 0;
+        const baseBlend = Math.min(
+            CONFIG.maximumLearnedBlend,
+            CONFIG.learnedBlendPerVote * voteCount
+        );
+        const learnedBlend = baseBlend * learned.confidence;
+        playerScores.push(
+            clamp(questionnaire.score * (1 - learnedBlend) + learned.score * learnedBlend)
+        );
+        questionnaireScores.push(questionnaire.score);
+        uncertainties.push(learned.uncertainty);
+        reasons.push(...questionnaire.reasons);
     }
 
-    const mean = playerScores.length
-        ? playerScores.reduce((sum, value) => sum + value, 0) / playerScores.length
-        : 0;
-    const minimum = playerScores.length ? Math.min(...playerScores) : 0;
-    const variance = playerScores.length
-        ? playerScores.reduce((sum, value) => sum + (value - mean) ** 2, 0) / playerScores.length
-        : 0;
-    const disagreement = Math.sqrt(variance);
-    const groupUtility = mean * 0.55 + minimum * 0.3 - disagreement * 0.15;
-    const qualityScore = bayesianReviewScore(game) * 2;
-    const explorationWeight = Math.max(0, 1 - completedRounds / Math.max(1, room.maxGames || 8));
+    const meanPlayerScore = mean(playerScores, 0.5);
+    const minimumPlayerScore = playerScores.length ? Math.min(...playerScores) : 0.5;
+    const disagreement = Math.sqrt(
+        mean(playerScores.map((value) => (value - meanPlayerScore) ** 2), 0)
+    );
+    const groupUtility =
+        meanPlayerScore * CONFIG.groupUtilityWeights.mean +
+        minimumPlayerScore * CONFIG.groupUtilityWeights.minimum -
+        disagreement * CONFIG.groupUtilityWeights.disagreement;
+    const uncertainty = mean(uncertainties, 1);
+    const questionnaireScore = mean(questionnaireScores, 0.5);
+    const relevance =
+        CONFIG.exploration.relevanceFloor +
+        (1 - CONFIG.exploration.relevanceFloor) * questionnaireScore;
+    const schedule = clamp(1 - room.shownGameIds.length / Math.max(1, room.maxGames || 8));
     const explorationBonus =
-        (uncertainty / Math.max(1, playerScores.length)) * explorationWeight * 1.5;
+        CONFIG.exploration.initialWeight * schedule * uncertainty * relevance;
 
     return {
         game,
-        score: groupUtility + qualityScore + explorationBonus,
+        score: groupUtility + explorationBonus,
         playerScores,
-        meanPlayerScore: mean,
-        minimumPlayerScore: minimum,
+        questionnaireScores,
+        meanPlayerScore,
+        minimumPlayerScore,
         disagreement,
         groupUtility,
-        qualityScore,
+        qualityScore: bayesianReviewScore(game),
         explorationBonus,
-        uncertainty: uncertainty / Math.max(1, playerScores.length),
-        preferenceScore: mean,
+        uncertainty,
+        questionnaireScore,
+        preferenceScore: meanPlayerScore,
         conflicts: 0,
         reasons: unique(reasons).slice(0, 5),
     };
 };
 
-const selectNextGame = (room, catalog, featureWeights = new Map()) => {
-    const eligible = catalog.filter((game) => isGameEligible(game, room));
-    const poolSize = Math.min(700, eligible.length);
-    const sampled = [];
-    for (let index = 0; index < eligible.length; index += 1) {
-        const game = eligible[index];
-        if (index < poolSize) sampled.push(game);
-        else {
-            const replacementIndex = Math.floor(Math.random() * (index + 1));
-            if (replacementIndex < poolSize) sampled[replacementIndex] = game;
-        }
-    }
+const compareCandidates = (left, right) =>
+    right.score - left.score ||
+    right.minimumPlayerScore - left.minimumPlayerScore ||
+    right.meanPlayerScore - left.meanPlayerScore ||
+    right.qualityScore - left.qualityScore ||
+    left.game.id - right.game.id;
 
-    const preferred = eligible
-        .map((game) => ({
-            game,
-            score: [...room.players.values()].reduce(
-                (sum, player) =>
-                    sum + explicitPlayerScore(game, player.preferences, featureWeights).score,
-                0
-            ),
-        }))
-        .filter((candidate) => candidate.score > 0)
-        .sort((a, b) => b.score - a.score || a.game.id - b.game.id)
-        .slice(0, 300)
-        .map((candidate) => candidate.game);
-    const candidates = [
-        ...new Map([...sampled, ...preferred].map((game) => [game.id, game])).values(),
-    ].map((game) => scoreGame(game, room, featureWeights));
+const selectNextGame = (room, catalog, featureWeights = new Map()) => {
     const recentGames = room.shownGameIds
-        .slice(-3)
+        .slice(-CONFIG.diversity.recentGameCount)
         .map((gameId) => catalog.find((game) => game.id === gameId))
         .filter(Boolean);
+    const candidates = catalog
+        .filter((game) => isGameEligible(game, room))
+        .map((game) => {
+            const candidate = scoreGame(game, room, featureWeights);
+            const maximumSimilarity = recentGames.reduce(
+                (maximum, previousGame) =>
+                    Math.max(
+                        maximum,
+                        weightedJaccardSimilarity(game, previousGame, featureWeights)
+                    ),
+                0
+            );
+            candidate.diversityPenalty = maximumSimilarity * CONFIG.diversity.weight;
+            candidate.score -= candidate.diversityPenalty;
+            return candidate;
+        })
+        .sort(compareCandidates);
+    const selected = candidates[0];
+    if (!selected) return null;
 
-    for (const candidate of candidates) {
-        const candidateFeatures = new Set(typedGameFeatures(candidate.game));
-        const maximumSimilarity = recentGames.reduce((maximum, previousGame) => {
-            const previousFeatures = typedGameFeatures(previousGame);
-            const overlap = previousFeatures.filter((feature) =>
-                candidateFeatures.has(feature)
-            ).length;
-            const union = new Set([...previousFeatures, ...candidateFeatures]).size;
-            return Math.max(maximum, union ? overlap / union : 0);
-        }, 0);
-        candidate.diversityPenalty = maximumSimilarity * 2;
-        candidate.score -= candidate.diversityPenalty;
-        candidate.score += Math.random() * Math.max(0.001, candidate.explorationBonus) * 0.25;
-    }
-
-    for (let index = candidates.length - 1; index > 0; index -= 1) {
-        const swapIndex = Math.floor(Math.random() * (index + 1));
-        [candidates[index], candidates[swapIndex]] = [candidates[swapIndex], candidates[index]];
-    }
-
-    candidates.sort((a, b) => b.score - a.score || b.minimumPlayerScore - a.minimumPlayerScore);
-    return candidates[0]?.game || null;
+    if (!room.recommendationDecisions) room.recommendationDecisions = [];
+    room.recommendationDecisions.push({
+        algorithmVersion: CONFIG.version,
+        gameId: selected.game.id,
+        completedRound: room.shownGameIds.length,
+        groupUtility: selected.groupUtility,
+        meanUtility: selected.meanPlayerScore,
+        minimumUtility: selected.minimumPlayerScore,
+        disagreement: selected.disagreement,
+        uncertainty: selected.uncertainty,
+        explorationBonus: selected.explorationBonus,
+        diversityPenalty: selected.diversityPenalty,
+        nextScore: selected.score,
+    });
+    return selected.game;
 };
 
 const summarizeVotes = (room, gameId) => {
@@ -244,65 +272,75 @@ const summarizeVotes = (room, gameId) => {
 
 const applyVoteLearning = (room, game, featureWeights = new Map()) => {
     const summary = summarizeVotes(room, game.id);
-    const voteWeights = { like: 1, maybe: 0.25, dislike: -1.25, skipped: 0 };
-    if (!room.playerAffinities) room.playerAffinities = new Map();
-    if (!room.playerEvidence) room.playerEvidence = new Map();
+    if (!room.playerFeatureStats) room.playerFeatureStats = new Map();
+    if (!room.playerLearningVoteCounts) room.playerLearningVoteCounts = new Map();
+    const round = (room.recommendationHistoryIds || room.shownGameIds).length;
 
     for (const [playerId, vote] of (room.votes.get(game.id) || new Map()).entries()) {
-        if (vote === 'skipped') continue;
-        const affinities = room.playerAffinities.get(playerId) || new Map();
-        const evidence = room.playerEvidence.get(playerId) || new Map();
-        for (const { feature, weight } of normalizedFeatureWeights(game, featureWeights)) {
-            affinities.set(feature, (affinities.get(feature) || 0) + voteWeights[vote] * weight);
-            evidence.set(feature, (evidence.get(feature) || 0) + 1);
+        const signal = CONFIG.learningSignals[vote];
+        if (!signal?.evidence) continue;
+        const stats = room.playerFeatureStats.get(playerId) || new Map();
+        for (const { feature, weight } of recommendationFeatureVector(game, featureWeights)) {
+            const current = stats.get(feature) || {
+                signedEvidence: 0,
+                evidence: 0,
+                lastUpdatedRound: 0,
+            };
+            stats.set(feature, {
+                signedEvidence: current.signedEvidence + signal.signed * weight,
+                evidence: current.evidence + signal.evidence * weight,
+                lastUpdatedRound: round,
+            });
         }
-        room.playerAffinities.set(playerId, affinities);
-        room.playerEvidence.set(playerId, evidence);
+        room.playerFeatureStats.set(playerId, stats);
+        room.playerLearningVoteCounts.set(
+            playerId,
+            (room.playerLearningVoteCounts.get(playerId) || 0) + 1
+        );
     }
     return summary;
 };
 
 const createResult = (room, game, featureWeights = new Map()) => {
     const voteSummary = summarizeVotes(room, game.id);
-    const scored = scoreGame(game, room, featureWeights);
     const voteValues = { like: 1, maybe: 0.55, skipped: 0.5, dislike: 0 };
     const playerVotes = [...room.players.keys()].map(
         (playerId) => voteValues[(room.votes.get(game.id) || new Map()).get(playerId)] ?? 0.5
     );
-    const meanVote = playerVotes.length
-        ? playerVotes.reduce((sum, value) => sum + value, 0) / playerVotes.length
-        : 0;
+    const meanVote = mean(playerVotes, 0);
     const minimumVote = playerVotes.length ? Math.min(...playerVotes) : 0;
-    const normalizedPreference = Math.max(0, Math.min(1, (scored.meanPlayerScore + 5) / 15));
+    const questionnaireScore = questionnaireGroupScore(game, room, featureWeights);
+    const steamQuality = bayesianReviewScore(game);
     const finalScore =
-        meanVote * 50 +
-        minimumVote * 20 +
-        normalizedPreference * 20 +
-        bayesianReviewScore(game) * 10;
+        meanVote * CONFIG.finalResultWeights.meanVote +
+        minimumVote * CONFIG.finalResultWeights.minimumVote +
+        questionnaireScore * CONFIG.finalResultWeights.questionnaire +
+        steamQuality * CONFIG.finalResultWeights.steamQuality;
     const strengths = [];
     const tradeoffs = [];
+    const questionnaireReasons = unique(
+        [...room.players.values()].flatMap(
+            (player) => questionnairePlayerScore(game, player.preferences, featureWeights).reasons
+        )
+    );
 
     if (voteSummary.like === room.players.size) strengths.push('Every player voted Like.');
     else if (voteSummary.dislike === 0) strengths.push('No player voted Dislike.');
     if (voteSummary.like)
         strengths.push(`${voteSummary.like}/${room.players.size} players voted Like.`);
-    if (scored.reasons.length)
-        strengths.push(`Questionnaire fit: ${scored.reasons.slice(0, 2).join('; ')}.`);
-    if (scored.minimumPlayerScore >= 0)
-        strengths.push('Its weakest individual preference match stayed non-negative.');
+    if (questionnaireReasons.length)
+        strengths.push(`Questionnaire fit: ${questionnaireReasons.slice(0, 2).join('; ')}.`);
     if (voteSummary.dislike)
         tradeoffs.push(`${voteSummary.dislike}/${room.players.size} players voted Dislike.`);
-    if (scored.disagreement > 2)
-        tradeoffs.push('Player preference scores were relatively divided.');
     if (game.steamReviewsPercent == null) tradeoffs.push('Steam rating confidence is unavailable.');
 
     return {
         game,
         voteSummary,
-        preferenceScore: scored.meanPlayerScore,
+        preferenceScore: questionnaireScore,
         conflicts: voteSummary.dislike,
         finalScore,
-        compatibility: Math.round(Math.max(0, Math.min(100, finalScore))),
+        compatibility: Math.round(clamp(finalScore) * 100),
         reasons: strengths.slice(0, 5),
         explanation: {
             headline: 'Strong group fit',
@@ -313,8 +351,8 @@ const createResult = (room, game, featureWeights = new Map()) => {
         scoreBreakdown: {
             voteScore: Math.round(meanVote * 100),
             weakestPlayerVote: Math.round(minimumVote * 100),
-            preferenceScore: Math.round(normalizedPreference * 100),
-            qualityScore: Math.round(bayesianReviewScore(game) * 100),
+            preferenceScore: Math.round(questionnaireScore * 100),
+            qualityScore: Math.round(steamQuality * 100),
         },
     };
 };
@@ -364,8 +402,12 @@ const rankResults = (room, gamesById, featureWeights = new Map()) => {
 module.exports = {
     applyVoteLearning,
     bayesianReviewScore,
+    explicitPlayerScore,
     gameSignals,
     isGameEligible,
+    learnedPlayerScore,
+    questionnaireGroupScore,
+    questionnairePlayerScore,
     rankResults,
     scoreGame,
     selectNextGame,

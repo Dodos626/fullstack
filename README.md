@@ -221,7 +221,7 @@ Once running:
 - Frontend: `http://lvh.me:5173`
 - Apps page: `http://lvh.me:5173/apps`
 - Game Finder: `http://gamefinder.lvh.me:5175`
-- Backend API: `http://lvh.me:5000/api`
+- Backend API: `http://lvh.me:5050/api`
 - PostgreSQL: `localhost:5432`
 
 The backend container runs database migrations before starting. Development seed data is an explicit step:
@@ -278,7 +278,7 @@ npm install
 Copy `backend/.env.example` to `backend/.env` and replace the development secrets:
 
 ```env
-PORT=5000
+PORT=5050
 JWT_ACCESS_SECRET=replace-with-a-secret
 JWT_REFRESH_SECRET=replace-with-a-different-secret
 DB_HOST=localhost
@@ -294,7 +294,7 @@ APP_ROOT_DOMAIN=lvh.me
 Copy `frontend/.env.example` to `frontend/.env`. The development defaults are:
 
 ```env
-VITE_API_URL=http://lvh.me:5000/api
+VITE_API_URL=http://lvh.me:5050/api
 VITE_APP_MODE=dev
 VITE_APP_ROOT_DOMAIN=lvh.me
 VITE_APP_MAIN_URL=http://lvh.me:5173

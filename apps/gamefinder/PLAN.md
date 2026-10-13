@@ -57,10 +57,12 @@ Build **What the Hell Are We Playing?**, a real-time multiplayer preference-disc
 2. Score included genres, tags, and required platforms.
 3. Treat excluded genres and tags as hard filters.
 4. Apply a small review-confidence bonus.
-5. Learn a separate typed-feature affinity profile for every player from Like, Maybe, and Dislike votes.
-6. Aggregate predictions using mean utility, weakest-player utility, and a disagreement penalty.
-7. Add decaying exploration and a recent-game diversity penalty.
-8. Return only the top three final results with comparative explanations and score breakdowns.
+5. Learn separate signed-evidence and evidence-strength statistics for every player and feature.
+6. Blend normalized questionnaire and learned compatibility according to vote count and candidate confidence.
+7. Aggregate `[0,1]` predictions using mean utility, weakest-player utility, and standard deviation.
+8. Add relevance-gated uncertainty exploration and weighted recent-game diversity, with deterministic tie-breaking.
+9. Preserve learning and exposure history for a fresh batch; clear both only when starting over.
+10. Keep final result scoring separate and return only the top three results with comparative explanations.
 
 ## Realtime contract
 

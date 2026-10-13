@@ -46,8 +46,8 @@ Each game receives a score based on its votes:
 Vote Score
 Like +2
 Maybe +1
-Dislike -2
-For a four-player group, for example, Like, Like, Like, Dislike produces a score of 4 out of a possible 8. That's useful, but it shouldn't automatically outrank a game that everyone likes.
+Dislike -3
+For a four-player group, for example, Like, Like, Like, Dislike produces a score of 3 out of a possible 8. That's useful, but it shouldn't automatically outrank a game that everyone likes.
 I'd use a few additional rules:
 
 - Unanimous Like: Stop immediately and announce the game.
