@@ -8,6 +8,14 @@ const price = (cents) => {
     return cents === 0 ? 'Free' : `$${(cents / 100).toFixed(2)}`;
 };
 
+const steamRating = (game) => {
+    if (game.steamReviewsPercent == null || game.steamReviewsCount == null) {
+        return 'Steam rating unavailable';
+    }
+    const label = game.steamReviewsLabel || 'Positive';
+    return `${label} ${game.steamReviewsPercent}% (${game.steamReviewsCount.toLocaleString()})`;
+};
+
 export default function GameCard({ game, onVote, disabled }) {
     const badges = [
         ...game.genres.map((label, index) => ({ key: `genre-${index}-${label}`, label })),
@@ -31,7 +39,10 @@ export default function GameCard({ game, onVote, disabled }) {
             )}
             <div className={styles.gameContent}>
                 <div className={styles.gameMetaTop}>
-                    <span>{price(game.priceFinalUsd)}</span>
+                    <div>
+                        <span>{price(game.priceFinalUsd)}</span>
+                        <strong className={styles.steamRating}>{steamRating(game)}</strong>
+                    </div>
                     <a href={game.steamUrl} target="_blank" rel="noreferrer">
                         View on Steam ↗
                     </a>

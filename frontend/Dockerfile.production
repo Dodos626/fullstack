@@ -22,7 +22,8 @@ COPY apps/gamefinder/ ./
 ARG APP_DOMAIN
 ENV NEXT_PUBLIC_SOCKET_URL=https://gamefinder.${APP_DOMAIN} \
     NEXT_PUBLIC_API_URL=https://gamefinder.${APP_DOMAIN}/api \
-    NEXT_PUBLIC_PORTFOLIO_URL=https://${APP_DOMAIN}
+    NEXT_PUBLIC_PORTFOLIO_URL=https://${APP_DOMAIN} \
+    NEXT_PUBLIC_SITE_URL=https://gamefinder.${APP_DOMAIN}
 RUN npm run build
 
 FROM caddy:2-alpine

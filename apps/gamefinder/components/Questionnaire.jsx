@@ -7,7 +7,16 @@ import styles from './GameFinder.module.css';
 const titleCase = (value) =>
     value.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 
-function FacetChoices({ name, facet, selected, unavailable, onToggle, groupTags }) {
+function FacetChoices({
+    name,
+    facet,
+    selected,
+    unavailable,
+    onToggle,
+    groupTags,
+    selectionLimit,
+    onSubmenuChange,
+}) {
     const availableFacet = {
         ...facet,
         options: facet.options.filter((option) => !unavailable.includes(option.name)),
@@ -21,25 +30,41 @@ function FacetChoices({ name, facet, selected, unavailable, onToggle, groupTags 
                 selected={selected}
                 onToggle={onToggle}
                 groupTags={groupTags}
+                selectionLimit={selectionLimit}
+                onSubmenuChange={onSubmenuChange}
             />
         );
     }
+    const limitReached = selected.length >= selectionLimit;
     return (
-        <div className={styles.choiceGrid}>
-            {availableFacet.options.map((option) => (
-                <label className={styles.choice} key={option.name}>
-                    <input
-                        type="checkbox"
-                        name={name}
-                        value={option.name}
-                        checked={selected.includes(option.name)}
-                        onChange={() => onToggle(name, option.name)}
-                    />
-                    <span>
-                        {titleCase(option.name)} <small>{option.count.toLocaleString()}</small>
-                    </span>
-                </label>
-            ))}
+        <div>
+            <div className={styles.choiceSelectionHeading}>
+                <span>
+                    {selected.length} / {selectionLimit} selected
+                </span>
+            </div>
+            {limitReached ? (
+                <p className={styles.selectionLimitNotice} role="status">
+                    Selection limit reached. Remove one choice before adding another.
+                </p>
+            ) : null}
+            <div className={styles.choiceGrid}>
+                {availableFacet.options.map((option) => (
+                    <label className={styles.choice} key={option.name}>
+                        <input
+                            type="checkbox"
+                            name={name}
+                            value={option.name}
+                            checked={selected.includes(option.name)}
+                            disabled={limitReached && !selected.includes(option.name)}
+                            onChange={() => onToggle(name, option.name)}
+                        />
+                        <span>
+                            {titleCase(option.name)} <small>{option.count.toLocaleString()}</small>
+                        </span>
+                    </label>
+                ))}
+            </div>
         </div>
     );
 }
@@ -49,7 +74,9 @@ export default function Questionnaire({ onSubmit, pending, options }) {
     const priceMaximum = Math.max(options.price.maximum, options.price.step);
     const priceStep = options.price.step;
     const reviewOptions = options.reviews;
+    const selectionLimit = options.selectionLimit || 50;
     const [step, setStep] = useState(0);
+    const [tagSubmenuOpen, setTagSubmenuOpen] = useState(false);
     const [form, setForm] = useState({
         includedGenres: [],
         excludedGenres: [],
@@ -67,6 +94,9 @@ export default function Questionnaire({ onSubmit, pending, options }) {
 
     const toggle = (name, value) => {
         setForm((current) => {
+            if (!current[name].includes(value) && current[name].length >= selectionLimit) {
+                return current;
+            }
             const next = {
                 ...current,
                 [name]: current[name].includes(value)
@@ -104,6 +134,8 @@ export default function Questionnaire({ onSubmit, pending, options }) {
                 unavailable={form[opposites[name]] || []}
                 onToggle={toggle}
                 groupTags={facetName === 'tags'}
+                selectionLimit={selectionLimit}
+                onSubmenuChange={facetName === 'tags' ? setTagSubmenuOpen : undefined}
             />
         ),
     });
@@ -290,7 +322,7 @@ export default function Questionnaire({ onSubmit, pending, options }) {
     const current = steps[step];
     const isLastStep = step === steps.length - 1;
     const handleNext = () => {
-        if (!current.valid) return;
+        if (!current.valid || tagSubmenuOpen) return;
         if (isLastStep) onSubmit(form);
         else setStep((currentStep) => currentStep + 1);
     };
@@ -320,10 +352,15 @@ export default function Questionnaire({ onSubmit, pending, options }) {
                 <div className={styles.wizardChoices}>{current.content}</div>
             </div>
             <div className={styles.wizardActions}>
+                {tagSubmenuOpen ? (
+                    <p className={styles.navigationNotice} role="status">
+                        Return to the tag category menu before changing questionnaire steps.
+                    </p>
+                ) : null}
                 <button
                     className={styles.secondaryButton}
                     type="button"
-                    disabled={pending || step === 0}
+                    disabled={pending || step === 0 || tagSubmenuOpen}
                     onClick={() => setStep((currentStep) => currentStep - 1)}
                 >
                     Back
@@ -331,7 +368,7 @@ export default function Questionnaire({ onSubmit, pending, options }) {
                 <button
                     className={styles.primaryButton}
                     type="button"
-                    disabled={pending || !current.valid}
+                    disabled={pending || !current.valid || tagSubmenuOpen}
                     onClick={handleNext}
                 >
                     {pending && isLastStep

@@ -3,15 +3,14 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { PageMeta } from '../../components/seo/PageMeta';
 import { AboutContact } from './AboutContact';
 import styles from './About.module.css';
+import { getSeoForPath } from '../../seo/siteMetadata';
 
 export const About = () => {
+    const seo = getSeoForPath('/about');
+
     return (
         <div className={styles.page}>
-            <PageMeta
-                title="About — Theodoros Chalkidis"
-                description="About Theodoros Chalkidis, a software engineer focused on full-stack products, distributed systems, compilers, and technical ownership."
-                path="/about"
-            />
+            <PageMeta {...seo} />
             <Link className={styles.backButton} to="/">
                 <FaArrowLeft aria-hidden="true" /> Back home
             </Link>

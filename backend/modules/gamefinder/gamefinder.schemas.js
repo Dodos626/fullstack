@@ -1,5 +1,5 @@
 const { z } = require('zod');
-const { MAX_ROUNDS, MIN_ROUNDS } = require('./gamefinder.constants');
+const { MAX_FACET_SELECTIONS, MAX_ROUNDS, MIN_ROUNDS } = require('./gamefinder.constants');
 
 const displayName = z.string().trim().min(2).max(24);
 const roomCode = z
@@ -19,7 +19,7 @@ const resumeRoomSchema = z.object({ roomCode, playerId: token, reconnectToken: t
 const roomActionSchema = resumeRoomSchema;
 
 const facetValue = z.string().trim().min(1).max(80);
-const facets = z.array(facetValue).max(50).default([]);
+const facets = z.array(facetValue).max(MAX_FACET_SELECTIONS).default([]);
 const preferenceSchema = z
     .object({
         includedGenres: facets,

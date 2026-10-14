@@ -25,6 +25,7 @@
 }
 
 .sectionTitle {
+    margin: 0;
     font-family: var(--heading);
     color: var(--letters-over-bg);
     font-size: 18px;

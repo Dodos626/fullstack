@@ -21,9 +21,7 @@ const gameSignals = (game) => typedGameFeatures(game);
 
 const questionnairePlayerScore = (game, preferences, featureWeights = new Map()) => {
     if (!preferences) return { score: 0.5, reasons: [] };
-    const selectedGenres = unique(
-        filterRecommendationValues('genre', preferences.includedGenres)
-    );
+    const selectedGenres = unique(filterRecommendationValues('genre', preferences.includedGenres));
     const selectedGenreNames = new Set(selectedGenres);
     const selected = {
         genre: selectedGenres,
@@ -85,6 +83,7 @@ const learnedPlayerScore = (game, room, playerId, featureWeights = new Map()) =>
 
 const isGameEligible = (game, room) => {
     if (game.platform !== 'steam') return false;
+    if (!game.categories?.includes('multi-player')) return false;
     const recommendationHistoryIds = room.recommendationHistoryIds || room.shownGameIds;
     if (recommendationHistoryIds.includes(game.id)) return false;
 
@@ -176,7 +175,10 @@ const scoreGame = (game, room, featureWeights = new Map()) => {
     const meanPlayerScore = mean(playerScores, 0.5);
     const minimumPlayerScore = playerScores.length ? Math.min(...playerScores) : 0.5;
     const disagreement = Math.sqrt(
-        mean(playerScores.map((value) => (value - meanPlayerScore) ** 2), 0)
+        mean(
+            playerScores.map((value) => (value - meanPlayerScore) ** 2),
+            0
+        )
     );
     const groupUtility =
         meanPlayerScore * CONFIG.groupUtilityWeights.mean +
@@ -188,8 +190,7 @@ const scoreGame = (game, room, featureWeights = new Map()) => {
         CONFIG.exploration.relevanceFloor +
         (1 - CONFIG.exploration.relevanceFloor) * questionnaireScore;
     const schedule = clamp(1 - room.shownGameIds.length / Math.max(1, room.maxGames || 8));
-    const explorationBonus =
-        CONFIG.exploration.initialWeight * schedule * uncertainty * relevance;
+    const explorationBonus = CONFIG.exploration.initialWeight * schedule * uncertainty * relevance;
 
     return {
         game,
@@ -370,6 +371,86 @@ const compareTopResults = (first, second) => {
     return `It has the highest combined consensus score (${first.compatibility}% vs ${second.compatibility}%).`;
 };
 
+const createResultStatistics = (room, gamesById) => {
+    const voteTotals = { like: 0, maybe: 0, skipped: 0, dislike: 0 };
+    const featureStats = new Map();
+    const demand = { genre: new Map(), tag: new Map() };
+
+    for (const player of room.players.values()) {
+        for (const value of unique(
+            filterRecommendationValues('genre', player.preferences?.includedGenres)
+        )) {
+            demand.genre.set(value, (demand.genre.get(value) || 0) + 1);
+        }
+        for (const value of unique(
+            filterRecommendationValues('tag', player.preferences?.includedTags)
+        )) {
+            demand.tag.set(value, (demand.tag.get(value) || 0) + 1);
+        }
+    }
+
+    let gamesWithoutDislikes = 0;
+    for (const gameId of room.shownGameIds) {
+        const game = gamesById.get(gameId);
+        if (!game) continue;
+        const votes = summarizeVotes(room, gameId);
+        for (const type of Object.keys(voteTotals)) voteTotals[type] += votes[type];
+        if (votes.dislike === 0) gamesWithoutDislikes += 1;
+
+        const features = recommendationFeatures(game);
+        for (const type of ['genre', 'tag']) {
+            for (const feature of features[type]) {
+                const value = feature.slice(type.length + 1);
+                const key = `${type}:${value}`;
+                const current = featureStats.get(key) || {
+                    type,
+                    value,
+                    games: 0,
+                    likes: 0,
+                    maybes: 0,
+                    dislikes: 0,
+                    requestedBy: demand[type].get(value) || 0,
+                };
+                current.games += 1;
+                current.likes += votes.like;
+                current.maybes += votes.maybe;
+                current.dislikes += votes.dislike;
+                featureStats.set(key, current);
+            }
+        }
+    }
+
+    const rankedFeatures = [...featureStats.values()]
+        .map((stat) => {
+            const voteCount = stat.likes + stat.maybes + stat.dislikes;
+            const voteSupport = voteCount ? (stat.likes + stat.maybes * 0.55) / voteCount : 0.5;
+            const questionnaireSupport = room.players.size
+                ? stat.requestedBy / room.players.size
+                : 0;
+            const fit = Math.round(clamp(voteSupport * 0.75 + questionnaireSupport * 0.25) * 100);
+            return {
+                ...stat,
+                fit,
+                explanation: `Appeared in ${stat.games} game${stat.games === 1 ? '' : 's'}, earned ${stat.likes} Like${stat.likes === 1 ? '' : 's'}, ${stat.maybes} Maybe${stat.maybes === 1 ? '' : 's'}, and ${stat.dislikes} Dislike${stat.dislikes === 1 ? '' : 's'}; requested by ${stat.requestedBy}/${room.players.size} players.`,
+            };
+        })
+        .sort(
+            (left, right) =>
+                right.fit - left.fit ||
+                right.requestedBy - left.requestedBy ||
+                right.games - left.games ||
+                left.value.localeCompare(right.value)
+        );
+
+    return {
+        gamesReviewed: room.shownGameIds.length,
+        gamesWithoutDislikes,
+        voteTotals,
+        bestGenres: rankedFeatures.filter((stat) => stat.type === 'genre').slice(0, 5),
+        bestTags: rankedFeatures.filter((stat) => stat.type === 'tag').slice(0, 5),
+    };
+};
+
 const rankResults = (room, gamesById, featureWeights = new Map()) => {
     const results = room.shownGameIds
         .map((gameId) => createResult(room, gamesById.get(gameId), featureWeights))
@@ -408,6 +489,7 @@ module.exports = {
     learnedPlayerScore,
     questionnaireGroupScore,
     questionnairePlayerScore,
+    createResultStatistics,
     rankResults,
     scoreGame,
     selectNextGame,

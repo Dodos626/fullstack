@@ -90,6 +90,7 @@ services:
             NEXT_PUBLIC_SOCKET_URL: http://lvh.me:5050
             NEXT_PUBLIC_API_URL: http://lvh.me:5050/api
             NEXT_PUBLIC_PORTFOLIO_URL: http://lvh.me:5173
+            NEXT_PUBLIC_SITE_URL: http://gamefinder.lvh.me:5175
             WATCHPACK_POLLING: 'true'
         depends_on:
             backend:

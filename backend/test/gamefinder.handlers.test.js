@@ -16,7 +16,7 @@ const catalogGames = [
         priceFinalUsd: 2999,
         genres: ['action'],
         tags: ['co-op'],
-        categories: ['online-co-op'],
+        categories: ['multi-player'],
         platforms: ['win'],
     },
     {
@@ -30,7 +30,7 @@ const catalogGames = [
         priceFinalUsd: 999,
         genres: ['action'],
         tags: ['zombies'],
-        categories: ['online-co-op'],
+        categories: ['multi-player'],
         platforms: ['win'],
     },
 ];
@@ -238,12 +238,7 @@ test('fresh batch keeps learning and exposure while start over clears them', asy
     room.recommendationHistoryIds = [548430];
     room.playerFeatureStats.set(
         admin.id,
-        new Map([
-            [
-                'tag:co-op',
-                { signedEvidence: 1, evidence: 1, lastUpdatedRound: 1 },
-            ],
-        ])
+        new Map([['tag:co-op', { signedEvidence: 1, evidence: 1, lastUpdatedRound: 1 }]])
     );
     room.playerLearningVoteCounts.set(admin.id, 1);
 

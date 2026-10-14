@@ -6,8 +6,10 @@ and keeps enough structure to explain its decisions.
 
 ## 1. Hard eligibility filters
 
-A game is considered only when it is an enabled, released Steam multiplayer title that has not already
-appeared in the room. Every player's hard requirements are then applied:
+A game is considered only when it is an enabled, released Steam title whose source `categories` array
+contains the exact `Multi-player` value and that has not already appeared in the room. Tags, genres,
+and other multiplayer-like category values do not satisfy this catalog filter. Every player's hard
+requirements are then applied:
 
 - excluded genres and tags
 - required platforms
@@ -114,10 +116,15 @@ counts, diagnostics, and exposure history.
 
 ## 12. Explanations
 
-Every result includes strengths, tradeoffs, and a score breakdown. The first result is compared
+Every result includes strengths, tradeoffs, the viewing player's matching questionnaire choices, and a
+score breakdown. The first result is compared
 directly with second place. The explanation states whether it won because of fewer Dislikes, more
 Likes, a stronger weakest-player vote, stronger questionnaire compatibility, or the best remaining
 combined score.
+
+The results page also reports descriptive genre and tag statistics. Feature fit combines observed vote
+support with the share of players who explicitly requested that feature. These statistics explain the
+session and do not change the final ranking.
 
 ## 13. Privacy
 

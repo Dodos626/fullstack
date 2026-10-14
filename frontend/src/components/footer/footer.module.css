@@ -6,7 +6,25 @@
     color: var(--nav-text);
     align-items: center;
     justify-content: center;
+    gap: 18px;
     border-top: 1px solid var(--surface-border);
     backdrop-filter: blur(18px) saturate(125%);
     -webkit-backdrop-filter: blur(18px) saturate(125%);
+}
+
+.footerLinks {
+    display: inline-flex;
+    gap: 14px;
+}
+
+.footerLinks a {
+    color: inherit;
+}
+
+@media (max-width: 520px) {
+    .footerBody {
+        flex-direction: column;
+        gap: 4px;
+        padding: 10px;
+    }
 }

@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const {
     applyVoteLearning,
+    createResultStatistics,
     isGameEligible,
     learnedPlayerScore,
     questionnairePlayerScore,
@@ -22,7 +23,7 @@ const game = (overrides = {}) => ({
     priceFinalUsd: null,
     genres: ['action'],
     tags: ['zombies'],
-    categories: ['online-co-op'],
+    categories: ['multi-player'],
     platforms: ['win'],
     steamReviewsPercent: 90,
     steamReviewsCount: 1000,
@@ -69,6 +70,14 @@ test('excluded facets and required platforms remain hard filters', () => {
     assert.equal(isGameEligible(game(), room(preferences({ platforms: ['lnx'] }))), false);
 });
 
+test('eligibility requires the exact Multi-player category', () => {
+    assert.equal(
+        isGameEligible(game({ categories: ['online-co-op'] }), room(preferences())),
+        false
+    );
+    assert.equal(isGameEligible(game(), room(preferences())), true);
+});
+
 test('optional rating and review-count requirements remain hard filters', () => {
     assert.equal(
         isGameEligible(
@@ -89,7 +98,10 @@ test('optional rating and review-count requirements remain hard filters', () => 
 test('questionnaire compatibility is normalized to zero through one', () => {
     const wanted = preferences({ includedGenres: ['action'], includedTags: ['zombies', 'co-op'] });
     assert.equal(questionnairePlayerScore(game({ tags: ['zombies', 'co-op'] }), wanted).score, 1);
-    assert.equal(questionnairePlayerScore(game({ genres: ['strategy'], tags: [] }), wanted).score, 0);
+    assert.equal(
+        questionnairePlayerScore(game({ genres: ['strategy'], tags: [] }), wanted).score,
+        0
+    );
     assert.equal(questionnairePlayerScore(game(), preferences()).score, 0.5);
 });
 
@@ -115,8 +127,14 @@ test('categories, platforms, and disabled facets do not enter learned features',
     const stats = currentRoom.playerFeatureStats.get('p0');
     assert.equal(stats.has('genre:modern'), false);
     assert.equal(stats.has('tag:utilities'), false);
-    assert.equal([...stats.keys()].some((feature) => feature.startsWith('category:')), false);
-    assert.equal([...stats.keys()].some((feature) => feature.startsWith('platform:')), false);
+    assert.equal(
+        [...stats.keys()].some((feature) => feature.startsWith('category:')),
+        false
+    );
+    assert.equal(
+        [...stats.keys()].some((feature) => feature.startsWith('platform:')),
+        false
+    );
 });
 
 test('feature contribution is bounded regardless of metadata count', () => {
@@ -222,8 +240,20 @@ test('final ranking uses questionnaire-only compatibility and preserves dislike-
     );
     currentRoom.shownGameIds = [1, 2];
     currentRoom.votes = new Map([
-        [1, new Map([['p0', 'like'], ['p1', 'dislike']])],
-        [2, new Map([['p0', 'maybe'], ['p1', 'maybe']])],
+        [
+            1,
+            new Map([
+                ['p0', 'like'],
+                ['p1', 'dislike'],
+            ]),
+        ],
+        [
+            2,
+            new Map([
+                ['p0', 'maybe'],
+                ['p1', 'maybe'],
+            ]),
+        ],
     ]);
     currentRoom.playerFeatureStats.set('p0', new Map([['tag:zombies', featureStat(-10, 10)]]));
     currentRoom.playerLearningVoteCounts.set('p0', 10);
@@ -233,5 +263,54 @@ test('final ranking uses questionnaire-only compatibility and preserves dislike-
     ]);
     const results = rankResults(currentRoom, gamesById);
     assert.equal(results[0].game.id, 2);
-    assert.equal(results.find((result) => result.game.id === 1).scoreBreakdown.preferenceScore, 100);
+    assert.equal(
+        results.find((result) => result.game.id === 1).scoreBreakdown.preferenceScore,
+        100
+    );
+});
+
+test('result statistics explain the best fitting genres and tags', () => {
+    const currentRoom = room(
+        preferences({ includedGenres: ['action'], includedTags: ['zombies'] }),
+        preferences({ includedTags: ['zombies'] })
+    );
+    currentRoom.shownGameIds = [1, 2];
+    currentRoom.votes = new Map([
+        [
+            1,
+            new Map([
+                ['p0', 'like'],
+                ['p1', 'like'],
+            ]),
+        ],
+        [
+            2,
+            new Map([
+                ['p0', 'maybe'],
+                ['p1', 'dislike'],
+            ]),
+        ],
+    ]);
+    const statistics = createResultStatistics(
+        currentRoom,
+        new Map([
+            [1, game({ id: 1, categories: ['multi-player'], tags: ['zombies'] })],
+            [
+                2,
+                game({
+                    id: 2,
+                    categories: ['multi-player'],
+                    genres: ['strategy'],
+                    tags: ['co-op'],
+                }),
+            ],
+        ])
+    );
+
+    assert.equal(statistics.gamesReviewed, 2);
+    assert.equal(statistics.gamesWithoutDislikes, 1);
+    assert.equal(statistics.voteTotals.like, 2);
+    assert.equal(statistics.bestGenres[0].value, 'action');
+    assert.equal(statistics.bestTags[0].value, 'zombies');
+    assert.match(statistics.bestTags[0].explanation, /requested by 2\/2 players/);
 });

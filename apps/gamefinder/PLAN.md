@@ -10,7 +10,7 @@ Build **What the Hell Are We Playing?**, a real-time multiplayer preference-disc
 - Delivery: static Next.js export served at `gamefinder.<domain>`.
 - Realtime backend: Socket.IO attached to the existing Express HTTP server.
 - State: active rooms held in server memory for the MVP.
-- Catalog: all Steam rows from `leinstay/steamdb` with a valid store URL and a multiplayer-related Steam category, refreshed directly into PostgreSQL.
+- Catalog: Steam rows from `leinstay/steamdb` with a valid store URL and the exact `Multi-player` Steam category, refreshed directly into PostgreSQL.
 - Theme: portfolio colors, typography, surfaces, and the persistent `themeMode` day/night preference.
 
 ## User flow
@@ -22,7 +22,7 @@ Build **What the Hell Are We Playing?**, a real-time multiplayer preference-disc
 5. The server filters and ranks eligible multiplayer-capable Steam games from source-backed metadata.
 6. Players privately vote Like, Maybe, or Dislike; only completion progress is visible until everyone votes.
 7. A unanimous Like ends immediately. Otherwise, votes update tag affinity and the server adaptively selects the next game.
-8. At the round limit, the server returns ranked results and human-readable reasons.
+8. At the round limit, the server returns ranked results, each player's matching choices, descriptive genre/tag statistics, and human-readable reasons.
 9. The admin can continue with existing preferences or restart the room completely.
 
 ## Session rules

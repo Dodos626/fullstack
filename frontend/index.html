@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,22 +29,27 @@
                 document.documentElement.dataset.theme = isDayMode ? 'day' : 'night';
             })();
         </script>
-        <meta
-            name="description"
-            content="Portfolio of Theodoros Chalkidis, a software engineer working across full-stack applications, distributed systems, compilers, and graphics programming."
-        />
         <meta name="author" content="Theodoros Chalkidis" />
         <meta name="theme-color" content="#080b0d" />
-        <meta property="og:title" content="Theodoros Chalkidis — Software Engineer" />
+        <!-- SEO_START -->
         <meta
-            property="og:description"
-            content="Full-stack, distributed-systems, compiler, and graphics engineering portfolio."
+            name="robots"
+            content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
         />
+        <meta property="og:site_name" content="Theodoros Chalkidis" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:title" content="Theodoros Chalkidis — Software Engineer" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/social-preview.svg" />
+        <meta property="og:image" content="/social-preview.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:alt" content="Theodoros Chalkidis — Software Engineer" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="/social-preview.svg" />
+        <meta name="twitter:image" content="/social-preview.png" />
+        <meta name="twitter:image:alt" content="Theodoros Chalkidis — Software Engineer" />
         <title>Theodoros Chalkidis — Software Engineer</title>
+        <!-- SEO_END -->
     </head>
     <body>
         <div id="root"></div>

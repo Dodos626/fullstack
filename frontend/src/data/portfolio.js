@@ -1,3 +1,5 @@
+import { buildUrl } from '../config/apps';
+
 const experience = [
     {
         companyName: 'Who Cares Software',
@@ -62,6 +64,27 @@ const education = [
 ];
 
 const projects = [
+    {
+        slug: 'game-finder',
+        projectName: 'Game Finder',
+        summary: 'A real-time multiplayer app that helps groups agree on their next Steam game.',
+        description:
+            'Create a room, compare everyone’s private preferences, and use adaptive group voting to find a Steam game the whole group wants to play.',
+        details: [
+            'Game Finder guides groups from a shared lobby through private preference questionnaires, synchronized voting rounds, and explainable ranked recommendations.',
+            'Its Next.js interface communicates with an Express and Socket.IO backend that manages room membership, reconnects, private votes, phase transitions, and server-authoritative results.',
+            'The recommendation engine combines Steam catalog metadata, player filters, questionnaire choices, and voting feedback to adaptively select games and identify consensus.',
+        ],
+        highlights: [
+            'Built real-time multiplayer rooms with synchronized, private voting',
+            'Designed an adaptive and explainable group recommendation algorithm',
+            'Integrated a source-backed Steam catalog with preference and price filters',
+        ],
+        technologies: ['Next.js', 'React', 'Node.js', 'Socket.IO', 'PostgreSQL'],
+        github: 'https://github.com/Dodos626/fullstack',
+        liveUrl: buildUrl('gamefinder'),
+        selected: true,
+    },
     {
         slug: 'abadar',
         projectName: 'ABADAR',

@@ -43,7 +43,7 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
     };
 
     return (
-        <nav className={styles.navbar}>
+        <nav className={styles.navbar} aria-label="Primary navigation">
             <div
                 className={`${styles.navbarLeft} ${isMobileMenuOpen ? styles.navbarLeftOpen : ''}`}
             >
@@ -55,7 +55,11 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                     aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
                     onClick={() => setIsMobileMenuOpen((open) => !open)}
                 >
-                    {isMobileMenuOpen ? <MdClose aria-hidden="true" /> : <MdMenu aria-hidden="true" />}
+                    {isMobileMenuOpen ? (
+                        <MdClose aria-hidden="true" />
+                    ) : (
+                        <MdMenu aria-hidden="true" />
+                    )}
                 </Button>
                 <div id="mobile-navigation-menu" className={styles.navbarLinks}>
                     {leftSide.map((item, index) => {
@@ -166,16 +170,12 @@ export const Navbar = ({ leftSide = [], rightSide = () => null }) => {
                                 className={[
                                     styles.navbarButton,
                                     styles.navbarLink,
-                                    isPathActive(item.destination)
-                                        ? styles.navbarLinkActive
-                                        : null,
+                                    isPathActive(item.destination) ? styles.navbarLinkActive : null,
                                 ]
                                     .filter(Boolean)
                                     .join(' ')}
                                 to={item.destination}
-                                aria-current={
-                                    isPathActive(item.destination) ? 'page' : undefined
-                                }
+                                aria-current={isPathActive(item.destination) ? 'page' : undefined}
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 {item?.icon ? (

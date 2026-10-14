@@ -141,9 +141,22 @@
 }
 
 .projectActions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+}
+
+.projectHeaderActions {
     display: inline-flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 8px;
+    max-width: 100%;
 }
 
 .projectTableName {
@@ -180,6 +193,7 @@
 }
 
 .projectActionButton {
+    flex: 0 0 auto;
     min-width: 42px;
     min-height: 38px;
     padding: 0 12px !important;
@@ -236,6 +250,13 @@
         gap: 4px;
     }
 
+    .projectHeaderActions {
+        justify-content: flex-start;
+    }
+
+    .projectActions {
+        justify-content: flex-start;
+    }
 }
 
 @media (max-width: 480px) {

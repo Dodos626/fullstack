@@ -2,22 +2,19 @@ import { FaArrowRight } from 'react-icons/fa';
 import { PageMeta } from '../../components/seo/PageMeta';
 import { subApps } from '../../config/subApps';
 import styles from './Apps.module.css';
+import { getSeoForPath } from '../../seo/siteMetadata';
 
 export const Apps = () => {
+    const seo = getSeoForPath('/apps');
+
     return (
         <section className={styles.page}>
-            <PageMeta
-                title="Apps — Theodoros Chalkidis"
-                description="A collection of standalone web applications built by Theodoros Chalkidis."
-                path="/apps"
-            />
+            <PageMeta {...seo} />
 
             <header className={styles.header}>
                 <span className={styles.kicker}>App collection</span>
                 <h1>Explore the apps</h1>
-                <p>
-                    Each app is an independent project with its own subdomain and source folder.
-                </p>
+                <p>Each app is an independent project with its own subdomain and source folder.</p>
             </header>
 
             <div className={styles.grid}>

@@ -1,21 +1,30 @@
 import { Link } from 'react-router-dom';
 import { SelectedProjectsCard } from './SelectedProjectsCard';
 import styles from './subSections.module.css';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaExternalLinkAlt } from 'react-icons/fa';
 import { projects } from '../../../data/portfolio';
 
 export const selectedProjectsSection = () => {
-    const buildProject = ({ slug, projectName, description, technologies }) => {
+    const buildProject = ({ slug, projectName, description, technologies, liveUrl }) => {
         return (
             <div className={styles.company} id={`${projectName}`} key={projectName}>
                 <div className={styles.companyHeaderRow}>
                     <div className={styles.companyName}>{projectName}</div>
-                    <Link
-                        className={styles.projectDetailsLink}
-                        to={`/projects/${slug}`}
-                    >
-                        More <FaArrowRight aria-hidden="true" />
-                    </Link>
+                    <div className={styles.projectHeaderActions}>
+                        {liveUrl && (
+                            <a
+                                className={styles.projectDetailsLink}
+                                href={liveUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                View live <FaExternalLinkAlt aria-hidden="true" />
+                            </a>
+                        )}
+                        <Link className={styles.projectDetailsLink} to={`/projects/${slug}`}>
+                            More <FaArrowRight aria-hidden="true" />
+                        </Link>
+                    </div>
                 </div>
                 <div className={styles.projectDescription}>{description}</div>
                 <div className={styles.projectTechnologiesContainer}>

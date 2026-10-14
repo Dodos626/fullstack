@@ -11,3 +11,22 @@
     padding: var(--layout-padding-top) var(--layout-padding-right) var(--layout-padding-bottom)
         var(--layout-padding-left);
 }
+
+.skipLink {
+    position: fixed;
+    z-index: 1000;
+    top: 8px;
+    left: 8px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: var(--button-surface);
+    color: var(--button-text);
+    font-weight: 700;
+    text-decoration: none;
+    transform: translateY(-150%);
+    transition: transform 120ms ease;
+}
+
+.skipLink:focus {
+    transform: translateY(0);
+}

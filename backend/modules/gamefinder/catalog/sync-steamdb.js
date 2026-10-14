@@ -9,18 +9,7 @@ const { GameFinderCatalogRepository } = require('./gamefinderCatalog.repository'
 const SOURCE_URL =
     process.env.STEAMDB_URL ||
     'https://github.com/leinstay/steamdb/releases/latest/download/steamdb.min.json.gz';
-const MULTIPLAYER_CATEGORIES = new Set([
-    'multi-player',
-    'co-op',
-    'online-co-op',
-    'lan-co-op',
-    'shared-split-screen',
-    'pvp',
-    'online-pvp',
-    'lan-pvp',
-    'shared-split-screen-pvp',
-    'remote-play-together',
-]);
+const MULTIPLAYER_CATEGORIES = new Set(['multi-player']);
 
 const slugify = (value) =>
     value
@@ -64,7 +53,7 @@ const isMultiplayerSteamGame = (game, today = currentDate()) => {
         return false;
     }
 
-    return cleanList(game.categories).some((category) => MULTIPLAYER_CATEGORIES.has(category));
+    return cleanList(game.categories).includes('multi-player');
 };
 
 const normalizeGame = (game, catalogSyncedAt = new Date()) => {
