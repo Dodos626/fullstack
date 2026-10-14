@@ -33,6 +33,7 @@ class GameFinderStore {
             playerLearningVoteCounts: new Map(),
             recommendationDecisions: [],
             results: [],
+            resultStatistics: null,
             winnerId: null,
             reveal: null,
             createdAt: Date.now(),

@@ -21,6 +21,7 @@ const game = (id, overrides = {}) => ({
     priceFinalUsd: 1000,
     genres: [],
     tags: [],
+    categories: ['multi-player'],
     platforms: ['win'],
     steamReviewsPercent: 80,
     steamReviewsCount: 1000,
@@ -30,22 +31,29 @@ const game = (id, overrides = {}) => ({
 const scenarios = [
     {
         name: 'questionnaire fit',
-        players: [preferences({ includedTags: ['co-op'] }), preferences({ includedTags: ['co-op'] })],
+        players: [
+            preferences({ includedTags: ['co-op'] }),
+            preferences({ includedTags: ['co-op'] }),
+        ],
         games: [
             game(1, { tags: ['co-op'] }),
             game(2, { tags: ['pvp'] }),
             game(3, { tags: ['co-op', 'survival'] }),
         ],
-        hiddenUtility: new Map([[1, 0.8], [2, 0.2], [3, 0.9]]),
+        hiddenUtility: new Map([
+            [1, 0.8],
+            [2, 0.2],
+            [3, 0.9],
+        ]),
     },
     {
         name: 'broadly acceptable over polarizing',
         players: [preferences(), preferences(), preferences(), preferences()],
-        games: [
-            game(10, { tags: ['zombies'] }),
-            game(11, { tags: ['co-op'] }),
-        ],
-        hiddenUtility: new Map([[10, 0.55], [11, 0.75]]),
+        games: [game(10, { tags: ['zombies'] }), game(11, { tags: ['co-op'] })],
+        hiddenUtility: new Map([
+            [10, 0.55],
+            [11, 0.75],
+        ]),
         featureStats: new Map([
             [
                 'p0',

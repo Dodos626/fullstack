@@ -14,7 +14,7 @@ const steamGame = (overrides = {}) => ({
     steam_appid: 550,
     steam_url: 'https://store.steampowered.com/app/550',
     name: 'Left 4 Dead 2',
-    categories: ['Single-player', 'Online Co-op'],
+    categories: ['Single-player', 'Multi-player'],
     genres: ['Action'],
     tags: ['Zombies', 'Co-op'],
     platforms: ['WIN'],
@@ -22,8 +22,15 @@ const steamGame = (overrides = {}) => ({
     ...overrides,
 });
 
-test('catalog filter accepts only Steam games with multiplayer categories and a store URL', () => {
+test('catalog filter requires the exact Steam Multi-player category and a store URL', () => {
     assert.equal(isMultiplayerSteamGame(steamGame()), true);
+    assert.equal(isMultiplayerSteamGame(steamGame({ categories: ['Online Co-op'] })), false);
+    assert.equal(
+        isMultiplayerSteamGame(
+            steamGame({ categories: ['Single-player'], tags: ['Multi-player'] })
+        ),
+        false
+    );
     assert.equal(isMultiplayerSteamGame(steamGame({ categories: ['Single-player'] })), false);
     assert.equal(isMultiplayerSteamGame(steamGame({ kind: 'gog_exclusive' })), false);
     assert.equal(isMultiplayerSteamGame(steamGame({ steam_url: null })), false);
@@ -35,7 +42,7 @@ test('catalog normalization produces source-backed recommendation fields', () =>
     const game = normalizeGame(steamGame({ price_final_usd: null, genres: ['Free to Play'] }));
     assert.equal(game.steamAppId, 550);
     assert.equal(game.priceFinalUsd, 0);
-    assert.deepEqual(game.categories, ['single-player', 'online-co-op']);
+    assert.deepEqual(game.categories, ['single-player', 'multi-player']);
     assert.deepEqual(game.tags, ['zombies', 'co-op']);
 });
 
@@ -60,10 +67,17 @@ test('questionnaire facets select a multi-select above fifteen values', () => {
     assert.equal(options.facets.tags.control, 'multi-select');
     assert.equal(options.facets.tags.options[0].name, 'tag-0');
     assert.equal(options.facets.categories, undefined);
-    assert.equal(options.facets.tags.options.some((option) => option.name === 'modern'), false);
-    assert.equal(options.facets.genres.options.some((option) => option.name === 'utilities'), false);
+    assert.equal(
+        options.facets.tags.options.some((option) => option.name === 'modern'),
+        false
+    );
+    assert.equal(
+        options.facets.genres.options.some((option) => option.name === 'utilities'),
+        false
+    );
     assert.equal(options.price.maximum, 3000);
     assert.equal(options.reviews.countMaximum, 500000);
+    assert.equal(options.selectionLimit, 50);
     const weights = service.buildFeatureWeights(metrics, 100);
     assert.ok(weights.get('tag:tag-15') > 0);
     assert.equal(weights.has('tag:modern'), false);

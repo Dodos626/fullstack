@@ -14,6 +14,10 @@ const gamesById = new Map([
             priceFinalUsd: 2999,
             genres: ['action'],
             tags: ['co-op'],
+            platforms: ['win'],
+            steamReviewsPercent: 92,
+            steamReviewsCount: 304,
+            steamReviewsLabel: 'Very Positive',
         },
     ],
 ]);
@@ -107,6 +111,83 @@ test('room serialization hides private preferences and unrevealed vote choices',
     assert.ok(Array.isArray(serialized.currentGame.tags));
     assert.equal(serialized.currentGame.developers, undefined);
     assert.equal(serialized.currentGame.steamRecentPercent, undefined);
+    assert.equal(serialized.currentGame.steamReviewsPercent, 92);
+    assert.equal(serialized.currentGame.steamReviewsCount, 304);
+});
+
+test('result serialization exposes only the viewing player matching choices', () => {
+    const game = gamesById.get(548430);
+    const room = {
+        code: 'ABC123',
+        phase: 'results',
+        maxGames: 4,
+        adminId: 'one',
+        shownGameIds: [548430],
+        currentGameId: null,
+        votes: new Map([
+            [
+                548430,
+                new Map([
+                    ['one', 'like'],
+                    ['two', 'maybe'],
+                ]),
+            ],
+        ]),
+        results: [
+            {
+                game,
+                voteSummary: { like: 1, maybe: 1, skipped: 0, dislike: 0 },
+                compatibility: 80,
+            },
+        ],
+        resultStatistics: { gamesReviewed: 1 },
+        reveal: null,
+        winnerId: null,
+        players: new Map([
+            [
+                'one',
+                {
+                    id: 'one',
+                    displayName: 'Theo',
+                    isAdmin: true,
+                    connected: true,
+                    preferences: {
+                        includedGenres: ['action'],
+                        includedTags: ['co-op'],
+                        platforms: ['win'],
+                    },
+                },
+            ],
+            [
+                'two',
+                {
+                    id: 'two',
+                    displayName: 'Alex',
+                    isAdmin: false,
+                    connected: true,
+                    preferences: {
+                        includedGenres: ['strategy'],
+                        includedTags: ['zombies'],
+                        platforms: ['lnx'],
+                    },
+                },
+            ],
+        ]),
+    };
+
+    const first = serializeRoom(room, 'one', gamesById);
+    const second = serializeRoom(room, 'two', gamesById);
+    assert.deepEqual(first.results[0].yourMatches, {
+        genres: ['action'],
+        tags: ['co-op'],
+        platforms: ['win'],
+    });
+    assert.deepEqual(second.results[0].yourMatches, {
+        genres: [],
+        tags: [],
+        platforms: [],
+    });
+    assert.deepEqual(first.resultStatistics, { gamesReviewed: 1 });
 });
 
 test('preference counts remain hidden while questionnaires are being collected', () => {

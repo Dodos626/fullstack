@@ -8,6 +8,42 @@ const price = (cents) => {
     return cents === 0 ? 'Free' : `$${(cents / 100).toFixed(2)}`;
 };
 
+const titleCase = (value) =>
+    value.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+
+const steamRating = (game) => {
+    if (game.steamReviewsPercent == null || game.steamReviewsCount == null) {
+        return 'Steam rating unavailable';
+    }
+    return `${game.steamReviewsLabel || 'Positive'} ${game.steamReviewsPercent}% (${game.steamReviewsCount.toLocaleString()})`;
+};
+
+const MATCH_GROUPS = [
+    { key: 'genres', label: 'Genres' },
+    { key: 'tags', label: 'Tags' },
+    { key: 'platforms', label: 'Platforms' },
+];
+
+function FeatureStatistics({ title, items }) {
+    if (!items?.length) return null;
+    return (
+        <div className={styles.statisticsGroup}>
+            <h3>{title}</h3>
+            <div className={styles.statisticsList}>
+                {items.map((item) => (
+                    <article key={`${item.type}-${item.value}`}>
+                        <div>
+                            <strong>{titleCase(item.value)}</strong>
+                            <b>{item.fit}% fit</b>
+                        </div>
+                        <p>{item.explanation}</p>
+                    </article>
+                ))}
+            </div>
+        </div>
+    );
+}
+
 export default function Results({ room, onContinue, onRestart, pending }) {
     const topResults = room.results.slice(0, 3);
     const winner = room.winnerId
@@ -54,6 +90,7 @@ export default function Results({ room, onContinue, onRestart, pending }) {
                             <span className={styles.resultHeadline}>
                                 {result.explanation?.headline || 'Strong group fit'}
                             </span>
+                            <span className={styles.steamRating}>{steamRating(result.game)}</span>
                             <p>{result.explanation?.comparison}</p>
                             {result.explanation?.strengths?.length ? (
                                 <ul className={styles.resultReasons}>
@@ -67,6 +104,30 @@ export default function Results({ room, onContinue, onRestart, pending }) {
                                     Tradeoffs: {result.explanation.tradeoffs.join(' ')}
                                 </p>
                             ) : null}
+                            <div className={styles.yourMatches}>
+                                <h4>Your matching choices</h4>
+                                {MATCH_GROUPS.some(
+                                    (group) => result.yourMatches?.[group.key]?.length
+                                ) ? (
+                                    MATCH_GROUPS.map((group) =>
+                                        result.yourMatches?.[group.key]?.length ? (
+                                            <div key={group.key}>
+                                                <span>{group.label}</span>
+                                                <p>
+                                                    {result.yourMatches[group.key]
+                                                        .map(titleCase)
+                                                        .join(', ')}
+                                                </p>
+                                            </div>
+                                        ) : null
+                                    )
+                                ) : (
+                                    <p>
+                                        This game did not directly match one of your selected
+                                        boosts.
+                                    </p>
+                                )}
+                            </div>
                             <div className={styles.scoreBreakdown}>
                                 <span>Votes {result.scoreBreakdown?.voteScore ?? 0}%</span>
                                 <span>
@@ -97,6 +158,37 @@ export default function Results({ room, onContinue, onRestart, pending }) {
                     </article>
                 ))}
             </div>
+
+            {room.resultStatistics ? (
+                <section className={styles.resultStatistics}>
+                    <div className={styles.sectionHeading}>
+                        <span className={styles.kicker}>Session statistics</span>
+                        <h2>What worked for this group</h2>
+                        <p>
+                            These descriptive scores combine observed vote support with how many
+                            players requested each feature. They do not alter the winner.
+                        </p>
+                    </div>
+                    <div className={styles.statSummary}>
+                        <span>{room.resultStatistics.gamesReviewed} games reviewed</span>
+                        <span>{room.resultStatistics.gamesWithoutDislikes} without a Dislike</span>
+                        <span>{room.resultStatistics.voteTotals.like} Likes</span>
+                        <span>{room.resultStatistics.voteTotals.maybe} Maybes</span>
+                        <span>{room.resultStatistics.voteTotals.skipped} neutral skips</span>
+                        <span>{room.resultStatistics.voteTotals.dislike} Dislikes</span>
+                    </div>
+                    <div className={styles.statisticsGrid}>
+                        <FeatureStatistics
+                            title="Best-fitting genres"
+                            items={room.resultStatistics.bestGenres}
+                        />
+                        <FeatureStatistics
+                            title="Best-fitting tags"
+                            items={room.resultStatistics.bestTags}
+                        />
+                    </div>
+                </section>
+            ) : null}
 
             {room.isAdmin ? (
                 <div className={styles.actionRow}>

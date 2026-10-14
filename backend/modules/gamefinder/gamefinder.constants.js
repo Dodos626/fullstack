@@ -5,6 +5,7 @@ const MAX_PLAYERS = 8;
 const MIN_ROUNDS = 4;
 const MAX_ROUNDS = 12;
 const DEFAULT_ROUNDS = 8;
+const MAX_FACET_SELECTIONS = 50;
 const ROOM_TTL_MS = 6 * 60 * 60 * 1000;
 
 const PHASES = {
@@ -23,6 +24,7 @@ const VOTE_VALUES = {
 
 module.exports = {
     DEFAULT_ROUNDS,
+    MAX_FACET_SELECTIONS,
     MAX_PLAYERS,
     MAX_ROUNDS,
     MIN_PLAYERS,

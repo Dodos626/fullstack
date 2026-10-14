@@ -5,8 +5,8 @@ The Game Finder catalog is derived from fields made available by
 GNU General Public License version 3. See the upstream repository for the complete license and
 source dataset.
 
-The refresh includes Steam rows that expose a valid store URL and at least one multiplayer-related
-Steam category. It excludes rows without a release date and rows whose release date is in the future.
+The refresh includes Steam rows that expose a valid store URL and the exact `Multi-player` Steam
+category. It excludes rows without a release date and rows whose release date is in the future.
 Exact multiplayer capacity is not inferred because the source does not provide a reliable structured
 player limit.
 

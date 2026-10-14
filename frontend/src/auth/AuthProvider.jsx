@@ -4,15 +4,16 @@ import api, {
     setAccessToken as setApiAccessToken,
     setAuthFailureHandler,
 } from '../api/client';
-import { getPublicUrl, navigateToUrl } from '../config/apps';
+import { getCurrentApp, getPublicUrl, navigateToUrl } from '../config/apps';
 import { isDevMode } from '../config/features';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const isPublicApp = getCurrentApp() === 'public';
     const [user, setUser] = useState(null);
     const [accessToken, setAccessToken] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!isPublicApp);
 
     useEffect(() => {
         setApiAccessToken(accessToken);
@@ -27,6 +28,10 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
+        if (isPublicApp) {
+            return;
+        }
+
         const restoreSession = async () => {
             try {
                 const session = await requestRefresh();
@@ -41,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         };
 
         restoreSession();
-    }, []);
+    }, [isPublicApp]);
 
     const login = useCallback(async (email, password) => {
         if (!isDevMode) {

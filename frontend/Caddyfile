@@ -1,6 +1,57 @@
-{$APP_DOMAIN}, user.{$APP_DOMAIN}, guest.{$APP_DOMAIN}, admin.{$APP_DOMAIN} {
+{$APP_DOMAIN} {
+	encode zstd gzip
+
 	handle /api/* {
 		reverse_proxy backend:5000
+	}
+
+	handle /assets/* {
+		header Cache-Control "public, max-age=31536000, immutable"
+		root * /srv/main
+		file_server
+	}
+
+	handle /not-found {
+		error 404
+	}
+
+	@extensionless path_regexp extensionless ^(.+?)/?$
+	handle @extensionless {
+		root * /srv/main
+		try_files {path}.html {path} {path}/ =404
+		file_server
+	}
+
+	handle {
+		root * /srv/main
+		try_files {path} {path}/ =404
+		file_server
+	}
+
+	handle_errors {
+		header X-Robots-Tag "noindex, follow, noarchive"
+		rewrite * /404.html
+		root * /srv/main
+		file_server
+	}
+}
+
+user.{$APP_DOMAIN}, guest.{$APP_DOMAIN}, admin.{$APP_DOMAIN} {
+	encode zstd gzip
+	header X-Robots-Tag "noindex, nofollow, noarchive"
+
+	handle /api/* {
+		reverse_proxy backend:5000
+	}
+
+	handle /robots.txt {
+		respond "User-agent: *\nDisallow: /\n" 200
+	}
+
+	handle /assets/* {
+		header Cache-Control "public, max-age=31536000, immutable"
+		root * /srv/main
+		file_server
 	}
 
 	handle {
@@ -11,6 +62,8 @@
 }
 
 gamefinder.{$APP_DOMAIN} {
+	encode zstd gzip
+
 	handle /api/* {
 		reverse_proxy backend:5000
 	}

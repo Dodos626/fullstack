@@ -295,11 +295,20 @@
 
 .wizardActions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 14px;
     padding-top: 22px;
     border-top: 1px solid var(--border);
+}
+
+.navigationNotice {
+    flex: 1 0 100%;
+    margin: 0;
+    color: var(--terracotta);
+    font-size: 12px;
+    font-weight: 800;
 }
 
 .rangePanel {
@@ -893,11 +902,31 @@
     font-weight: 800;
 }
 
+.choiceSelectionHeading {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+}
+
 .multiSelectHeading button {
     border: 0;
     background: none;
     color: var(--secondary);
     cursor: pointer;
+    font-weight: 800;
+}
+
+.selectionLimitNotice {
+    margin: 0 0 10px;
+    padding: 9px 11px;
+    border: 1px solid color-mix(in srgb, var(--terracotta) 40%, var(--border));
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--terracotta) 10%, var(--surface));
+    color: var(--terracotta);
+    font-size: 12px;
     font-weight: 800;
 }
 
@@ -1123,6 +1152,18 @@
     margin-bottom: 24px;
 }
 
+.gameMetaTop > div {
+    display: grid;
+    gap: 3px;
+}
+
+.steamRating {
+    display: block;
+    color: var(--positive);
+    font-size: 12px;
+    font-weight: 800;
+}
+
 .progressHeader strong {
     flex: 0 0 auto;
     color: var(--secondary);
@@ -1313,6 +1354,98 @@
     font-weight: 800;
 }
 
+.yourMatches {
+    display: grid;
+    gap: 7px;
+    margin: 12px 0;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+}
+
+.yourMatches h4,
+.yourMatches p {
+    margin: 0;
+}
+
+.yourMatches h4 {
+    font-size: 13px;
+}
+
+.yourMatches > div {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 8px;
+}
+
+.yourMatches > div > span {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.resultStatistics {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+}
+
+.statSummary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0;
+}
+
+.statSummary span {
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.statisticsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.statisticsGroup h3 {
+    margin: 0 0 10px;
+}
+
+.statisticsList {
+    display: grid;
+    gap: 9px;
+}
+
+.statisticsList article {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--surface);
+}
+
+.statisticsList article > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.statisticsList article b {
+    color: var(--positive);
+}
+
+.statisticsList article p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
 .resultCard p {
     margin: 5px 0;
     font-size: 13px;
@@ -1394,6 +1527,10 @@
 
     .tagCategoryGrid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .statisticsGrid {
+        grid-template-columns: 1fr;
     }
 
     .resultCard img {

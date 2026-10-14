@@ -9,12 +9,28 @@ const publicGame = (game) => {
         priceFinalUsd: game.priceFinalUsd,
         genres: game.genres,
         tags: game.tags,
+        steamReviewsPercent: game.steamReviewsPercent,
+        steamReviewsCount: game.steamReviewsCount,
+        steamReviewsLabel: game.steamReviewsLabel,
     };
 };
 
-const serializeResult = (result) => ({
+const viewerMatches = (game, preferences) => {
+    if (!game || !preferences) return { genres: [], tags: [], platforms: [] };
+    const gameGenres = game.genres || [];
+    const gameTags = game.tags || [];
+    const gamePlatforms = game.platforms || [];
+    return {
+        genres: (preferences.includedGenres || []).filter((value) => gameGenres.includes(value)),
+        tags: (preferences.includedTags || []).filter((value) => gameTags.includes(value)),
+        platforms: (preferences.platforms || []).filter((value) => gamePlatforms.includes(value)),
+    };
+};
+
+const serializeResult = (result, preferences = null) => ({
     ...result,
     game: publicGame(result.game),
+    yourMatches: viewerMatches(result.game, preferences),
 });
 
 const PREFERENCE_FIELDS = [
@@ -117,9 +133,10 @@ const serializeRoom = (room, viewerId, gamesById) => {
             : null,
         currentGame: room.currentGameId ? publicGame(gamesById.get(room.currentGameId)) : null,
         reveal: room.reveal ? serializeResult(room.reveal) : null,
-        results: room.results.map(serializeResult),
+        results: room.results.map((result) => serializeResult(result, viewer?.preferences)),
+        resultStatistics: room.phase === 'results' ? room.resultStatistics || null : null,
         winnerId: room.winnerId,
     };
 };
 
-module.exports = { publicGame, serializeRoom, summarizePreferences };
+module.exports = { publicGame, serializeRoom, summarizePreferences, viewerMatches };

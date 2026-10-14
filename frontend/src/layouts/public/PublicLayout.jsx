@@ -49,13 +49,7 @@ export const PublicLayout = ({ children }) => {
                 Chalkidis Theodoros
             </div>
             <div className={`${styles.seperator} ${navbarStyles.navbarSeparator}`}></div>
-            {buildButton(
-                MdEmail,
-                30,
-                sendEmail,
-                'Send email',
-                true
-            )}
+            {buildButton(MdEmail, 30, sendEmail, 'Send email', true)}
             {buildButton(
                 FaGithub,
                 25,
@@ -81,8 +75,14 @@ export const PublicLayout = ({ children }) => {
 
     return (
         <div className={`${layoutStyles.layoutShell} ${styles.layoutPublic}`}>
+            <a className={layoutStyles.skipLink} href="#main-content">
+                Skip to main content
+            </a>
             <Navbar leftSide={publicLeftSide} rightSide={rightSide} />
-            <main className={`${layoutStyles.layoutContent} ${styles.layoutContent}`}>
+            <main
+                id="main-content"
+                className={`${layoutStyles.layoutContent} ${styles.layoutContent}`}
+            >
                 <div className={styles.body}>{children}</div>
             </main>
             <Footer />

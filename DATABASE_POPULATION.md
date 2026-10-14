@@ -47,17 +47,18 @@ The seeder creates these accounts and ignores duplicate email addresses:
 
 ### Add the Game Finder catalog
 
-Download and import the latest multiplayer-capable Steam catalog:
+Download and import the latest Steam catalog entries explicitly marked `Multi-player`:
 
 ```bash
 docker compose exec backend npm run gamefinder:refresh-catalog
 ```
 
 The refresh streams the compressed upstream dataset and retains Steam rows with a valid app ID, Steam
-store URL, and at least one multiplayer/co-op/PvP/split-screen category. The source does not expose
-reliable exact player limits, so these games are classified as multiplayer-capable rather than
-guaranteed for a particular room size. Games without a release date and games with a future release
-date are excluded. Free and unknown-price games are retained.
+store URL, and the exact `Multi-player` value in the source `categories` section. Tags, genres, co-op,
+PvP, split-screen, and Remote Play values do not qualify a game unless `Multi-player` is also present.
+The source does not expose reliable exact player limits, so qualifying games are not guaranteed for a
+particular room size. Games without a release date and games with a future release date are excluded.
+Free and unknown-price games are retained.
 
 The refresh upserts games, disables rows that no longer qualify, and rebuilds `gamefinder_metrics` in
 one transaction. The metrics table contains `name`, `type`, and `count` rows for genres, tags, and

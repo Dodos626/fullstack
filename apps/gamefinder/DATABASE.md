@@ -22,7 +22,7 @@ and similarity tables below remain the next persistence stages.
 ### `GameFinderGames` (implemented)
 
 Steam app ID is the primary key. The table stores source-backed Steam metadata and enabled status for
-every row with a valid Steam store URL and multiplayer-related category. Exact player limits are not
+every row with a valid Steam store URL and the exact `Multi-player` source category. Exact player limits are not
 stored because SteamDB does not provide a reliable structured capacity value. Rows without a release
 date or with a future release date are disabled during refresh.
 
@@ -69,27 +69,27 @@ PostgreSQL.
 
 ### `GameFinderRounds`
 
-| Column            | Type           | Notes                                     |
-| ----------------- | -------------- | ----------------------------------------- |
-| `id`              | UUID           | Primary key                               |
-| `roomId`          | UUID           | Foreign key with cascade delete           |
-| `gameId`          | INTEGER        | Steam app ID                              |
-| `roundNumber`     | INTEGER        | Unique with `roomId`                      |
+| Column            | Type           | Notes                                       |
+| ----------------- | -------------- | ------------------------------------------- |
+| `id`              | UUID           | Primary key                                 |
+| `roomId`          | UUID           | Foreign key with cascade delete             |
+| `gameId`          | INTEGER        | Steam app ID                                |
+| `roundNumber`     | INTEGER        | Unique with `roomId`                        |
 | `preferenceScore` | DECIMAL        | Versioned next-game score at selection time |
-| `revealedAt`      | DATE, nullable | Set when voting closes or the admin skips |
-| `wasForced`       | BOOLEAN        | True for an admin force-skip              |
-| timestamps        | DATE           | Audit fields                              |
+| `revealedAt`      | DATE, nullable | Set when voting closes or the admin skips   |
+| `wasForced`       | BOOLEAN        | True for an admin force-skip                |
+| timestamps        | DATE           | Audit fields                                |
 
 ### `GameFinderVotes`
 
-| Column     | Type     | Notes                                 |
-| ---------- | -------- | ------------------------------------- |
-| `id`       | UUID     | Primary key                           |
-| `roundId`  | UUID     | Foreign key with cascade delete       |
-| `playerId` | UUID     | Foreign key with cascade delete       |
-| `value`    | ENUM     | `like`, `maybe`, `dislike`, `skipped` |
+| Column     | Type     | Notes                                          |
+| ---------- | -------- | ---------------------------------------------- |
+| `id`       | UUID     | Primary key                                    |
+| `roundId`  | UUID     | Foreign key with cascade delete                |
+| `playerId` | UUID     | Foreign key with cascade delete                |
+| `value`    | ENUM     | `like`, `maybe`, `dislike`, `skipped`          |
 | `score`    | SMALLINT | Aggregate display score for the submitted vote |
-| timestamps | DATE     | Submission time                       |
+| timestamps | DATE     | Submission time                                |
 
 Add a unique constraint on `(roundId, playerId)` so retries cannot create duplicate votes.
 

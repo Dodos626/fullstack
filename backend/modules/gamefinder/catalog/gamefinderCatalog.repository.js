@@ -14,6 +14,7 @@ const RECOMMENDATION_ATTRIBUTES = [
     'platforms',
     'steamReviewsPercent',
     'steamReviewsCount',
+    'steamReviewsLabel',
     'catalogSyncedAt',
 ];
 
@@ -21,7 +22,11 @@ class GameFinderCatalogRepository {
     async findEnabled() {
         return GameFinderGame.findAll({
             attributes: RECOMMENDATION_ATTRIBUTES,
-            where: { enabled: true, kind: 'steam' },
+            where: {
+                enabled: true,
+                kind: 'steam',
+                categories: { [Op.contains]: ['multi-player'] },
+            },
             order: [['steamAppId', 'ASC']],
         });
     }
@@ -44,7 +49,9 @@ class GameFinderCatalogRepository {
                     MAX("steamReviewsCount")::integer AS "ratingCountMaximum",
                     MAX("catalogSyncedAt") AS "catalogUpdatedAt"
                FROM "GameFinderGames"
-              WHERE enabled = true AND kind = 'steam'`,
+              WHERE enabled = true
+                AND kind = 'steam'
+                AND categories @> ARRAY['multi-player']::varchar[]`,
             { type: QueryTypes.SELECT }
         );
         return rows[0];
@@ -122,7 +129,10 @@ class GameFinderCatalogRepository {
                  SELECT value, :type, COUNT(*)::integer, NOW(), NOW()
                    FROM "GameFinderGames"
                    CROSS JOIN LATERAL unnest("${column}") AS value
-                  WHERE enabled = true AND kind = 'steam' AND value <> ''
+                  WHERE enabled = true
+                    AND kind = 'steam'
+                    AND categories @> ARRAY['multi-player']::varchar[]
+                    AND value <> ''
                   GROUP BY value`,
                 { replacements: { type }, transaction }
             );

@@ -1,5 +1,10 @@
 const { gameFinderCatalog } = require('./catalog');
-const { applyVoteLearning, rankResults, selectNextGame } = require('./gamefinder.engine');
+const {
+    applyVoteLearning,
+    createResultStatistics,
+    rankResults,
+    selectNextGame,
+} = require('./gamefinder.engine');
 const { MIN_PLAYERS, PHASES } = require('./gamefinder.constants');
 const {
     createRoomSchema,
@@ -19,6 +24,10 @@ const registerGameFinderHandlers = (io, store) => {
     const getGames = () => gameFinderCatalog.getGames();
     const getGamesById = () => gameFinderCatalog.getGamesById();
     const getFeatureWeights = () => gameFinderCatalog.getFeatureWeights();
+    const updateResults = (room) => {
+        room.results = rankResults(room, getGamesById(), getFeatureWeights());
+        room.resultStatistics = createResultStatistics(room, getGamesById());
+    };
     const emitRoom = (room) => {
         for (const player of room.players.values()) {
             if (player.socketId) {
@@ -53,7 +62,7 @@ const registerGameFinderHandlers = (io, store) => {
     const beginVoting = (room) => {
         const nextGame = selectNextGame(room, getGames(), getFeatureWeights());
         if (!nextGame) {
-            room.results = rankResults(room, getGamesById(), getFeatureWeights());
+            updateResults(room);
             room.phase = PHASES.RESULTS;
             room.currentGameId = null;
             return;
@@ -70,7 +79,7 @@ const registerGameFinderHandlers = (io, store) => {
         const gameId = room.currentGameId;
         const game = getGamesById().get(gameId);
         const summary = applyVoteLearning(room, game, getFeatureWeights());
-        room.results = rankResults(room, getGamesById(), getFeatureWeights());
+        updateResults(room);
         room.reveal = {
             game,
             voteSummary: summary,
@@ -177,6 +186,7 @@ const registerGameFinderHandlers = (io, store) => {
                     room.playerLearningVoteCounts = new Map();
                     room.recommendationDecisions = [];
                     room.results = [];
+                    room.resultStatistics = null;
                     room.reveal = null;
                     room.winnerId = null;
                     for (const member of room.players.values()) member.preferences = null;
@@ -191,7 +201,7 @@ const registerGameFinderHandlers = (io, store) => {
                 ) {
                     finishVotingRound(room);
                 } else if (room.phase === PHASES.RESULTS) {
-                    room.results = rankResults(room, getGamesById(), getFeatureWeights());
+                    updateResults(room);
                 }
 
                 emitRoom(room);
@@ -292,7 +302,7 @@ const registerGameFinderHandlers = (io, store) => {
                 const { room, player } = authenticate(payload);
                 requireAdmin(room, player);
                 if (!room.shownGameIds.length) throw new Error('Vote on at least one game first');
-                room.results = rankResults(room, getGamesById(), getFeatureWeights());
+                updateResults(room);
                 room.phase = PHASES.RESULTS;
                 room.currentGameId = null;
                 store.touch(room);
@@ -310,6 +320,7 @@ const registerGameFinderHandlers = (io, store) => {
                 room.votes = new Map();
                 room.shownGameIds = [];
                 room.results = [];
+                room.resultStatistics = null;
                 room.reveal = null;
                 room.winnerId = null;
                 beginVoting(room);
@@ -332,6 +343,7 @@ const registerGameFinderHandlers = (io, store) => {
                 room.playerLearningVoteCounts = new Map();
                 room.recommendationDecisions = [];
                 room.results = [];
+                room.resultStatistics = null;
                 room.reveal = null;
                 room.winnerId = null;
                 for (const member of room.players.values()) member.preferences = null;

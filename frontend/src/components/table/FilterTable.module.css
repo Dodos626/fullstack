@@ -86,7 +86,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: visible;
     flex: 1;
 }
 
@@ -154,6 +155,7 @@
 
 .cellValue {
     display: block;
+    width: 100%;
     min-width: 0;
     text-align: left;
     overflow-wrap: anywhere;

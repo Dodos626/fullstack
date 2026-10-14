@@ -40,9 +40,9 @@ export const SplitContainers = ({ sections = [] }) => {
                 return (
                     <div key={section.id} className={styles.splitSection}>
                         {showTitle && (
-                            <div className={titleClassName} style={section.titleStyle}>
+                            <h2 className={titleClassName} style={section.titleStyle}>
                                 {section.title}
-                            </div>
+                            </h2>
                         )}
                         <section
                             className={[styles.splitRow, mobileOrderClass]

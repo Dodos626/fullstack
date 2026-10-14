@@ -3,6 +3,7 @@ import { FaArrowLeft, FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
 import { PageMeta } from '../../components/seo/PageMeta';
 import { projects } from '../../data/portfolio';
 import styles from './ProjectDetails.module.css';
+import { getSeoForPath, NO_INDEX_ROBOTS } from '../../seo/siteMetadata';
 
 export const ProjectDetails = () => {
     const { projectSlug } = useParams();
@@ -11,6 +12,12 @@ export const ProjectDetails = () => {
     if (!project) {
         return (
             <section className={styles.notFound}>
+                <PageMeta
+                    title="Project Not Found — Theodoros Chalkidis"
+                    description="The requested software project could not be found."
+                    path="/not-found"
+                    robots={NO_INDEX_ROBOTS}
+                />
                 <h1>Project not found</h1>
                 <p>The requested project does not exist or its address has changed.</p>
                 <Link className={styles.backButton} to="/projects">
@@ -20,14 +27,11 @@ export const ProjectDetails = () => {
         );
     }
 
+    const seo = getSeoForPath(`/projects/${project.slug}`);
+
     return (
         <article className={styles.page}>
-            <PageMeta
-                title={`${project.projectName} — Theodoros Chalkidis`}
-                description={project.description}
-                path={`/projects/${project.slug}`}
-                type="article"
-            />
+            <PageMeta {...seo} />
             <Link className={styles.backButton} to="/projects">
                 <FaArrowLeft aria-hidden="true" /> Back to projects
             </Link>
@@ -37,15 +41,27 @@ export const ProjectDetails = () => {
                     <h1>{project.projectName}</h1>
                     <p>{project.summary}</p>
                 </div>
-                <a
-                    className={styles.repositoryButton}
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <FaGithub aria-hidden="true" /> View repository
-                    <FaExternalLinkAlt aria-hidden="true" />
-                </a>
+                <div className={styles.headerActions}>
+                    {project.liveUrl && (
+                        <a
+                            className={styles.repositoryButton}
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            View live application <FaExternalLinkAlt aria-hidden="true" />
+                        </a>
+                    )}
+                    <a
+                        className={styles.repositoryButton}
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <FaGithub aria-hidden="true" /> View repository
+                        <FaExternalLinkAlt aria-hidden="true" />
+                    </a>
+                </div>
             </header>
             <div className={styles.technologyList} aria-label="Technologies">
                 {project.technologies.map((technology) => (

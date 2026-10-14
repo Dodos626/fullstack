@@ -3,6 +3,7 @@ const {
     filterRecommendationValues,
     isRecommendationFacetEnabled,
 } = require('../gamefinder.facet-policy');
+const { MAX_FACET_SELECTIONS } = require('../gamefinder.constants');
 
 const FACET_TYPES = ['genre', 'tag', 'platform'];
 
@@ -23,6 +24,7 @@ const emptyOptions = () => ({
     ),
     price: { minimum: 0, maximum: 10000, step: 500 },
     reviews: { ratingMinimum: 0, ratingMaximum: 100, ratingStep: 5, countMaximum: 0 },
+    selectionLimit: MAX_FACET_SELECTIONS,
     catalogUpdatedAt: null,
     gameCount: 0,
 });
@@ -68,6 +70,7 @@ class GameFinderCatalogService {
                     ? summary.ratingCountMaximum
                     : 0,
             },
+            selectionLimit: MAX_FACET_SELECTIONS,
             catalogUpdatedAt: summary.catalogUpdatedAt || null,
             gameCount: summary.gameCount || 0,
         };
@@ -150,6 +153,9 @@ class GameFinderCatalogService {
         ];
 
         for (const [field, facet, label] of checks) {
+            if (preferences[field].length > MAX_FACET_SELECTIONS) {
+                throw new Error(`Choose no more than ${MAX_FACET_SELECTIONS} values for ${label}s`);
+            }
             if (invalid(preferences[field], allowed[facet])) throw new Error(`Unknown ${label}`);
         }
         if (

@@ -5,9 +5,9 @@ import { ScrollToTop } from './components/navigation/ScrollToTop';
 import { DayModeProvider } from './context/DayModeContext';
 import { AppRoutes } from './routes';
 
-function App() {
+function App({ RouterComponent = Router, routerProps = {} }) {
     return (
-        <Router>
+        <RouterComponent {...routerProps}>
             <ScrollToTop />
             <AuthProvider>
                 <DayModeProvider>
@@ -17,7 +17,7 @@ function App() {
                     </div>
                 </DayModeProvider>
             </AuthProvider>
-        </Router>
+        </RouterComponent>
     );
 }
 

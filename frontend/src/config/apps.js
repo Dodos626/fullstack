@@ -1,7 +1,10 @@
 const rootDomain = import.meta.env.VITE_APP_ROOT_DOMAIN || 'lvh.me';
-const appPort = import.meta.env.VITE_APP_PORT || window.location.port || '5173';
+const hasWindow = typeof window !== 'undefined';
+const appPort = import.meta.env.VITE_APP_PORT || (hasWindow ? window.location.port : '') || '5173';
 const appProtocol =
-    import.meta.env.VITE_APP_PROTOCOL || window.location.protocol.replace(':', '') || 'http';
+    import.meta.env.VITE_APP_PROTOCOL ||
+    (hasWindow ? window.location.protocol.replace(':', '') : '') ||
+    'http';
 const appPorts = {
     gamefinder: import.meta.env.VITE_APP_GAMEFINDER_PORT || '5175',
 };
@@ -28,6 +31,10 @@ const buildUrl = (subdomain = '', path = '/') => {
 };
 
 const getCurrentApp = () => {
+    if (!hasWindow) {
+        return 'public';
+    }
+
     const hostname = window.location.hostname.toLowerCase();
 
     if (hostname === rootDomain || hostname === 'localhost' || hostname === '127.0.0.1') {
@@ -50,6 +57,10 @@ const roleApps = {
 const getRoleHomeUrl = (role) => buildUrl(roleApps[role] || '', '/');
 const getPublicUrl = (path = '/') => buildUrl('', path);
 const navigateToUrl = (url, replace = false) => {
+    if (!hasWindow) {
+        return;
+    }
+
     if (replace) {
         window.location.replace(url);
         return;

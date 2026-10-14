@@ -6,7 +6,9 @@ const MIN_DURATION = 8;
 const DURATION_RANGE = 5;
 
 export const MatrixBackground = ({ speed = 1, blur = 0 }) => {
-    const [isPageVisible, setIsPageVisible] = useState(() => !document.hidden);
+    const [isPageVisible, setIsPageVisible] = useState(() =>
+        typeof document === 'undefined' ? true : !document.hidden
+    );
     const parsedSpeed = Number(speed);
     const parsedBlur = Number(blur);
     const speedMultiplier = Number.isFinite(parsedSpeed) ? Math.max(parsedSpeed, 0.1) : 1;

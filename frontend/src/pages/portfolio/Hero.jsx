@@ -10,7 +10,7 @@ export const Hero = () => {
             <div className={styles.heroCopy}>
                 <div className={styles.eyebrow}>Software Engineer · Heraklion, Greece · Remote</div>
                 <h1 id="hero-title" className={styles.title}>
-                    I build reliable full-stack products and systems that scale.
+                    Theodoros Chalkidis — Software Engineer building reliable products and systems.
                 </h1>
                 <p className={styles.summary}>
                     I work across React applications, backend services, distributed systems,
@@ -18,23 +18,13 @@ export const Hero = () => {
                     maintainable software.
                 </p>
                 <div className={styles.actions}>
-                    <Link
-                        className={`${styles.action} ${styles.primaryAction}`}
-                        to="/projects"
-                    >
+                    <Link className={`${styles.action} ${styles.primaryAction}`} to="/projects">
                         View projects <FaArrowRight aria-hidden="true" />
                     </Link>
-                    <a
-                        className={styles.action}
-                        href={CV_URL}
-                        download
-                    >
+                    <a className={styles.action} href={CV_URL} download>
                         Download CV <FaDownload aria-hidden="true" />
                     </a>
-                    <a
-                        className={styles.action}
-                        href="mailto:chlktheo@gmail.com"
-                    >
+                    <a className={styles.action} href="mailto:chlktheo@gmail.com">
                         Contact me <FaEnvelope aria-hidden="true" />
                     </a>
                 </div>

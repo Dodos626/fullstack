@@ -1,13 +1,21 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { groupTagOptions } from './tagCategories';
 import styles from './GameFinder.module.css';
 
 const titleCase = (value) =>
     value.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 
-export default function MultiSelect({ name, options, selected, onToggle, groupTags = false }) {
+export default function MultiSelect({
+    name,
+    options,
+    selected,
+    onToggle,
+    groupTags = false,
+    selectionLimit,
+    onSubmenuChange,
+}) {
     const [search, setSearch] = useState('');
     const [activeTagGroup, setActiveTagGroup] = useState('');
     const visibleOptions = useMemo(() => {
@@ -17,13 +25,13 @@ export default function MultiSelect({ name, options, selected, onToggle, groupTa
             : options;
     }, [options, search]);
     const tagGroups = useMemo(
-        () =>
-            groupTags
-                ? groupTagOptions(options)
-                : [],
+        () => (groupTags ? groupTagOptions(options) : []),
         [groupTags, options]
     );
     const selectedGroup = tagGroups.find((group) => group.name === activeTagGroup);
+    const limitReached = selected.length >= selectionLimit;
+
+    useEffect(() => () => onSubmenuChange?.(false), [onSubmenuChange]);
     const visibleTagOptions = useMemo(() => {
         if (!selectedGroup) return [];
         const query = search.trim().toLowerCase();
@@ -37,18 +45,20 @@ export default function MultiSelect({ name, options, selected, onToggle, groupTa
     const openTagGroup = (groupName) => {
         setSearch('');
         setActiveTagGroup(groupName);
+        onSubmenuChange?.(true);
     };
 
     const closeTagGroup = () => {
         setSearch('');
         setActiveTagGroup('');
+        onSubmenuChange?.(false);
     };
 
     return (
         <div className={styles.multiSelect}>
             <div className={styles.multiSelectHeading}>
                 <span>
-                    {selected.length ? `${selected.length} selected` : 'Choose any options'}
+                    {selected.length} / {selectionLimit} selected
                 </span>
                 {selected.length ? (
                     <button
@@ -59,6 +69,11 @@ export default function MultiSelect({ name, options, selected, onToggle, groupTa
                     </button>
                 ) : null}
             </div>
+            {limitReached ? (
+                <p className={styles.selectionLimitNotice} role="status">
+                    Selection limit reached. Remove one choice before adding another.
+                </p>
+            ) : null}
             {selected.length ? (
                 <div className={styles.selectedChips}>
                     {selected.map((value) => (
@@ -87,7 +102,9 @@ export default function MultiSelect({ name, options, selected, onToggle, groupTa
                                     value={search}
                                     placeholder={`Search ${selectedGroup.name.toLowerCase()}`}
                                     aria-label={`Search ${selectedGroup.name}`}
-                                    onChange={(event) => setSearch(event.target.value.toLowerCase())}
+                                    onChange={(event) =>
+                                        setSearch(event.target.value.toLowerCase())
+                                    }
                                 />
                             </div>
                             <div className={styles.tagOptionGrid}>
@@ -96,6 +113,9 @@ export default function MultiSelect({ name, options, selected, onToggle, groupTa
                                         <input
                                             type="checkbox"
                                             checked={selected.includes(option.name)}
+                                            disabled={
+                                                limitReached && !selected.includes(option.name)
+                                            }
                                             onChange={() => onToggle(name, option.name)}
                                         />
                                         <span>{titleCase(option.name)}</span>
@@ -150,6 +170,7 @@ export default function MultiSelect({ name, options, selected, onToggle, groupTa
                                 <input
                                     type="checkbox"
                                     checked={selected.includes(option.name)}
+                                    disabled={limitReached && !selected.includes(option.name)}
                                     onChange={() => onToggle(name, option.name)}
                                 />
                                 <span>{titleCase(option.name)}</span>
