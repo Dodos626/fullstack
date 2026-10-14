@@ -1,4 +1,6 @@
 :root {
+    --font-body: 'IBM Plex Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-heading: 'Space Grotesk', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --teal: #0b8582;
     --terracotta: #cd5334;
     --peach: #edb88b;
@@ -66,7 +68,7 @@ body {
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: var(--font-body), 'IBM Plex Sans', sans-serif;
+    font-family: var(--font-body);
     line-height: 1.5;
 }
 
@@ -106,7 +108,7 @@ h1,
 h2,
 h3 {
     color: var(--text);
-    font-family: var(--font-heading), 'Space Grotesk', sans-serif;
+    font-family: var(--font-heading);
 }
 
 @media (prefers-reduced-motion: reduce) {
