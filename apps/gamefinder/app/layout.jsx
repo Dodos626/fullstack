@@ -1,16 +1,4 @@
-import { IBM_Plex_Sans, Space_Grotesk } from 'next/font/google';
 import './globals.css';
-
-const bodyFont = IBM_Plex_Sans({
-    subsets: ['latin'],
-    variable: '--font-body',
-    weight: ['400', '500', '600'],
-});
-const headingFont = Space_Grotesk({
-    subsets: ['latin'],
-    variable: '--font-heading',
-    weight: ['400', '500', '600', '700'],
-});
 
 export const metadata = {
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://gamefinder.lvh.me:5175'),
@@ -101,7 +89,7 @@ export default function RootLayout({ children }) {
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(applicationStructuredData) }}
                 />
             </head>
-            <body className={`${bodyFont.variable} ${headingFont.variable}`}>{children}</body>
+            <body>{children}</body>
         </html>
     );
 }
